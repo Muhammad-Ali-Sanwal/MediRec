@@ -1,0 +1,106 @@
+{
+  "disease_best_model": "Gradient Boosting",
+  "medicine_best_model": "Logistic Regression",
+  "disease_results": {
+    "Logistic Regression": {
+      "cv_mean": 1.0,
+      "cv_std": 0.0,
+      "test_accuracy": 0.9967,
+      "f1_score": 0.9967
+    },
+    "Random Forest": {
+      "cv_mean": 0.9983,
+      "cv_std": 0.0016,
+      "test_accuracy": 0.9967,
+      "f1_score": 0.9967
+    },
+    "Gradient Boosting": {
+      "cv_mean": 0.9979,
+      "cv_std": 0.0013,
+      "test_accuracy": 1.0,
+      "f1_score": 1.0
+    },
+    "SVM": {
+      "cv_mean": 0.9983,
+      "cv_std": 0.002,
+      "test_accuracy": 0.9983,
+      "f1_score": 0.9983
+    },
+    "K-Nearest Neighbors": {
+      "cv_mean": 0.9971,
+      "cv_std": 0.0025,
+      "test_accuracy": 0.9967,
+      "f1_score": 0.9967
+    },
+    "Naive Bayes": {
+      "cv_mean": 0.8471,
+      "cv_std": 0.0225,
+      "test_accuracy": 0.8917,
+      "f1_score": 0.8916
+    },
+    "XGBoost": {
+      "cv_mean": 0.9971,
+      "cv_std": 0.001,
+      "test_accuracy": 0.9983,
+      "f1_score": 0.9983
+    },
+    "LightGBM": {
+      "cv_mean": 0.9971,
+      "cv_std": 0.0025,
+      "test_accuracy": 1.0,
+      "f1_score": 1.0
+    }
+  },
+  "medicine_results": {
+    "Logistic Regression": {
+      "cv_mean": 0.9983,
+      "cv_std": 0.002,
+      "test_accuracy": 1.0,
+      "f1_score": 1.0
+    },
+    "Random Forest": {
+      "cv_mean": 0.9988,
+      "cv_std": 0.001,
+      "test_accuracy": 0.9983,
+      "f1_score": 0.9983
+    },
+    "Gradient Boosting": {
+      "cv_mean": 0.9992,
+      "cv_std": 0.001,
+      "test_accuracy": 1.0,
+      "f1_score": 1.0
+    },
+    "SVM": {
+      "cv_mean": 0.9983,
+      "cv_std": 0.0008,
+      "test_accuracy": 1.0,
+      "f1_score": 1.0
+    },
+    "K-Nearest Neighbors": {
+      "cv_mean": 0.9942,
+      "cv_std": 0.0024,
+      "test_accuracy": 0.9983,
+      "f1_score": 0.9983
+    },
+    "Naive Bayes": {
+      "cv_mean": 0.8129,
+      "cv_std": 0.0285,
+      "test_accuracy": 0.9183,
+      "f1_score": 0.9182
+    },
+    "XGBoost": {
+      "cv_mean": 0.9988,
+      "cv_std": 0.001,
+      "test_accuracy": 0.9983,
+      "f1_score": 0.9983
+    },
+    "LightGBM": {
+      "cv_mean": 0.9975,
+      "cv_std": 0.0024,
+      "test_accuracy": 1.0,
+      "f1_score": 1.0
+    }
+  },
+  "deep_learning_accuracy": null,
+  "feature_count": 77
+}

@@ -7,8 +7,8 @@ env/
 # (Commented out to allow deployment)
 # models/*.pkl
 # models/*.h5
-models/training_results.json
-models/tuning_results.json
+# models/training_results.json
+# models/tuning_results.json
 models/confusion_matrix.png
 models/shap_importance.png
 
