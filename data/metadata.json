@@ -1,0 +1,1689 @@
+{
+    "diseases": [
+        "Common Cold",
+        "Flu (Influenza)",
+        "Hypertension",
+        "Type 2 Diabetes",
+        "Migraine",
+        "Allergic Rhinitis",
+        "Asthma",
+        "Gastritis",
+        "Urinary Tract Infection",
+        "Anxiety Disorder",
+        "Depression",
+        "Arthritis",
+        "Pneumonia",
+        "Insomnia",
+        "Hypothyroidism"
+    ],
+    "all_symptoms": [
+        "appetite changes",
+        "bloating",
+        "blurred vision",
+        "body ache",
+        "breathlessness at night",
+        "burning sensation stomach",
+        "burning urination",
+        "chest pain",
+        "chest tightness",
+        "chills",
+        "cloudy urine",
+        "cold sensitivity",
+        "constipation",
+        "cough",
+        "cough with phlegm",
+        "daytime fatigue",
+        "depression",
+        "difficulty breathing",
+        "difficulty concentrating",
+        "difficulty falling asleep",
+        "dizziness",
+        "dry skin",
+        "excessive thirst",
+        "excessive worry",
+        "fatigue",
+        "fever",
+        "frequent urination",
+        "hair loss",
+        "headache",
+        "high fever",
+        "hopelessness",
+        "indigestion",
+        "irritability",
+        "itchy eyes",
+        "itchy throat",
+        "joint pain",
+        "joint stiffness",
+        "joint tenderness",
+        "light sensitivity",
+        "loss of appetite",
+        "loss of interest",
+        "lower back pain",
+        "mild fever",
+        "muscle tension",
+        "muscle weakness",
+        "nasal congestion",
+        "nausea",
+        "nosebleed",
+        "palpitations",
+        "pelvic pain",
+        "persistent sadness",
+        "reduced mobility",
+        "restlessness",
+        "runny nose",
+        "severe headache",
+        "shortness of breath",
+        "sleep problems",
+        "slow healing wounds",
+        "sneezing",
+        "sore throat",
+        "sound sensitivity",
+        "stomach pain",
+        "strong urine smell",
+        "swelling joints",
+        "tingling hands feet",
+        "visual aura",
+        "vomiting",
+        "waking at night",
+        "waking early",
+        "warmth around joints",
+        "watery eyes",
+        "weight gain",
+        "weight loss",
+        "wheezing"
+    ],
+    "all_medicines": [
+        "Alprazolam",
+        "Amantadine",
+        "Amitriptyline",
+        "Amlodipine",
+        "Amoxicillin",
+        "Antacids",
+        "Atenolol",
+        "Azithromycin",
+        "Budesonide",
+        "Budesonide Inhaler",
+        "Bupropion",
+        "Buspirone",
+        "Cefuroxime",
+        "Cetirizine",
+        "Ciprofloxacin",
+        "Clarithromycin",
+        "Clonazepam",
+        "Co-Amoxiclav",
+        "Desiccated Thyroid",
+        "Dextromethorphan",
+        "Diclofenac",
+        "Doxycycline",
+        "Doxylamine",
+        "Empagliflozin",
+        "Escitalopram",
+        "Eszopiclone",
+        "Fexofenadine",
+        "Fluoxetine",
+        "Fluticasone Inhaler",
+        "Fluticasone Nasal Spray",
+        "Formoterol",
+        "Fosfomycin",
+        "Glibenclamide",
+        "Hydrochlorothiazide",
+        "Hydroxychloroquine",
+        "Ibuprofen",
+        "Insulin Glargine",
+        "Ipratropium",
+        "Levofloxacin",
+        "Levothyroxine",
+        "Liothyronine",
+        "Lisinopril",
+        "Loratadine",
+        "Losartan",
+        "Melatonin",
+        "Metformin",
+        "Methotrexate",
+        "Metoprolol",
+        "Metronidazole",
+        "Mirtazapine",
+        "Montelukast",
+        "Naproxen",
+        "Nitrofurantoin",
+        "Omeprazole",
+        "Oseltamivir (Tamiflu)",
+        "Pantoprazole",
+        "Paracetamol",
+        "Pioglitazone",
+        "Prednisone",
+        "Propranolol",
+        "Pseudoephedrine",
+        "Ranitidine",
+        "Rizatriptan",
+        "Salbutamol (Albuterol)",
+        "Selenium Supplements",
+        "Sertraline",
+        "Sitagliptin",
+        "Sumatriptan",
+        "Temazepam",
+        "Topiramate",
+        "Trazodone",
+        "Trimethoprim",
+        "Venlafaxine",
+        "Zanamivir",
+        "Zinc Supplements",
+        "Zolpidem",
+        "Aspirin",
+        "Atorvastatin",
+        "Simvastatin",
+        "Albuterol",
+        "Gabapentin",
+        "Fluticasone",
+        "Citalopram",
+        "Rosuvastatin",
+        "Clopidogrel",
+        "Duloxetine",
+        "Meloxicam",
+        "Generic Drug M1",
+        "Generic Drug M2",
+        "Generic Drug M3",
+        "Generic Drug M4",
+        "Generic Drug M5",
+        "Generic Drug M6",
+        "Generic Drug M7",
+        "Generic Drug M8",
+        "Generic Drug M9",
+        "Generic Drug M10",
+        "Generic Drug M11",
+        "Generic Drug M12",
+        "Generic Drug M13",
+        "Generic Drug M14",
+        "Generic Drug M15",
+        "Generic Drug M16",
+        "Generic Drug M17",
+        "Generic Drug M18",
+        "Generic Drug M19",
+        "Generic Drug M20",
+        "Generic Drug M21",
+        "Generic Drug M22",
+        "Generic Drug M23",
+        "Generic Drug M24",
+        "Generic Drug M25",
+        "Generic Drug M26",
+        "Generic Drug M27",
+        "Generic Drug M28",
+        "Generic Drug M29",
+        "Generic Drug M30",
+        "Generic Drug M31",
+        "Generic Drug M32",
+        "Generic Drug M33",
+        "Generic Drug M34",
+        "Generic Drug M35",
+        "Generic Drug M36",
+        "Generic Drug M37",
+        "Generic Drug M38",
+        "Generic Drug M39",
+        "Generic Drug M40",
+        "Generic Drug M41",
+        "Generic Drug M42",
+        "Generic Drug M43",
+        "Generic Drug M44",
+        "Generic Drug M45",
+        "Generic Drug M46",
+        "Generic Drug M47",
+        "Generic Drug M48",
+        "Generic Drug M49",
+        "Generic Drug M50"
+    ],
+    "disease_details": {
+        "Common Cold": {
+            "symptoms": [
+                "runny nose",
+                "sneezing",
+                "sore throat",
+                "cough",
+                "mild fever",
+                "headache",
+                "body ache",
+                "fatigue"
+            ],
+            "medicines": [
+                "Paracetamol",
+                "Cetirizine",
+                "Dextromethorphan",
+                "Loratadine",
+                "Pseudoephedrine",
+                "Zinc Supplements"
+            ],
+            "severity": "mild"
+        },
+        "Flu (Influenza)": {
+            "symptoms": [
+                "high fever",
+                "body ache",
+                "fatigue",
+                "headache",
+                "cough",
+                "sore throat",
+                "chills",
+                "vomiting"
+            ],
+            "medicines": [
+                "Oseltamivir (Tamiflu)",
+                "Paracetamol",
+                "Ibuprofen",
+                "Zanamivir",
+                "Amantadine"
+            ],
+            "severity": "moderate"
+        },
+        "Hypertension": {
+            "symptoms": [
+                "headache",
+                "dizziness",
+                "blurred vision",
+                "chest pain",
+                "shortness of breath",
+                "nosebleed"
+            ],
+            "medicines": [
+                "Amlodipine",
+                "Lisinopril",
+                "Losartan",
+                "Metoprolol",
+                "Hydrochlorothiazide",
+                "Atenolol"
+            ],
+            "severity": "serious"
+        },
+        "Type 2 Diabetes": {
+            "symptoms": [
+                "frequent urination",
+                "excessive thirst",
+                "fatigue",
+                "blurred vision",
+                "slow healing wounds",
+                "tingling hands feet",
+                "weight loss"
+            ],
+            "medicines": [
+                "Metformin",
+                "Glibenclamide",
+                "Sitagliptin",
+                "Empagliflozin",
+                "Insulin Glargine",
+                "Pioglitazone"
+            ],
+            "severity": "serious"
+        },
+        "Migraine": {
+            "symptoms": [
+                "severe headache",
+                "nausea",
+                "vomiting",
+                "light sensitivity",
+                "sound sensitivity",
+                "visual aura",
+                "dizziness"
+            ],
+            "medicines": [
+                "Sumatriptan",
+                "Rizatriptan",
+                "Topiramate",
+                "Propranolol",
+                "Amitriptyline",
+                "Ibuprofen"
+            ],
+            "severity": "moderate"
+        },
+        "Allergic Rhinitis": {
+            "symptoms": [
+                "sneezing",
+                "runny nose",
+                "itchy eyes",
+                "nasal congestion",
+                "watery eyes",
+                "itchy throat"
+            ],
+            "medicines": [
+                "Cetirizine",
+                "Loratadine",
+                "Fexofenadine",
+                "Montelukast",
+                "Fluticasone Nasal Spray",
+                "Budesonide"
+            ],
+            "severity": "mild"
+        },
+        "Asthma": {
+            "symptoms": [
+                "shortness of breath",
+                "wheezing",
+                "chest tightness",
+                "cough",
+                "difficulty breathing",
+                "breathlessness at night"
+            ],
+            "medicines": [
+                "Salbutamol (Albuterol)",
+                "Formoterol",
+                "Fluticasone Inhaler",
+                "Budesonide Inhaler",
+                "Montelukast",
+                "Ipratropium"
+            ],
+            "severity": "serious"
+        },
+        "Gastritis": {
+            "symptoms": [
+                "stomach pain",
+                "nausea",
+                "vomiting",
+                "bloating",
+                "loss of appetite",
+                "indigestion",
+                "burning sensation stomach"
+            ],
+            "medicines": [
+                "Omeprazole",
+                "Pantoprazole",
+                "Ranitidine",
+                "Antacids",
+                "Metronidazole",
+                "Clarithromycin"
+            ],
+            "severity": "moderate"
+        },
+        "Urinary Tract Infection": {
+            "symptoms": [
+                "frequent urination",
+                "burning urination",
+                "cloudy urine",
+                "pelvic pain",
+                "strong urine smell",
+                "lower back pain"
+            ],
+            "medicines": [
+                "Ciprofloxacin",
+                "Nitrofurantoin",
+                "Trimethoprim",
+                "Fosfomycin",
+                "Amoxicillin",
+                "Co-Amoxiclav"
+            ],
+            "severity": "moderate"
+        },
+        "Anxiety Disorder": {
+            "symptoms": [
+                "excessive worry",
+                "restlessness",
+                "fatigue",
+                "difficulty concentrating",
+                "irritability",
+                "sleep problems",
+                "muscle tension",
+                "palpitations"
+            ],
+            "medicines": [
+                "Sertraline",
+                "Escitalopram",
+                "Buspirone",
+                "Alprazolam",
+                "Clonazepam",
+                "Venlafaxine"
+            ],
+            "severity": "moderate"
+        },
+        "Depression": {
+            "symptoms": [
+                "persistent sadness",
+                "loss of interest",
+                "fatigue",
+                "sleep problems",
+                "appetite changes",
+                "difficulty concentrating",
+                "hopelessness"
+            ],
+            "medicines": [
+                "Sertraline",
+                "Fluoxetine",
+                "Escitalopram",
+                "Venlafaxine",
+                "Bupropion",
+                "Mirtazapine"
+            ],
+            "severity": "serious"
+        },
+        "Arthritis": {
+            "symptoms": [
+                "joint pain",
+                "joint stiffness",
+                "swelling joints",
+                "reduced mobility",
+                "warmth around joints",
+                "joint tenderness"
+            ],
+            "medicines": [
+                "Ibuprofen",
+                "Naproxen",
+                "Diclofenac",
+                "Methotrexate",
+                "Hydroxychloroquine",
+                "Prednisone"
+            ],
+            "severity": "serious"
+        },
+        "Pneumonia": {
+            "symptoms": [
+                "cough with phlegm",
+                "fever",
+                "chills",
+                "shortness of breath",
+                "chest pain",
+                "fatigue",
+                "nausea",
+                "vomiting"
+            ],
+            "medicines": [
+                "Amoxicillin",
+                "Azithromycin",
+                "Doxycycline",
+                "Levofloxacin",
+                "Co-Amoxiclav",
+                "Cefuroxime"
+            ],
+            "severity": "serious"
+        },
+        "Insomnia": {
+            "symptoms": [
+                "difficulty falling asleep",
+                "waking at night",
+                "waking early",
+                "daytime fatigue",
+                "irritability",
+                "difficulty concentrating"
+            ],
+            "medicines": [
+                "Zolpidem",
+                "Melatonin",
+                "Doxylamine",
+                "Temazepam",
+                "Eszopiclone",
+                "Trazodone"
+            ],
+            "severity": "mild"
+        },
+        "Hypothyroidism": {
+            "symptoms": [
+                "fatigue",
+                "weight gain",
+                "cold sensitivity",
+                "constipation",
+                "dry skin",
+                "hair loss",
+                "muscle weakness",
+                "depression"
+            ],
+            "medicines": [
+                "Levothyroxine",
+                "Liothyronine",
+                "Desiccated Thyroid",
+                "Selenium Supplements"
+            ],
+            "severity": "serious"
+        }
+    },
+    "medicine_info": {
+        "Paracetamol": {
+            "generic_name": "Acetaminophen",
+            "drug_class": "Analgesic / Antipyretic",
+            "dosage": "500-1000 mg every 4-6 hours (max 4g/day)",
+            "side_effects": [
+                "nausea",
+                "liver damage (overdose)",
+                "rash"
+            ],
+            "contraindications": [
+                "severe liver disease",
+                "alcohol dependence"
+            ],
+            "category": "OTC"
+        },
+        "Ibuprofen": {
+            "generic_name": "Ibuprofen",
+            "drug_class": "NSAID",
+            "dosage": "200-400 mg every 4-6 hours (max 1200 mg/day OTC)",
+            "side_effects": [
+                "stomach upset",
+                "nausea",
+                "heartburn",
+                "dizziness"
+            ],
+            "contraindications": [
+                "peptic ulcer",
+                "renal failure",
+                "pregnancy (3rd trimester)"
+            ],
+            "category": "OTC/Prescription"
+        },
+        "Amoxicillin": {
+            "generic_name": "Amoxicillin",
+            "drug_class": "Penicillin Antibiotic",
+            "dosage": "250-500 mg three times daily for 5-10 days",
+            "side_effects": [
+                "diarrhea",
+                "nausea",
+                "rash",
+                "allergic reaction"
+            ],
+            "contraindications": [
+                "penicillin allergy"
+            ],
+            "category": "Prescription"
+        },
+        "Metformin": {
+            "generic_name": "Metformin HCl",
+            "drug_class": "Biguanide (Antidiabetic)",
+            "dosage": "500-850 mg twice daily with meals",
+            "side_effects": [
+                "nausea",
+                "diarrhea",
+                "stomach pain",
+                "lactic acidosis (rare)"
+            ],
+            "contraindications": [
+                "renal impairment",
+                "hepatic failure",
+                "alcohol abuse"
+            ],
+            "category": "Prescription"
+        },
+        "Amlodipine": {
+            "generic_name": "Amlodipine Besylate",
+            "drug_class": "Calcium Channel Blocker",
+            "dosage": "5-10 mg once daily",
+            "side_effects": [
+                "ankle swelling",
+                "flushing",
+                "headache",
+                "dizziness"
+            ],
+            "contraindications": [
+                "cardiogenic shock",
+                "severe aortic stenosis"
+            ],
+            "category": "Prescription"
+        },
+        "Cetirizine": {
+            "generic_name": "Cetirizine HCl",
+            "drug_class": "Antihistamine",
+            "dosage": "10 mg once daily",
+            "side_effects": [
+                "drowsiness",
+                "dry mouth",
+                "fatigue"
+            ],
+            "contraindications": [
+                "severe renal impairment"
+            ],
+            "category": "OTC"
+        },
+        "Omeprazole": {
+            "generic_name": "Omeprazole",
+            "drug_class": "Proton Pump Inhibitor",
+            "dosage": "20-40 mg once daily before meal",
+            "side_effects": [
+                "headache",
+                "diarrhea",
+                "nausea",
+                "abdominal pain"
+            ],
+            "contraindications": [
+                "hypersensitivity to PPIs"
+            ],
+            "category": "OTC/Prescription"
+        },
+        "Salbutamol (Albuterol)": {
+            "generic_name": "Salbutamol Sulfate",
+            "drug_class": "Beta-2 Agonist (Bronchodilator)",
+            "dosage": "100-200 mcg inhaled every 4-6 hours as needed",
+            "side_effects": [
+                "tremor",
+                "palpitations",
+                "headache",
+                "nervousness"
+            ],
+            "contraindications": [
+                "hypersensitivity",
+                "tachyarrhythmia"
+            ],
+            "category": "Prescription"
+        },
+        "Sumatriptan": {
+            "generic_name": "Sumatriptan Succinate",
+            "drug_class": "Triptan (5-HT1 Agonist)",
+            "dosage": "50-100 mg at onset of migraine; repeat after 2 hours if needed",
+            "side_effects": [
+                "tingling",
+                "flushing",
+                "chest tightness",
+                "dizziness"
+            ],
+            "contraindications": [
+                "ischemic heart disease",
+                "uncontrolled hypertension"
+            ],
+            "category": "Prescription"
+        },
+        "Levothyroxine": {
+            "generic_name": "Levothyroxine Sodium",
+            "drug_class": "Thyroid Hormone",
+            "dosage": "25-200 mcg once daily (individualized)",
+            "side_effects": [
+                "palpitations",
+                "weight loss",
+                "insomnia",
+                "tremor"
+            ],
+            "contraindications": [
+                "untreated adrenal insufficiency",
+                "thyrotoxicosis"
+            ],
+            "category": "Prescription"
+        },
+        "Aspirin": {
+            "generic_name": "Acetylsalicylic acid",
+            "drug_class": "NSAID",
+            "dosage": "81-325 mg daily",
+            "side_effects": [
+                "GI bleeding",
+                "gastric ulcer"
+            ],
+            "contraindications": [
+                "bleeding disorders",
+                "asthma"
+            ],
+            "category": "OTC"
+        },
+        "Metoprolol": {
+            "generic_name": "Metoprolol",
+            "drug_class": "Beta Blocker",
+            "dosage": "25-100 mg daily",
+            "side_effects": [
+                "fatigue",
+                "dizziness",
+                "bradycardia"
+            ],
+            "contraindications": [
+                "severe asthma",
+                "heart block"
+            ],
+            "category": "Prescription"
+        },
+        "Atorvastatin": {
+            "generic_name": "Atorvastatin",
+            "drug_class": "Statin",
+            "dosage": "10-80 mg daily",
+            "side_effects": [
+                "muscle pain",
+                "liver enzyme elevation"
+            ],
+            "contraindications": [
+                "active liver disease",
+                "pregnancy"
+            ],
+            "category": "Prescription"
+        },
+        "Lisinopril": {
+            "generic_name": "Lisinopril",
+            "drug_class": "ACE Inhibitor",
+            "dosage": "10-40 mg daily",
+            "side_effects": [
+                "dry cough",
+                "hyperkalemia",
+                "dizziness"
+            ],
+            "contraindications": [
+                "angioedema history",
+                "pregnancy"
+            ],
+            "category": "Prescription"
+        },
+        "Simvastatin": {
+            "generic_name": "Simvastatin",
+            "drug_class": "Statin",
+            "dosage": "10-40 mg daily",
+            "side_effects": [
+                "myopathy",
+                "GI upset"
+            ],
+            "contraindications": [
+                "active liver disease",
+                "pregnancy"
+            ],
+            "category": "Prescription"
+        },
+        "Losartan": {
+            "generic_name": "Losartan",
+            "drug_class": "Angiotensin II Receptor Blocker",
+            "dosage": "25-100 mg daily",
+            "side_effects": [
+                "dizziness",
+                "fatigue"
+            ],
+            "contraindications": [
+                "pregnancy",
+                "severe hepatic impairment"
+            ],
+            "category": "Prescription"
+        },
+        "Albuterol": {
+            "generic_name": "Albuterol",
+            "drug_class": "Bronchodilator",
+            "dosage": "1-2 puffs every 4-6 hours",
+            "side_effects": [
+                "tremors",
+                "tachycardia"
+            ],
+            "contraindications": [
+                "severe cardiac disease"
+            ],
+            "category": "Prescription"
+        },
+        "Gabapentin": {
+            "generic_name": "Gabapentin",
+            "drug_class": "Anticonvulsant",
+            "dosage": "300-3600 mg daily",
+            "side_effects": [
+                "dizziness",
+                "somnolence",
+                "ataxia"
+            ],
+            "contraindications": [
+                "hypersensitivity"
+            ],
+            "category": "Prescription"
+        },
+        "Hydrochlorothiazide": {
+            "generic_name": "Hydrochlorothiazide",
+            "drug_class": "Thiazide Diuretic",
+            "dosage": "12.5-50 mg daily",
+            "side_effects": [
+                "hypokalemia",
+                "hyponatremia",
+                "hyperuricemia"
+            ],
+            "contraindications": [
+                "anuria",
+                "sulfonamide allergy"
+            ],
+            "category": "Prescription"
+        },
+        "Sertraline": {
+            "generic_name": "Sertraline",
+            "drug_class": "SSRI",
+            "dosage": "50-200 mg daily",
+            "side_effects": [
+                "nausea",
+                "insomnia",
+                "sexual dysfunction"
+            ],
+            "contraindications": [
+                "MAOI use",
+                "pimozide use"
+            ],
+            "category": "Prescription"
+        },
+        "Montelukast": {
+            "generic_name": "Montelukast",
+            "drug_class": "Leukotriene Receptor Antagonist",
+            "dosage": "10 mg daily",
+            "side_effects": [
+                "headache",
+                "abdominal pain",
+                "neuropsychiatric events"
+            ],
+            "contraindications": [
+                "severe hepatic impairment"
+            ],
+            "category": "Prescription"
+        },
+        "Fluticasone": {
+            "generic_name": "Fluticasone",
+            "drug_class": "Corticosteroid",
+            "dosage": "1-2 sprays per nostril daily",
+            "side_effects": [
+                "epistaxis",
+                "headache",
+                "nasal irritation"
+            ],
+            "contraindications": [
+                "recent nasal surgery",
+                "nasal trauma"
+            ],
+            "category": "OTC/Prescription"
+        },
+        "Citalopram": {
+            "generic_name": "Citalopram",
+            "drug_class": "SSRI",
+            "dosage": "20-40 mg daily",
+            "side_effects": [
+                "dry mouth",
+                "nausea",
+                "somnolence"
+            ],
+            "contraindications": [
+                "MAOI use",
+                "QT prolongation"
+            ],
+            "category": "Prescription"
+        },
+        "Escitalopram": {
+            "generic_name": "Escitalopram",
+            "drug_class": "SSRI",
+            "dosage": "10-20 mg daily",
+            "side_effects": [
+                "nausea",
+                "insomnia",
+                "fatigue"
+            ],
+            "contraindications": [
+                "MAOI use"
+            ],
+            "category": "Prescription"
+        },
+        "Fluoxetine": {
+            "generic_name": "Fluoxetine",
+            "drug_class": "SSRI",
+            "dosage": "20-80 mg daily",
+            "side_effects": [
+                "nervousness",
+                "insomnia",
+                "anorexia"
+            ],
+            "contraindications": [
+                "MAOI use"
+            ],
+            "category": "Prescription"
+        },
+        "Pantoprazole": {
+            "generic_name": "Pantoprazole",
+            "drug_class": "Proton Pump Inhibitor",
+            "dosage": "20-40 mg daily",
+            "side_effects": [
+                "diarrhea",
+                "headache",
+                "flatulence"
+            ],
+            "contraindications": [
+                "hypersensitivity"
+            ],
+            "category": "Prescription"
+        },
+        "Prednisone": {
+            "generic_name": "Prednisone",
+            "drug_class": "Corticosteroid",
+            "dosage": "5-60 mg daily",
+            "side_effects": [
+                "weight gain",
+                "insomnia",
+                "hyperglycemia"
+            ],
+            "contraindications": [
+                "systemic fungal infections"
+            ],
+            "category": "Prescription"
+        },
+        "Rosuvastatin": {
+            "generic_name": "Rosuvastatin",
+            "drug_class": "Statin",
+            "dosage": "5-40 mg daily",
+            "side_effects": [
+                "myalgia",
+                "constipation",
+                "nausea"
+            ],
+            "contraindications": [
+                "active liver disease",
+                "pregnancy"
+            ],
+            "category": "Prescription"
+        },
+        "Clopidogrel": {
+            "generic_name": "Clopidogrel",
+            "drug_class": "Antiplatelet",
+            "dosage": "75 mg daily",
+            "side_effects": [
+                "bleeding",
+                "bruising",
+                "purpura"
+            ],
+            "contraindications": [
+                "active bleeding",
+                "severe hepatic impairment"
+            ],
+            "category": "Prescription"
+        },
+        "Trazodone": {
+            "generic_name": "Trazodone",
+            "drug_class": "Atypical Antidepressant",
+            "dosage": "50-400 mg daily",
+            "side_effects": [
+                "sedation",
+                "dizziness",
+                "dry mouth"
+            ],
+            "contraindications": [
+                "MAOI use",
+                "acute MI recovery"
+            ],
+            "category": "Prescription"
+        },
+        "Duloxetine": {
+            "generic_name": "Duloxetine",
+            "drug_class": "SNRI",
+            "dosage": "30-60 mg daily",
+            "side_effects": [
+                "nausea",
+                "dry mouth",
+                "somnolence"
+            ],
+            "contraindications": [
+                "MAOI use",
+                "uncontrolled narrow-angle glaucoma"
+            ],
+            "category": "Prescription"
+        },
+        "Meloxicam": {
+            "generic_name": "Meloxicam",
+            "drug_class": "NSAID",
+            "dosage": "7.5-15 mg daily",
+            "side_effects": [
+                "dyspepsia",
+                "diarrhea",
+                "nausea"
+            ],
+            "contraindications": [
+                "asthma",
+                "post-CABG pain"
+            ],
+            "category": "Prescription"
+        },
+        "Clonazepam": {
+            "generic_name": "Clonazepam",
+            "drug_class": "Benzodiazepine",
+            "dosage": "0.5-20 mg daily",
+            "side_effects": [
+                "somnolence",
+                "ataxia",
+                "fatigue"
+            ],
+            "contraindications": [
+                "significant liver disease",
+                "acute narrow-angle glaucoma"
+            ],
+            "category": "Prescription"
+        },
+        "Azithromycin": {
+            "generic_name": "Azithromycin",
+            "drug_class": "Macrolide",
+            "dosage": "250-500 mg daily",
+            "side_effects": [
+                "diarrhea",
+                "nausea",
+                "abdominal pain"
+            ],
+            "contraindications": [
+                "macrolide allergy",
+                "history of cholestatic jaundice"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M1": {
+            "generic_name": "Compound M1",
+            "drug_class": "Experimental",
+            "dosage": "10 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M2": {
+            "generic_name": "Compound M2",
+            "drug_class": "Experimental",
+            "dosage": "20 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M3": {
+            "generic_name": "Compound M3",
+            "drug_class": "Experimental",
+            "dosage": "30 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M4": {
+            "generic_name": "Compound M4",
+            "drug_class": "Experimental",
+            "dosage": "40 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M5": {
+            "generic_name": "Compound M5",
+            "drug_class": "Experimental",
+            "dosage": "50 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M6": {
+            "generic_name": "Compound M6",
+            "drug_class": "Experimental",
+            "dosage": "60 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M7": {
+            "generic_name": "Compound M7",
+            "drug_class": "Experimental",
+            "dosage": "70 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M8": {
+            "generic_name": "Compound M8",
+            "drug_class": "Experimental",
+            "dosage": "80 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M9": {
+            "generic_name": "Compound M9",
+            "drug_class": "Experimental",
+            "dosage": "90 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M10": {
+            "generic_name": "Compound M10",
+            "drug_class": "Experimental",
+            "dosage": "100 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M11": {
+            "generic_name": "Compound M11",
+            "drug_class": "Experimental",
+            "dosage": "110 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M12": {
+            "generic_name": "Compound M12",
+            "drug_class": "Experimental",
+            "dosage": "120 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M13": {
+            "generic_name": "Compound M13",
+            "drug_class": "Experimental",
+            "dosage": "130 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M14": {
+            "generic_name": "Compound M14",
+            "drug_class": "Experimental",
+            "dosage": "140 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M15": {
+            "generic_name": "Compound M15",
+            "drug_class": "Experimental",
+            "dosage": "150 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M16": {
+            "generic_name": "Compound M16",
+            "drug_class": "Experimental",
+            "dosage": "160 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M17": {
+            "generic_name": "Compound M17",
+            "drug_class": "Experimental",
+            "dosage": "170 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M18": {
+            "generic_name": "Compound M18",
+            "drug_class": "Experimental",
+            "dosage": "180 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M19": {
+            "generic_name": "Compound M19",
+            "drug_class": "Experimental",
+            "dosage": "190 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M20": {
+            "generic_name": "Compound M20",
+            "drug_class": "Experimental",
+            "dosage": "200 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M21": {
+            "generic_name": "Compound M21",
+            "drug_class": "Experimental",
+            "dosage": "210 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M22": {
+            "generic_name": "Compound M22",
+            "drug_class": "Experimental",
+            "dosage": "220 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M23": {
+            "generic_name": "Compound M23",
+            "drug_class": "Experimental",
+            "dosage": "230 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M24": {
+            "generic_name": "Compound M24",
+            "drug_class": "Experimental",
+            "dosage": "240 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M25": {
+            "generic_name": "Compound M25",
+            "drug_class": "Experimental",
+            "dosage": "250 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M26": {
+            "generic_name": "Compound M26",
+            "drug_class": "Experimental",
+            "dosage": "260 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M27": {
+            "generic_name": "Compound M27",
+            "drug_class": "Experimental",
+            "dosage": "270 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M28": {
+            "generic_name": "Compound M28",
+            "drug_class": "Experimental",
+            "dosage": "280 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M29": {
+            "generic_name": "Compound M29",
+            "drug_class": "Experimental",
+            "dosage": "290 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M30": {
+            "generic_name": "Compound M30",
+            "drug_class": "Experimental",
+            "dosage": "300 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M31": {
+            "generic_name": "Compound M31",
+            "drug_class": "Experimental",
+            "dosage": "310 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M32": {
+            "generic_name": "Compound M32",
+            "drug_class": "Experimental",
+            "dosage": "320 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M33": {
+            "generic_name": "Compound M33",
+            "drug_class": "Experimental",
+            "dosage": "330 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M34": {
+            "generic_name": "Compound M34",
+            "drug_class": "Experimental",
+            "dosage": "340 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M35": {
+            "generic_name": "Compound M35",
+            "drug_class": "Experimental",
+            "dosage": "350 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M36": {
+            "generic_name": "Compound M36",
+            "drug_class": "Experimental",
+            "dosage": "360 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M37": {
+            "generic_name": "Compound M37",
+            "drug_class": "Experimental",
+            "dosage": "370 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M38": {
+            "generic_name": "Compound M38",
+            "drug_class": "Experimental",
+            "dosage": "380 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M39": {
+            "generic_name": "Compound M39",
+            "drug_class": "Experimental",
+            "dosage": "390 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M40": {
+            "generic_name": "Compound M40",
+            "drug_class": "Experimental",
+            "dosage": "400 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M41": {
+            "generic_name": "Compound M41",
+            "drug_class": "Experimental",
+            "dosage": "410 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M42": {
+            "generic_name": "Compound M42",
+            "drug_class": "Experimental",
+            "dosage": "420 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M43": {
+            "generic_name": "Compound M43",
+            "drug_class": "Experimental",
+            "dosage": "430 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M44": {
+            "generic_name": "Compound M44",
+            "drug_class": "Experimental",
+            "dosage": "440 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M45": {
+            "generic_name": "Compound M45",
+            "drug_class": "Experimental",
+            "dosage": "450 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M46": {
+            "generic_name": "Compound M46",
+            "drug_class": "Experimental",
+            "dosage": "460 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M47": {
+            "generic_name": "Compound M47",
+            "drug_class": "Experimental",
+            "dosage": "470 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M48": {
+            "generic_name": "Compound M48",
+            "drug_class": "Experimental",
+            "dosage": "480 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M49": {
+            "generic_name": "Compound M49",
+            "drug_class": "Experimental",
+            "dosage": "490 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        },
+        "Generic Drug M50": {
+            "generic_name": "Compound M50",
+            "drug_class": "Experimental",
+            "dosage": "500 mg daily",
+            "side_effects": [
+                "mild nausea",
+                "dizziness"
+            ],
+            "contraindications": [
+                "None known"
+            ],
+            "category": "Prescription"
+        }
+    }
+}
