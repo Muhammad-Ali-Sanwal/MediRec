@@ -42,7 +42,7 @@ st.markdown("""
     .disclaimer-box {
         background: #fff3cd; border: 1px solid #ffc107;
         border-radius: 8px; padding: 1rem; margin-top: 1.5rem;
-        font-size: 0.9rem;
+        font-size: 0.9rem; color: #856404;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -61,9 +61,9 @@ rec = load_recommender()
 
 # ─── Sidebar ──────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.image("https://img.icons8.com/color/96/medicine.png", width=80)
+    st.image("https://cdn-icons-png.flaticon.com/512/2382/2382461.png", width=80)
     st.title("MediRec")
-    st.caption("AI-Powered Medicine Recommendation")
+    st.caption("AI-Powered Medicine Recommendation System")
     st.divider()
     page = st.radio("Navigation", [
         "🏠 Home & Recommend",
@@ -72,7 +72,12 @@ with st.sidebar:
         "ℹ️ About"
     ])
     st.divider()
-    st.info("**Supervisor:** Dr. Mushtaq Hussain\n\nCS619 – Spring 2026")
+    st.info("""**Supervisor:** Dr. Mushtaq Hussain
+CS619 – Spring 2026
+
+**Developer:** M. Ali Sanwal (DevOps Engineer)
+**VUID:** BC240440384
+**Portfolio:** [Link](https://sanwal.vercel.app/)""")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # PAGE 1 – Home & Recommend
@@ -258,17 +263,39 @@ elif page == "📊 Analytics Dashboard":
 # ══════════════════════════════════════════════════════════════════════════════
 elif page == "💊 Medicine Database":
     st.title("💊 Medicine Database")
-    search = st.text_input("Search Medicine", placeholder="e.g. Metformin")
+    st.markdown("Explore our comprehensive medicine database containing detailed drug information, dosages, side effects, and guidelines.")
+    search = st.text_input("🔍 Search Medicine", placeholder="e.g. Metformin")
 
-    meds = rec.medicine_info
+    # Load directly from file to ensure newly generated dataset entries show up immediately
+    # without needing to clear Streamlit's cache
+    with open(os.path.join(BASE, "data", "metadata.json"), "r") as f:
+        meta_data = json.load(f)
+    meds = meta_data.get("medicine_info", {})
+
     if search:
         meds = {k: v for k, v in meds.items()
                 if search.lower() in k.lower()}
 
     if not meds:
-        st.info("No medicines found.")
+        st.warning("No medicines found.")
     else:
-        for name, info in meds.items():
+        meds_list = list(meds.items())
+        items_per_page = 10
+        total_items = len(meds_list)
+        total_pages = (total_items - 1) // items_per_page + 1
+
+        if 'med_page' not in st.session_state:
+            st.session_state['med_page'] = 1
+
+        if 'last_search' not in st.session_state or st.session_state['last_search'] != search:
+            st.session_state['med_page'] = 1
+            st.session_state['last_search'] = search
+
+        start_idx = (st.session_state['med_page'] - 1) * items_per_page
+        end_idx = start_idx + items_per_page
+        current_page_meds = meds_list[start_idx:end_idx]
+
+        for name, info in current_page_meds:
             with st.expander(f"**{name}** — {info.get('drug_class','')}"):
                 c1, c2 = st.columns(2)
                 with c1:
@@ -282,6 +309,24 @@ elif page == "💊 Medicine Database":
                     ci = info.get("contraindications", [])
                     st.markdown("**Contraindications:** " + (", ".join(ci) if ci else "–"))
 
+        st.divider()
+
+        # Pagination controls moved to the bottom of the page
+        page_col1, page_col2, page_col3, page_col4, page_col5 = st.columns([1,1,2,1,1])
+
+        with page_col1:
+            if st.button("↩ Previous", use_container_width=True, disabled=(st.session_state['med_page'] <= 1)):
+                st.session_state['med_page'] -= 1
+                st.rerun()
+
+        with page_col3:
+            st.markdown(f"<div style='text-align: center; padding-top: 5px; color: #555;'><b>Page {st.session_state['med_page']} of {total_pages}</b><br><small>Showing {min(items_per_page, total_items - (st.session_state['med_page']-1)*items_per_page)} of {total_items} records</small></div>", unsafe_allow_html=True)
+
+        with page_col5:
+            if st.button("Next ↪", use_container_width=True, disabled=(st.session_state['med_page'] >= total_pages)):
+                st.session_state['med_page'] += 1
+                st.rerun()
+
 # ══════════════════════════════════════════════════════════════════════════════
 # PAGE 4 – About
 # ══════════════════════════════════════════════════════════════════════════════
@@ -289,8 +334,15 @@ elif page == "ℹ️ About":
     st.title("ℹ️ About This Project")
     st.markdown("""
     ## Medicine Recommendation System
-    **Course:** CS619 – Final Year Project | Spring 2026
+    **Course:** CS619 – Final Year Project | Spring 2026 \n
     **Supervisor:** Dr. Mushtaq Hussain (mushtaq.hussain@vu.edu.pk)
+
+    ### Developer Information
+    **Name:** Muhammad Ali Sanwal \n
+    **VUID:** BC240440384 \n
+    **Email:** bc240440384mas@vu.edu.pk \n
+    **Role:** DevOps Engineer | Full-Stack Developer \n
+    **Portfolio:** [https://sanwal.vercel.app/](https://sanwal.vercel.app/)
 
     ---
     ### Project Overview
