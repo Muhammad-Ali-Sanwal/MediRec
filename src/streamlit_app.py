@@ -151,9 +151,18 @@ if page == "🏠 Home & Recommend":
                     st.markdown("**Recommended Medicines**")
                     for i, med in enumerate(medicines, 1):
                         info = med.get("info", {})
-                        with st.expander(
-                            f"#{i} {med['medicine']} · {med.get('source','')}"
-                        ):
+                        warning_text = med.get("warning")
+                        
+                        # Add a visual warning prefix/suffix to the card header
+                        if warning_text:
+                            header_title = f"⚠️ #{i} {med['medicine']} · {med.get('source','')} (Contraindicated)"
+                        else:
+                            header_title = f"#{i} {med['medicine']} · {med.get('source','')}"
+                            
+                        with st.expander(header_title):
+                            if warning_text:
+                                st.error(f"**⚠️ Clinical Safety Warning:** This medicine may be contraindicated. "
+                                         f"Patient's medical history matches the known contraindication: **'{warning_text}'**.")
                             if info:
                                 st.markdown(f"**Class:** {info.get('drug_class','–')}")
                                 st.markdown(f"**Dosage:** {info.get('dosage','–')}")

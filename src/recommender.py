@@ -128,6 +128,61 @@ class MedicineRecommender:
 
         return ranked[:6]
 
+    def _check_contraindications(self, medicine_name: str, medical_history: str) -> Optional[str]:
+        """Check if any medical history keyword/synonym matches the medicine's contraindications."""
+        if not medical_history:
+            return None
+
+        info = self.medicine_info.get(medicine_name, {})
+        contraindications = info.get("contraindications", [])
+        if not contraindications:
+            return None
+
+        history_lower = medical_history.lower()
+        import re
+        history_words = set(re.findall(r'\b\w+\b', history_lower))
+
+        # Generic words/stopwords to exclude from matching
+        exclude_words = {
+            "severe", "mild", "moderate", "serious", "chronic", "acute", "disease", "illness", 
+            "condition", "patient", "has", "diagnosed", "with", "suffers", "from", "and", "or", 
+            "the", "a", "an", "history", "of", "to", "in", "for", "is", "was", "been", "have", 
+            "had", "pain", "problem", "problems", "issue", "issues", "level", "levels"
+        }
+        filtered_words = history_words - exclude_words
+
+        # Synonym mappings for clinical vs layperson terms
+        synonyms = {
+            "kidney": ["renal", "kidney"],
+            "renal": ["renal", "kidney"],
+            "liver": ["liver", "hepatic"],
+            "hepatic": ["liver", "hepatic"],
+            "stomach": ["ulcer", "gastric", "stomach"],
+            "ulcer": ["ulcer", "gastric", "stomach"],
+            "heart": ["heart", "cardiac", "cardio", "aortic", "hypertension", "bp"],
+            "bp": ["hypertension", "blood pressure"],
+            "hypertension": ["hypertension", "blood pressure"],
+            "allergy": ["allergy", "allergic"],
+            "allergies": ["allergy", "allergic"],
+            "asthma": ["asthma", "bronchial"],
+            "pregnant": ["pregnancy", "pregnant"],
+            "pregnancy": ["pregnancy", "pregnant"],
+            "alcohol": ["alcohol", "alcoholic"]
+        }
+
+        for ci in contraindications:
+            ci_lower = ci.lower()
+            # Direct word match on filtered words
+            for word in filtered_words:
+                if word in ci_lower:
+                    return ci
+                # Synonym-based match
+                if word in synonyms:
+                    for syn in synonyms[word]:
+                        if syn in ci_lower:
+                            return ci
+        return None
+
     # ── Public API ────────────────────────────────────────────────────────────
     def recommend(self, symptoms: List[str], age: int = 30,
                   gender: str = "Male", severity: int = 2,
@@ -137,7 +192,7 @@ class MedicineRecommender:
         Returns diseases, medicines, and metadata.
         """
         if not self.models_loaded:
-            return self._rule_only(symptoms)
+            return self._rule_only(symptoms, medical_history)
 
         X = self._build_features(symptoms, age, gender, severity)
         diseases = self.predict_disease(X)
@@ -146,6 +201,13 @@ class MedicineRecommender:
         primary_disease = diseases[0]["disease"] if diseases else ""
         rule_meds = self._rule_based_medicines(primary_disease)
         medicines = self._rank_medicines(ml_meds, rule_meds, primary_disease)
+
+        # Check for contraindications based on medical history
+        if medical_history:
+            for med in medicines:
+                warn = self._check_contraindications(med["medicine"], medical_history)
+                if warn:
+                    med["warning"] = warn
 
         severity_labels = {1: "Mild", 2: "Moderate", 3: "Serious"}
         disease_severity = self.disease_details.get(
@@ -165,7 +227,7 @@ class MedicineRecommender:
             )
         }
 
-    def _rule_only(self, symptoms: List[str]) -> Dict[str, Any]:
+    def _rule_only(self, symptoms: List[str], medical_history: Optional[str] = "") -> Dict[str, Any]:
         """Fallback when models are not trained yet."""
         matched = {}
         for disease, info in self.disease_details.items():
@@ -179,15 +241,23 @@ class MedicineRecommender:
         top_disease = max(matched, key=matched.get)
         meds = self.disease_details[top_disease]["medicines"][:5]
 
+        recommended_meds = [
+            {"medicine": m, "confidence": 0.0,
+             "source": "Clinical Rules",
+             "info": self.medicine_info.get(m, {})}
+            for m in meds
+        ]
+
+        if medical_history:
+            for med in recommended_meds:
+                warn = self._check_contraindications(med["medicine"], medical_history)
+                if warn:
+                    med["warning"] = warn
+
         return {
             "status": "success",
             "predicted_diseases": [{"disease": top_disease, "confidence": 70.0}],
-            "recommended_medicines": [
-                {"medicine": m, "confidence": 0.0,
-                 "source": "Clinical Rules",
-                 "info": self.medicine_info.get(m, {})}
-                for m in meds
-            ],
+            "recommended_medicines": recommended_meds,
             "model_used": "Rules Only",
             "disclaimer": "AI recommendation — consult a doctor."
         }
