@@ -46,14 +46,15 @@ python generate_dataset.py
 
 **Implemented in:** `src/streamlit_app.py`
 
-The Streamlit web application has four pages:
+The Streamlit web application features 5 dedicated sections matching all assignment requirements:
 
-| Page | What it Demonstrates |
+| Page | What it Demonstrates (Requirement Compliance) |
 |---|---|
-| Page 1 — Home & Recommend | Symptom input form, predicted diseases with confidence scores, ranked medicine recommendations with expandable drug info cards |
-| Page 2 — Analytics Dashboard | Dataset preview, model accuracy comparison charts, severity distribution pie chart, records per disease histogram |
-| Page 3 — Medicine Database | Searchable medicine reference with dosage, side effects, contraindications, and OTC/Rx category |
-| Page 4 — About | Project overview, architecture, technology stack |
+| Page 1 — Home & Recommend | Input forms for symptoms, age, gender, severity, medical history / existing conditions, and category preferences. Outputs AI-predicted conditions, ranked medicines, confidence scores, drug info, and safety contraindication warnings. |
+| Page 2 — Dataset Preview | **(Req 1 & 2)** Interactive data table preview (`st.dataframe`), dataset shape metrics, missing value checks, preprocessing summary table, and visual disease/severity distributions. |
+| Page 3 — Model Evaluation | **(Req 1 & 2)** Detailed model performance charts and evaluation tables comparing 8 ML algorithms and 1 Deep Learning Neural Network (Accuracy, CV mean, F1 score). |
+| Page 4 — Medicine Database | Searchable clinical medicine reference portal with dosage, drug class, side effects, contraindications, and OTC/Rx categories. |
+| Page 5 — About | Project architecture pipeline, technology stack, disclaimer, and supervisor/student metadata (Dr. Mushtaq Hussain, Group ID `themushtaq48`). |
 
 **To run:**
 ```bash
@@ -63,27 +64,37 @@ Opens at: **http://localhost:8501**
 
 ---
 
-## How to Set Up and Run the Full Prototype
+## How to Set Up and Run the Full Prototype (One-Click Runners)
 
-### Step 1 — Install dependencies
+### Option 1: One-Click Automatic Setup & Run (Recommended)
+
+* **On Linux / macOS:**
+  ```bash
+  ./run_app.sh
+  ```
+* **On Windows:**
+  Double-click `run_app.bat` (or run in Command Prompt):
+  ```cmd
+  run_app.bat
+  ```
+
+> **Note:** The one-click scripts automatically check your environment, create a virtual environment (`venv`), install dependencies, generate the dataset, train models if missing, and launch the Streamlit app!
+
+---
+
+### Option 2: Manual Step-by-Step Execution
+
 ```bash
+# 1. Install dependencies
 pip install -r requirements.txt
-```
 
-### Step 2 — Generate dataset
-```bash
-cd data
-python generate_dataset.py
-cd ..
-```
+# 2. Generate dataset
+cd data && python generate_dataset.py && cd ..
 
-### Step 3 — Train ML models
-```bash
+# 3. Train ML models
 python models/train_models.py
-```
 
-### Step 4 — Launch the web application
-```bash
+# 4. Launch Streamlit UI
 python -m streamlit run src/streamlit_app.py
 ```
 

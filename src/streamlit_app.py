@@ -67,7 +67,8 @@ with st.sidebar:
     st.divider()
     page = st.radio("Navigation", [
         "🏠 Home & Recommend",
-        "📊 Analytics Dashboard",
+        "📋 Dataset Preview",
+        "📊 Model Evaluation",
         "💊 Medicine Database",
         "ℹ️ About"
     ])
@@ -86,14 +87,14 @@ if page == "🏠 Home & Recommend":
     st.markdown("""
     <div class="main-header">
         <h1>💊 Medicine Recommendation System</h1>
-        <p>AI-powered personalized medicine suggestions based on your symptoms</p>
+        <p>AI-powered personalized medicine suggestions based on patient symptoms, history & conditions</p>
     </div>
     """, unsafe_allow_html=True)
 
     col_form, col_result = st.columns([1, 1.2], gap="large")
 
     with col_form:
-        st.subheader("Patient Information")
+        st.subheader("Patient Details, Conditions & Preferences")
 
         with st.form("recommend_form"):
             c1, c2 = st.columns(2)
@@ -115,8 +116,16 @@ if page == "🏠 Home & Recommend":
                 help="Select all symptoms the patient is experiencing"
             )
 
-            history = st.text_area("Medical History (optional)",
-                                   placeholder="e.g. Diabetic, hypertensive…", height=80)
+            history = st.text_area("Medical History & Existing Conditions (optional)",
+                                   placeholder="e.g., Diabetic, Hypertensive, Liver disease, Renal failure, Pregnancy...",
+                                   height=80,
+                                   help="System will evaluate medical history to check for drug contraindications.")
+
+            preference = st.selectbox(
+                "Medicine Category Preference (optional)",
+                options=["No Preference", "OTC (Over-The-Counter) Only", "Prescription Only"],
+                help="Filter or highlight medicine recommendations by category preference."
+            )
 
             submitted = st.form_submit_button("🔍 Get Recommendations",
                                               use_container_width=True,
@@ -127,7 +136,7 @@ if page == "🏠 Home & Recommend":
             if not symptoms_selected:
                 st.warning("Please select at least one symptom.")
             else:
-                with st.spinner("Analyzing symptoms…"):
+                with st.spinner("Analyzing symptoms & safety contraindications…"):
                     result = rec.recommend(
                         symptoms_selected, age, gender, severity_val, history
                     )
@@ -137,7 +146,7 @@ if page == "🏠 Home & Recommend":
                 # Predicted Diseases
                 diseases = result.get("predicted_diseases", [])
                 if diseases:
-                    st.markdown("**Predicted Conditions**")
+                    st.markdown("**Predicted Conditions (AI Model Confidence)**")
                     for d in diseases[:3]:
                         pct = d["confidence"]
                         st.markdown(f"- **{d['disease']}** — {pct:.1f}% confidence")
@@ -147,9 +156,18 @@ if page == "🏠 Home & Recommend":
 
                 # Medicine Cards
                 medicines = result.get("recommended_medicines", [])
-                if medicines:
-                    st.markdown("**Recommended Medicines**")
-                    for i, med in enumerate(medicines, 1):
+                if preference == "OTC (Over-The-Counter) Only":
+                    medicines_filtered = [m for m in medicines if "OTC" in m.get("info", {}).get("category", "")]
+                    medicines_to_show = medicines_filtered if medicines_filtered else medicines
+                elif preference == "Prescription Only":
+                    medicines_filtered = [m for m in medicines if "Prescription" in m.get("info", {}).get("category", "")]
+                    medicines_to_show = medicines_filtered if medicines_filtered else medicines
+                else:
+                    medicines_to_show = medicines
+
+                if medicines_to_show:
+                    st.markdown("**Ranked Medicine Suggestions**")
+                    for i, med in enumerate(medicines_to_show, 1):
                         info = med.get("info", {})
                         warning_text = med.get("warning")
                         
@@ -180,11 +198,11 @@ if page == "🏠 Home & Recommend":
                 sev = result.get("disease_severity", "")
                 color = {"mild": "green", "moderate": "orange",
                          "serious": "red"}.get(sev, "gray")
-                st.markdown(f"**Severity:** :{color}[{sev.upper()}]")
+                st.markdown(f"**Condition Severity:** :{color}[{sev.upper()}]")
 
                 # Confidence Chart
-                if medicines:
-                    conf_data = [m for m in medicines if m["confidence"] > 0]
+                if medicines_to_show:
+                    conf_data = [m for m in medicines_to_show if m["confidence"] > 0]
                     if conf_data:
                         fig = go.Figure(go.Bar(
                             x=[m["medicine"] for m in conf_data],
@@ -192,7 +210,7 @@ if page == "🏠 Home & Recommend":
                             marker_color="#2980b9"
                         ))
                         fig.update_layout(
-                            title="Medicine Confidence Scores",
+                            title="Medicine Prediction Confidence Scores (%)",
                             xaxis_tickangle=-30, height=300,
                             margin=dict(l=20, r=20, t=40, b=60)
                         )
@@ -204,79 +222,154 @@ if page == "🏠 Home & Recommend":
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.info("Fill in the form on the left and click **Get Recommendations**.")
+            st.info("Fill in the patient details on the left and click **Get Recommendations**.")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# PAGE 2 – Analytics Dashboard
+# PAGE 2 – Dataset Preview (Requirement 1 & 2 Compliance)
 # ══════════════════════════════════════════════════════════════════════════════
-elif page == "📊 Analytics Dashboard":
-    st.title("📊 Analytics Dashboard")
+elif page == "📋 Dataset Preview":
+    st.title("📋 Data Collection & Preprocessing Preview")
+    st.markdown("Demonstration of the clean, model-ready dataset generated and used for training the machine learning models.")
 
-    # Load training results
+    data_path = os.path.join(BASE, "data", "patient_records.csv")
+    if os.path.exists(data_path):
+        df = pd.read_csv(data_path)
+
+        # Overview Metrics
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Total Patient Records", f"{len(df):,}")
+        m2.metric("Feature Columns", df.shape[1])
+        m3.metric("Missing Values", df.isnull().sum().sum())
+        m4.metric("Train / Test Split", "80% / 20%")
+
+        st.divider()
+
+        # Data Cleaning & Preprocessing Summary Table
+        st.subheader("⚙️ Data Cleaning & Feature Engineering Summary")
+        summary_table = pd.DataFrame({
+            "Preprocessing Step": [
+                "Data Cleaning & Imputation",
+                "Text Symptom Encoding",
+                "Target Variable Encoding",
+                "Continuous Feature Scaling",
+                "Dataset Partitioning"
+            ],
+            "Technique Applied": [
+                "Removed duplicate records, handled missing values, noise removal",
+                "One-Hot Encoding (Binary indicators for 68+ symptoms)",
+                "LabelEncoder for Diseases and Primary Medicines",
+                "StandardScaler (Mean=0, Std=1) for Age and Severity",
+                "Stratified 80% Training / 20% Testing Split"
+            ],
+            "Status": ["✅ Completed", "✅ Completed", "✅ Completed", "✅ Completed", "✅ Completed"]
+        })
+        st.table(summary_table)
+
+        st.divider()
+
+        # Interactive Table Preview
+        st.subheader("🔍 Interactive Dataset Viewer")
+        
+        c_filter1, c_filter2 = st.columns(2)
+        with c_filter1:
+            selected_disease = st.selectbox(
+                "Filter by Disease",
+                options=["All Diseases"] + list(df["disease"].unique())
+            )
+        with c_filter2:
+            num_rows = st.slider("Number of Rows to Display", 5, 100, 20)
+
+        df_filtered = df.copy()
+        if selected_disease != "All Diseases":
+            df_filtered = df_filtered[df_filtered["disease"] == selected_disease]
+
+        st.dataframe(df_filtered.head(num_rows), use_container_width=True)
+
+        st.caption(f"Showing {min(num_rows, len(df_filtered))} of {len(df_filtered)} matching records. Total dataset columns: {df.shape[1]}.")
+
+        st.divider()
+
+        # Visual Summaries
+        st.subheader("📊 Dataset Visual Distributions")
+        vcol1, vcol2 = st.columns(2)
+
+        with vcol1:
+            fig_dis = px.histogram(df, x="disease", title="Patient Records per Disease Category",
+                                   color="disease", color_discrete_sequence=px.colors.qualitative.Plotly)
+            fig_dis.update_layout(xaxis_tickangle=-45, showlegend=False)
+            st.plotly_chart(fig_dis, use_container_width=True)
+
+        with vcol2:
+            fig_sev = px.pie(df, names="severity", title="Symptom Severity Level Distribution",
+                             color_discrete_sequence=px.colors.sequential.Blues_r)
+            st.plotly_chart(fig_sev, use_container_width=True)
+
+    else:
+        st.warning("Dataset file `patient_records.csv` not found. Run `python data/generate_dataset.py` first.")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PAGE 3 – Model Evaluation
+# ══════════════════════════════════════════════════════════════════════════════
+elif page == "📊 Model Evaluation":
+    st.title("📊 Model Training & Evaluation Results")
+    st.markdown("Comparative performance evaluation across 8 Machine Learning models and 1 Deep Learning Neural Network.")
+
     results_path = os.path.join(BASE, "models", "training_results.json")
     if os.path.exists(results_path):
         with open(results_path) as f:
             tr = json.load(f)
 
-        st.success(f"Best Disease Model: **{tr['disease_best_model']}** | "
-                   f"Best Medicine Model: **{tr['medicine_best_model']}**")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Best Disease Model", tr['disease_best_model'])
+        c2.metric("Best Medicine Model", tr['medicine_best_model'])
+        if tr.get("deep_learning_accuracy"):
+            c3.metric("Deep Learning (Keras) Accuracy", f"{tr['deep_learning_accuracy']*100:.2f}%")
+        else:
+            c3.metric("Evaluated Models", "8 ML + 1 DL")
+
+        st.divider()
 
         # Model Comparison – Disease
-        st.subheader("Disease Prediction – Model Comparison")
+        st.subheader("Disease Prediction Models Evaluation")
         disease_df = pd.DataFrame(tr["disease_results"]).T.reset_index()
         disease_df.columns = ["Model", "CV Mean", "CV Std", "Test Accuracy", "F1 Score"]
+        
+        st.dataframe(disease_df.style.highlight_max(axis=0, subset=["Test Accuracy", "F1 Score"], color="#d4edda"),
+                     use_container_width=True)
+
         fig1 = px.bar(disease_df, x="Model", y="Test Accuracy",
                       color="Test Accuracy", color_continuous_scale="Blues",
-                      title="Test Accuracy by Model (Disease)")
+                      text_auto=".3f",
+                      title="Test Accuracy Comparison (Disease Prediction)")
         st.plotly_chart(fig1, use_container_width=True)
 
+        st.divider()
+
         # Model Comparison – Medicine
-        st.subheader("Medicine Prediction – Model Comparison")
+        st.subheader("Medicine Prediction Models Evaluation")
         med_df = pd.DataFrame(tr["medicine_results"]).T.reset_index()
         med_df.columns = ["Model", "CV Mean", "CV Std", "Test Accuracy", "F1 Score"]
+
+        st.dataframe(med_df.style.highlight_max(axis=0, subset=["Test Accuracy", "F1 Score"], color="#d4edda"),
+                     use_container_width=True)
+
         fig2 = px.bar(med_df, x="Model", y="F1 Score",
                       color="F1 Score", color_continuous_scale="Greens",
-                      title="F1 Score by Model (Medicine)")
+                      text_auto=".3f",
+                      title="Weighted F1 Score Comparison (Medicine Prediction)")
         st.plotly_chart(fig2, use_container_width=True)
 
-        # DL Model
-        if tr.get("deep_learning_accuracy"):
-            st.metric("Deep Learning Model Accuracy",
-                      f"{tr['deep_learning_accuracy']*100:.2f}%")
     else:
         st.warning("No training results found. Run `python models/train_models.py` first.")
 
-    # Dataset stats
-    data_path = os.path.join(BASE, "data", "patient_records.csv")
-    if os.path.exists(data_path):
-        st.subheader("Dataset Overview")
-        df = pd.read_csv(data_path)
-        c1, c2, c3, c4 = st.columns(4)
-        c1.metric("Total Records",   len(df))
-        c2.metric("Unique Diseases", df["disease"].nunique())
-        c3.metric("Unique Medicines",df["primary_medicine"].nunique())
-        c4.metric("Feature Columns", df.shape[1])
-
-        fig3 = px.histogram(df, x="disease", title="Records per Disease",
-                            color="disease")
-        fig3.update_layout(xaxis_tickangle=-45, showlegend=False)
-        st.plotly_chart(fig3, use_container_width=True)
-
-        fig4 = px.pie(df, names="severity",
-                      title="Severity Distribution",
-                      color_discrete_sequence=px.colors.sequential.Blues_r)
-        st.plotly_chart(fig4, use_container_width=True)
-
 # ══════════════════════════════════════════════════════════════════════════════
-# PAGE 3 – Medicine Database
+# PAGE 4 – Medicine Database
 # ══════════════════════════════════════════════════════════════════════════════
 elif page == "💊 Medicine Database":
-    st.title("💊 Medicine Database")
+    st.title("💊 Medicine Database Reference")
     st.markdown("Explore our comprehensive medicine database containing detailed drug information, dosages, side effects, and guidelines.")
     search = st.text_input("🔍 Search Medicine", placeholder="e.g. Metformin")
 
-    # Load directly from file to ensure newly generated dataset entries show up immediately
-    # without needing to clear Streamlit's cache
     with open(os.path.join(BASE, "data", "metadata.json"), "r") as f:
         meta_data = json.load(f)
     meds = meta_data.get("medicine_info", {})
@@ -320,7 +413,7 @@ elif page == "💊 Medicine Database":
 
         st.divider()
 
-        # Pagination controls moved to the bottom of the page
+        # Pagination controls
         page_col1, page_col2, page_col3, page_col4, page_col5 = st.columns([1,1,2,1,1])
 
         with page_col1:
@@ -337,14 +430,14 @@ elif page == "💊 Medicine Database":
                 st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════════
-# PAGE 4 – About
+# PAGE 5 – About
 # ══════════════════════════════════════════════════════════════════════════════
 elif page == "ℹ️ About":
     st.title("ℹ️ About This Project")
     st.markdown("""
-    ## Medicine Recommendation System
+    ## Medicine Recommendation System (Prototype Phase)
     **Course:** CS619 – Final Year Project | Spring 2026 \n
-    **Supervisor:** Dr. Mushtaq Hussain (mushtaq.hussain@vu.edu.pk)
+    **Supervisor:** Dr. Mushtaq Hussain (mushtaq.hussain@vu.edu.pk | Teams: themushtaq48)
 
     ### Developer Information
     **Name:** Muhammad Ali Sanwal \n
@@ -356,38 +449,37 @@ elif page == "ℹ️ About":
     ---
     ### Project Overview
     An AI-powered virtual assistant that provides personalized medicine recommendations
-    based on patient symptoms, age, gender, and medical history.
+    based on patient symptoms, age, gender, severity, medical history, and existing conditions.
 
     ### Technology Stack
     | Layer | Tools |
     |---|---|
     | Data Processing | Pandas, NumPy, Scikit-learn |
-    | ML Models | Random Forest, XGBoost, LightGBM, SVM, etc. |
-    | Deep Learning | TensorFlow / Keras |
+    | ML Models | Random Forest, XGBoost, LightGBM, SVM, Logistic Regression, KNN, Naive Bayes |
+    | Deep Learning | TensorFlow / Keras Neural Network |
     | Hyperparameter Tuning | Optuna |
     | Backend API | Flask + Flask-CORS |
     | Frontend UI | Streamlit |
-    | IDE | VS Code / Google Colab |
     | Visualization | Plotly, Matplotlib, Seaborn |
 
-    ### Architecture
+    ### Architecture & Pipeline
     ```
-    Patient Input (Symptoms + Info)
+    Patient Input (Symptoms + History + Conditions + Preferences)
             ↓
-    Feature Engineering
+    Feature Engineering & Scaling
             ↓
     ┌──────────────────────────┐
     │  ML Disease Predictor    │
     │  ML Medicine Predictor   │
     │  Rule-Based Engine       │
+    │  Safety Filter (History) │
     └──────────────────────────┘
             ↓
-    Ranked Medicine Recommendations
+    Ranked Medicine Recommendations + Confidence Scores + Warnings
             ↓
     Streamlit UI / Flask REST API
     ```
 
     ### Disclaimer
-    This system is for **educational purposes only**. Always consult a licensed
-    healthcare professional before taking any medication.
+    This system is developed for **educational and research purposes only** as part of CS619 Final Year Project. Always consult a licensed healthcare professional before taking any medication.
     """)
