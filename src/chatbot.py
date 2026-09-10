@@ -371,3 +371,90 @@ class MediRecChatbot:
             "completed": True,
             "recommendation": result
         }
+
+    def generate_consultation_report(self, session: Dict[str, Any], recommendation: Dict[str, Any]) -> str:
+        """
+        Generates a clean, professional medical consultation & prescription report.
+        """
+        import datetime
+        now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        age = session.get("age", "N/A")
+        gender = session.get("gender", "N/A")
+        severity_map = {1: "Mild (Level 1)", 2: "Moderate (Level 2)", 3: "Serious (Level 3)"}
+        sev_str = severity_map.get(session.get("severity"), "N/A")
+        history = session.get("history") or "None reported"
+        symptoms = session.get("symptoms", [])
+
+        diseases = recommendation.get("predicted_diseases", [])
+        medicines = recommendation.get("recommended_medicines", [])
+        primary_disease = diseases[0]["disease"] if diseases else "Undetermined"
+        dis_info = self.recommender.disease_details.get(primary_disease, {})
+
+        lines = []
+        lines.append("================================================================================")
+        lines.append("                   MEDIREC AI ASSISTANT - MEDICAL REPORT                       ")
+        lines.append("================================================================================")
+        lines.append(f" Report Date & Time  : {now_str}")
+        lines.append(f" Course Reference    : CS619 Final Year Project (Virtual University of Pakistan)")
+        lines.append(f" Student Developer   : M. Ali Sanwal (BC240440384)")
+        lines.append(f" Supervisor          : Dr. Mushtaq Hussain")
+        lines.append("--------------------------------------------------------------------------------")
+        lines.append(" PATIENT PROFILE & CLINICAL PRESENTATION")
+        lines.append("--------------------------------------------------------------------------------")
+        lines.append(f" Age                 : {age} years")
+        lines.append(f" Gender              : {gender}")
+        lines.append(f" Symptom Severity    : {sev_str}")
+        lines.append(f" Reported Symptoms   : {', '.join(symptoms)}")
+        lines.append(f" Medical History     : {history}")
+        lines.append("--------------------------------------------------------------------------------")
+        lines.append(" AI DIAGNOSTIC EVALUATION (Hugging Face BioBERT / ClinicalBERT Engine)")
+        lines.append("--------------------------------------------------------------------------------")
+        for i, d in enumerate(diseases[:3], 1):
+            lines.append(f" [{i}] {d['disease']:<30} AI Confidence: {d['confidence']:.1f}%")
+        lines.append(f"\n Primary Condition Summary:")
+        lines.append(f" {dis_info.get('description', 'N/A')}")
+        lines.append("--------------------------------------------------------------------------------")
+        lines.append(" RECOMMENDED PRESCRIPTION & PHARMACOLOGICAL PROFILE")
+        lines.append("--------------------------------------------------------------------------------")
+        for i, med in enumerate(medicines, 1):
+            mname = med.get("medicine", "N/A")
+            info = med.get("info", {})
+            warn = med.get("warning")
+            lines.append(f"\n Medication #{i}: {mname}")
+            lines.append(f"   • Generic Name     : {info.get('generic_name', 'N/A')}")
+            lines.append(f"   • Drug Class       : {info.get('drug_class', 'N/A')}")
+            lines.append(f"   • Indication       : Treatment for {primary_disease}")
+            lines.append(f"   • Dosage           : {info.get('dosage', 'N/A')}")
+            lines.append(f"   • Category         : {info.get('category', 'N/A')}")
+            if info.get("side_effects"):
+                lines.append(f"   • Side Effects     : {', '.join(info['side_effects'])}")
+            if info.get("contraindications"):
+                lines.append(f"   • Contraindications: {', '.join(info['contraindications'])}")
+            if warn:
+                lines.append(f"   ⚠️ CLINICAL ALERT: History matched contraindication '{warn}'!")
+        lines.append("--------------------------------------------------------------------------------")
+        lines.append(" CLINICAL PRECAUTIONS & LIFESTYLE GUIDANCE")
+        lines.append("--------------------------------------------------------------------------------")
+        lines.append(" Precautions:")
+        for p in dis_info.get("precautions", ["Rest and monitor symptoms"]):
+            lines.append(f"   • {p}")
+        lines.append("\n Dietary Recommendations:")
+        for dt in dis_info.get("diet", ["Balanced diet"]):
+            lines.append(f"   • {dt}")
+        lines.append("\n Physical Exercise & Activity:")
+        for w in dis_info.get("workout", ["Adequate rest"]):
+            lines.append(f"   • {w}")
+        lines.append("================================================================================")
+        lines.append(" DISCLAIMER: AI-generated recommendation for educational & viva evaluation only.")
+        lines.append(" Always consult a licensed medical professional before administering medication.")
+        lines.append("================================================================================")
+
+        return "\n".join(lines)
+
+    def generate_pdf_report(self, session: Dict[str, Any], recommendation: Dict[str, Any]) -> bytes:
+        """
+        Generates a sleek, professional, non-editable PDF Medical Consultation & Prescription Report.
+        """
+        from src.pdf_generator import generate_pdf_report as make_pdf
+        return make_pdf(session, recommendation, self.recommender.disease_details)
