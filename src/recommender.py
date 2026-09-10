@@ -94,39 +94,38 @@ class MedicineRecommender:
     def _rank_medicines(self, ml_meds: List[Dict],
                         rule_meds: List[str],
                         disease: str) -> List[Dict]:
-        """Merge ML predictions with rule-based recommendations."""
+        """Merge ML predictions with rule-based recommendations strictly matching the disease."""
         ranked = []
         seen = set()
 
-        # ML predictions first
-        for item in ml_meds:
+        disease_info = self.disease_details.get(disease, {})
+        allowed_meds = set(disease_info.get("medicines", []))
+
+        # 1. Filter ML predictions to ONLY include medicines indicated for this disease
+        valid_ml_meds = [m for m in ml_meds if m["medicine"] in allowed_meds]
+
+        # 2. Add disease-matched ML predictions first
+        for item in valid_ml_meds:
             name = item["medicine"]
             if name not in seen:
-                item["source"] = "ML Model"
+                item["source"] = "ML + Clinical"
                 item["info"] = self.medicine_info.get(name, {})
                 ranked.append(item)
                 seen.add(name)
 
-        # Rule-based fill
+        # 3. Add clinical rule medicines for this disease
         for med in rule_meds:
             if med not in seen:
                 ranked.append({
                     "medicine": med,
-                    "confidence": 0.0,
-                    "source": "Clinical Rules",
+                    "confidence": 85.0,
+                    "source": "Clinical Guidelines",
                     "info": self.medicine_info.get(med, {})
                 })
                 seen.add(med)
 
-        # Boost if medicine appears in both
-        ml_names = {m["medicine"] for m in ml_meds}
-        rule_set = set(rule_meds)
-        for item in ranked:
-            if item["medicine"] in ml_names and item["medicine"] in rule_set:
-                item["confidence"] = min(item["confidence"] * 1.2, 100.0)
-                item["source"] = "ML + Clinical"
-
         return ranked[:6]
+
 
     def _check_contraindications(self, medicine_name: str, medical_history: str) -> Optional[str]:
         """Check if any medical history keyword/synonym matches the medicine's contraindications."""

@@ -13,111 +13,142 @@ np.random.seed(42)
 # ─── Disease & Symptom Definitions ───────────────────────────────────────────
 DISEASES = {
     "Common Cold": {
-        "symptoms": ["runny nose", "sneezing", "sore throat", "cough", "mild fever",
-                     "headache", "body ache", "fatigue"],
-        "medicines": ["Paracetamol", "Cetirizine", "Dextromethorphan", "Loratadine",
-                      "Pseudoephedrine", "Zinc Supplements"],
-        "severity": "mild"
+        "symptoms": ["runny nose", "sneezing", "sore throat", "cough", "mild fever", "headache", "body ache", "fatigue"],
+        "medicines": ["Paracetamol", "Cetirizine", "Dextromethorphan", "Loratadine", "Pseudoephedrine", "Zinc Supplements"],
+        "severity": "mild",
+        "description": "A viral infection of your nose and throat (upper respiratory tract).",
+        "precautions": ["Drink plenty of fluids", "Rest adequately", "Use a humidifier", "Wash hands frequently"],
+        "diet": ["Warm soups", "Herbal tea with honey", "Vitamin C rich fruits", "Hydrating fluids"],
+        "workout": ["Light walking", "Rest and avoid strenuous exercise"]
     },
     "Flu (Influenza)": {
-        "symptoms": ["high fever", "body ache", "fatigue", "headache", "cough",
-                     "sore throat", "chills", "vomiting"],
-        "medicines": ["Oseltamivir (Tamiflu)", "Paracetamol", "Ibuprofen",
-                      "Zanamivir", "Amantadine"],
-        "severity": "moderate"
+        "symptoms": ["high fever", "body ache", "fatigue", "headache", "cough", "sore throat", "chills", "vomiting"],
+        "medicines": ["Oseltamivir (Tamiflu)", "Paracetamol", "Ibuprofen", "Zanamivir", "Amantadine"],
+        "severity": "moderate",
+        "description": "A contagious respiratory illness caused by influenza viruses.",
+        "precautions": ["Isolate to prevent spread", "Stay hydrated", "Get full bed rest", "Monitor temperature"],
+        "diet": ["Clear broths", "Electrolyte fluids", "Soft foods", "Warm ginger tea"],
+        "workout": ["Complete bed rest until fever subsides"]
     },
     "Hypertension": {
-        "symptoms": ["headache", "dizziness", "blurred vision", "chest pain",
-                     "shortness of breath", "nosebleed"],
-        "medicines": ["Amlodipine", "Lisinopril", "Losartan", "Metoprolol",
-                      "Hydrochlorothiazide", "Atenolol"],
-        "severity": "serious"
+        "symptoms": ["headache", "dizziness", "blurred vision", "chest pain", "shortness of breath", "nosebleed"],
+        "medicines": ["Amlodipine", "Lisinopril", "Losartan", "Metoprolol", "Hydrochlorothiazide", "Atenolol"],
+        "severity": "serious",
+        "description": "A condition in which the force of the blood against the artery walls is too high.",
+        "precautions": ["Reduce sodium/salt intake", "Monitor BP regularly", "Avoid smoking & alcohol", "Manage stress"],
+        "diet": ["DASH diet", "Low sodium meals", "Leafy greens", "Bananas & potassium rich food"],
+        "workout": ["30 mins brisk walking daily", "Moderate aerobic exercise"]
     },
     "Type 2 Diabetes": {
-        "symptoms": ["frequent urination", "excessive thirst", "fatigue", "blurred vision",
-                     "slow healing wounds", "tingling hands feet", "weight loss"],
-        "medicines": ["Metformin", "Glibenclamide", "Sitagliptin", "Empagliflozin",
-                      "Insulin Glargine", "Pioglitazone"],
-        "severity": "serious"
+        "symptoms": ["frequent urination", "excessive thirst", "fatigue", "blurred vision", "slow healing wounds", "tingling hands feet", "weight loss"],
+        "medicines": ["Metformin", "Glibenclamide", "Sitagliptin", "Empagliflozin", "Insulin Glargine", "Pioglitazone"],
+        "severity": "serious",
+        "description": "A chronic condition that affects the way the body processes blood sugar (glucose).",
+        "precautions": ["Monitor blood glucose levels", "Maintain healthy weight", "Foot care daily", "Regular eye checks"],
+        "diet": ["Low glycemic index foods", "Whole grains", "High fiber vegetables", "Limit sugar and refined carbs"],
+        "workout": ["Regular walking", "Resistance training", "Cycling"]
     },
     "Migraine": {
-        "symptoms": ["severe headache", "nausea", "vomiting", "light sensitivity",
-                     "sound sensitivity", "visual aura", "dizziness"],
-        "medicines": ["Sumatriptan", "Rizatriptan", "Topiramate", "Propranolol",
-                      "Amitriptyline", "Ibuprofen"],
-        "severity": "moderate"
+        "symptoms": ["severe headache", "nausea", "vomiting", "light sensitivity", "sound sensitivity", "visual aura", "dizziness"],
+        "medicines": ["Sumatriptan", "Rizatriptan", "Topiramate", "Propranolol", "Amitriptyline", "Ibuprofen"],
+        "severity": "moderate",
+        "description": "A neurological condition causing severe throbbing headache usually on one side of the head.",
+        "precautions": ["Rest in a quiet dark room", "Avoid migraine triggers", "Maintain regular sleep schedule"],
+        "diet": ["Magnesium-rich foods", "Stay well hydrated", "Avoid caffeine overload & aged cheese"],
+        "workout": ["Gentle yoga & stretching when pain-free"]
     },
     "Allergic Rhinitis": {
-        "symptoms": ["sneezing", "runny nose", "itchy eyes", "nasal congestion",
-                     "watery eyes", "itchy throat"],
-        "medicines": ["Cetirizine", "Loratadine", "Fexofenadine", "Montelukast",
-                      "Fluticasone Nasal Spray", "Budesonide"],
-        "severity": "mild"
+        "symptoms": ["sneezing", "runny nose", "itchy eyes", "nasal congestion", "watery eyes", "itchy throat"],
+        "medicines": ["Cetirizine", "Loratadine", "Fexofenadine", "Montelukast", "Fluticasone Nasal Spray", "Budesonide"],
+        "severity": "mild",
+        "description": "An allergic response causing itchy, watery eyes, sneezing and other similar symptoms.",
+        "precautions": ["Avoid known allergens (pollen, dust)", "Keep windows closed during high pollen count", "Use air purifiers"],
+        "diet": ["Anti-inflammatory foods", "Green tea", "Citrus fruits"],
+        "workout": ["Indoor exercise during high pollen seasons"]
     },
     "Asthma": {
-        "symptoms": ["shortness of breath", "wheezing", "chest tightness", "cough",
-                     "difficulty breathing", "breathlessness at night"],
-        "medicines": ["Salbutamol (Albuterol)", "Formoterol", "Fluticasone Inhaler",
-                      "Budesonide Inhaler", "Montelukast", "Ipratropium"],
-        "severity": "serious"
+        "symptoms": ["shortness of breath", "wheezing", "chest tightness", "cough", "difficulty breathing", "breathlessness at night"],
+        "medicines": ["Salbutamol (Albuterol)", "Formoterol", "Fluticasone Inhaler", "Budesonide Inhaler", "Montelukast", "Ipratropium"],
+        "severity": "serious",
+        "description": "A condition in which your airways narrow and swell and may produce extra mucus.",
+        "precautions": ["Carry rescue inhaler always", "Avoid asthma triggers like smoke & dust", "Get annual flu vaccine"],
+        "diet": ["Vitamin D rich foods", "Apples & carrots", "Omega-3 rich seeds"],
+        "workout": ["Swimming", "Breathing exercises (Pranayama)", "Low-intensity walking"]
     },
     "Gastritis": {
-        "symptoms": ["stomach pain", "nausea", "vomiting", "bloating", "loss of appetite",
-                     "indigestion", "burning sensation stomach"],
-        "medicines": ["Omeprazole", "Pantoprazole", "Ranitidine", "Antacids",
-                      "Metronidazole", "Clarithromycin"],
-        "severity": "moderate"
+        "symptoms": ["stomach pain", "nausea", "vomiting", "bloating", "loss of appetite", "indigestion", "burning sensation stomach"],
+        "medicines": ["Omeprazole", "Pantoprazole", "Ranitidine", "Antacids", "Metronidazole", "Clarithromycin"],
+        "severity": "moderate",
+        "description": "An inflammation of the protective lining of the stomach.",
+        "precautions": ["Avoid spicy and greasy foods", "Eat smaller frequent meals", "Limit alcohol & NSAID painkillers"],
+        "diet": ["Bland diet", "Oatmeal", "Bananas", "Probiotic yogurt"],
+        "workout": ["Light walking after meals", "Avoid intense abdominal strain"]
     },
     "Urinary Tract Infection": {
-        "symptoms": ["frequent urination", "burning urination", "cloudy urine",
-                     "pelvic pain", "strong urine smell", "lower back pain"],
-        "medicines": ["Ciprofloxacin", "Nitrofurantoin", "Trimethoprim", "Fosfomycin",
-                      "Amoxicillin", "Co-Amoxiclav"],
-        "severity": "moderate"
+        "symptoms": ["frequent urination", "burning urination", "cloudy urine", "pelvic pain", "strong urine smell", "lower back pain"],
+        "medicines": ["Ciprofloxacin", "Nitrofurantoin", "Trimethoprim", "Fosfomycin", "Amoxicillin", "Co-Amoxiclav"],
+        "severity": "moderate",
+        "description": "An infection in any part of your urinary system — kidneys, bladder, or urethra.",
+        "precautions": ["Drink plenty of water", "Urinate when needed, don't hold it", "Maintain good personal hygiene"],
+        "diet": ["Unsweetened cranberry juice", "High water content foods", "Probiotics"],
+        "workout": ["Rest until infection clears"]
     },
     "Anxiety Disorder": {
-        "symptoms": ["excessive worry", "restlessness", "fatigue", "difficulty concentrating",
-                     "irritability", "sleep problems", "muscle tension", "palpitations"],
-        "medicines": ["Sertraline", "Escitalopram", "Buspirone", "Alprazolam",
-                      "Clonazepam", "Venlafaxine"],
-        "severity": "moderate"
+        "symptoms": ["excessive worry", "restlessness", "fatigue", "difficulty concentrating", "irritability", "sleep problems", "muscle tension", "palpitations"],
+        "medicines": ["Sertraline", "Escitalopram", "Buspirone", "Alprazolam", "Clonazepam", "Venlafaxine"],
+        "severity": "moderate",
+        "description": "A mental health disorder characterized by feelings of worry, anxiety, or fear.",
+        "precautions": ["Practice mindfulness & meditation", "Limit caffeine and alcohol", "Maintain regular sleep routine"],
+        "diet": ["Complex carbohydrates", "Magnesium & Zinc rich foods", "Chamomile tea"],
+        "workout": ["Daily aerobic exercise (30 mins)", "Yoga and deep breathing"]
     },
     "Depression": {
-        "symptoms": ["persistent sadness", "loss of interest", "fatigue", "sleep problems",
-                     "appetite changes", "difficulty concentrating", "hopelessness"],
-        "medicines": ["Sertraline", "Fluoxetine", "Escitalopram", "Venlafaxine",
-                      "Bupropion", "Mirtazapine"],
-        "severity": "serious"
+        "symptoms": ["persistent sadness", "loss of interest", "fatigue", "sleep problems", "appetite changes", "difficulty concentrating", "hopelessness"],
+        "medicines": ["Sertraline", "Fluoxetine", "Escitalopram", "Venlafaxine", "Bupropion", "Mirtazapine"],
+        "severity": "serious",
+        "description": "A mood disorder that causes a persistent feeling of sadness and loss of interest.",
+        "precautions": ["Seek therapy & counseling", "Stay connected with family & friends", "Maintain a daily routine"],
+        "diet": ["Omega-3 fatty acids", "Protein-rich meals", "Whole foods"],
+        "workout": ["Outdoor walking in sunlight", "Moderate rhythmic exercise"]
     },
     "Arthritis": {
-        "symptoms": ["joint pain", "joint stiffness", "swelling joints", "reduced mobility",
-                     "warmth around joints", "joint tenderness"],
-        "medicines": ["Ibuprofen", "Naproxen", "Diclofenac", "Methotrexate",
-                      "Hydroxychloroquine", "Prednisone"],
-        "severity": "serious"
+        "symptoms": ["joint pain", "joint stiffness", "swelling joints", "reduced mobility", "warmth around joints", "joint tenderness"],
+        "medicines": ["Ibuprofen", "Naproxen", "Diclofenac", "Methotrexate", "Hydroxychloroquine", "Prednisone"],
+        "severity": "serious",
+        "description": "Inflammation of one or more joints, causing pain and stiffness that can worsen with age.",
+        "precautions": ["Protect joints from excessive stress", "Maintain healthy weight", "Use warm/cold compression"],
+        "diet": ["Anti-inflammatory diet", "Olive oil", "Berries & fatty fish"],
+        "workout": ["Low-impact joint exercises", "Water aerobics", "Gentle stretching"]
     },
     "Pneumonia": {
-        "symptoms": ["cough with phlegm", "fever", "chills", "shortness of breath",
-                     "chest pain", "fatigue", "nausea", "vomiting"],
-        "medicines": ["Amoxicillin", "Azithromycin", "Doxycycline", "Levofloxacin",
-                      "Co-Amoxiclav", "Cefuroxime"],
-        "severity": "serious"
+        "symptoms": ["cough with phlegm", "fever", "chills", "shortness of breath", "chest pain", "fatigue", "nausea", "vomiting"],
+        "medicines": ["Amoxicillin", "Azithromycin", "Doxycycline", "Levofloxacin", "Co-Amoxiclav", "Cefuroxime"],
+        "severity": "serious",
+        "description": "An infection that inflames air sacs in one or both lungs, which may fill with fluid.",
+        "precautions": ["Strict bed rest", "Complete full antibiotic course", "Avoid secondhand smoke"],
+        "diet": ["Warm soups and fluids", "Protein-rich foods", "Nutrient-dense meals"],
+        "workout": ["Complete rest until fully recovered"]
     },
     "Insomnia": {
-        "symptoms": ["difficulty falling asleep", "waking at night", "waking early",
-                     "daytime fatigue", "irritability", "difficulty concentrating"],
-        "medicines": ["Zolpidem", "Melatonin", "Doxylamine", "Temazepam",
-                      "Eszopiclone", "Trazodone"],
-        "severity": "mild"
+        "symptoms": ["difficulty falling asleep", "waking at night", "waking early", "daytime fatigue", "irritability", "difficulty concentrating"],
+        "medicines": ["Zolpidem", "Melatonin", "Doxylamine", "Temazepam", "Eszopiclone", "Trazodone"],
+        "severity": "mild",
+        "description": "Persistent problems falling and staying asleep.",
+        "precautions": ["Maintain strict sleep schedule", "Avoid screens 1 hour before bed", "Keep bedroom cool and dark"],
+        "diet": ["Warm milk", "Almonds & walnuts", "Avoid caffeine after 2 PM"],
+        "workout": ["Morning or afternoon exercise", "Avoid heavy workouts near bedtime"]
     },
     "Hypothyroidism": {
-        "symptoms": ["fatigue", "weight gain", "cold sensitivity", "constipation",
-                     "dry skin", "hair loss", "muscle weakness", "depression"],
-        "medicines": ["Levothyroxine", "Liothyronine", "Desiccated Thyroid",
-                      "Selenium Supplements"],
-        "severity": "serious"
+        "symptoms": ["fatigue", "weight gain", "cold sensitivity", "constipation", "dry skin", "hair loss", "muscle weakness", "depression"],
+        "medicines": ["Levothyroxine", "Liothyronine", "Desiccated Thyroid", "Selenium Supplements"],
+        "severity": "serious",
+        "description": "A condition in which the thyroid gland doesn't produce enough crucial hormones.",
+        "precautions": ["Take thyroid medication on empty stomach", "Regular TSH blood testing", "Manage stress levels"],
+        "diet": ["Iodized salt", "Selenium rich foods (Brazil nuts)", "Limit raw cruciferous vegetables"],
+        "workout": ["Moderate aerobic exercise", "Strength training"]
     }
 }
+
 
 ALL_SYMPTOMS = sorted(set(
     s for d in DISEASES.values() for s in d["symptoms"]
@@ -181,82 +212,1171 @@ MEDICINE_INFO = {
         "generic_name": "Acetaminophen",
         "drug_class": "Analgesic / Antipyretic",
         "dosage": "500-1000 mg every 4-6 hours (max 4g/day)",
-        "side_effects": ["nausea", "liver damage (overdose)", "rash"],
-        "contraindications": ["severe liver disease", "alcohol dependence"],
+        "side_effects": [
+            "nausea",
+            "liver damage (overdose)",
+            "rash"
+        ],
+        "contraindications": [
+            "severe liver disease",
+            "alcohol dependence"
+        ],
         "category": "OTC"
     },
     "Ibuprofen": {
         "generic_name": "Ibuprofen",
         "drug_class": "NSAID",
         "dosage": "200-400 mg every 4-6 hours (max 1200 mg/day OTC)",
-        "side_effects": ["stomach upset", "nausea", "heartburn", "dizziness"],
-        "contraindications": ["peptic ulcer", "renal failure", "pregnancy (3rd trimester)"],
+        "side_effects": [
+            "stomach upset",
+            "nausea",
+            "heartburn",
+            "dizziness"
+        ],
+        "contraindications": [
+            "peptic ulcer",
+            "renal failure",
+            "pregnancy (3rd trimester)"
+        ],
         "category": "OTC/Prescription"
     },
-    "Amoxicillin": {
-        "generic_name": "Amoxicillin",
-        "drug_class": "Penicillin Antibiotic",
-        "dosage": "250-500 mg three times daily for 5-10 days",
-        "side_effects": ["diarrhea", "nausea", "rash", "allergic reaction"],
-        "contraindications": ["penicillin allergy"],
+    "Cetirizine": {
+        "generic_name": "Cetirizine HCl",
+        "drug_class": "Antihistamine",
+        "dosage": "10 mg once daily",
+        "side_effects": [
+            "drowsiness",
+            "dry mouth",
+            "fatigue"
+        ],
+        "contraindications": [
+            "severe renal impairment"
+        ],
+        "category": "OTC"
+    },
+    "Loratadine": {
+        "generic_name": "Loratadine",
+        "drug_class": "Non-drowsy Antihistamine",
+        "dosage": "10 mg once daily",
+        "side_effects": [
+            "headache",
+            "fatigue",
+            "dry mouth"
+        ],
+        "contraindications": [
+            "severe liver impairment"
+        ],
+        "category": "OTC"
+    },
+    "Dextromethorphan": {
+        "generic_name": "Dextromethorphan HBr",
+        "drug_class": "Cough Suppressant (Antitussive)",
+        "dosage": "10-20 mg every 4 hours",
+        "side_effects": [
+            "drowsiness",
+            "dizziness",
+            "nausea"
+        ],
+        "contraindications": [
+            "MAO inhibitor use"
+        ],
+        "category": "OTC"
+    },
+    "Pseudoephedrine": {
+        "generic_name": "Pseudoephedrine HCl",
+        "drug_class": "Nasal Decongestant",
+        "dosage": "30-60 mg every 4-6 hours",
+        "side_effects": [
+            "insomnia",
+            "nervousness",
+            "palpitations"
+        ],
+        "contraindications": [
+            "severe hypertension",
+            "coronary artery disease"
+        ],
+        "category": "OTC"
+    },
+    "Zinc Supplements": {
+        "generic_name": "Zinc Gluconate",
+        "drug_class": "Mineral Supplement",
+        "dosage": "15-50 mg daily with food",
+        "side_effects": [
+            "nausea",
+            "stomach irritation"
+        ],
+        "contraindications": [
+            "zinc allergy"
+        ],
+        "category": "OTC"
+    },
+    "Oseltamivir (Tamiflu)": {
+        "generic_name": "Oseltamivir Phosphate",
+        "drug_class": "Neuraminidase Inhibitor (Antiviral)",
+        "dosage": "75 mg twice daily for 5 days",
+        "side_effects": [
+            "nausea",
+            "vomiting",
+            "headache"
+        ],
+        "contraindications": [
+            "hypersensitivity to oseltamivir"
+        ],
         "category": "Prescription"
     },
-    "Metformin": {
-        "generic_name": "Metformin HCl",
-        "drug_class": "Biguanide (Antidiabetic)",
-        "dosage": "500-850 mg twice daily with meals",
-        "side_effects": ["nausea", "diarrhea", "stomach pain", "lactic acidosis (rare)"],
-        "contraindications": ["renal impairment", "hepatic failure", "alcohol abuse"],
+    "Zanamivir": {
+        "generic_name": "Zanamivir",
+        "drug_class": "Inhaled Antiviral",
+        "dosage": "10 mg (2 inhalations) twice daily for 5 days",
+        "side_effects": [
+            "cough",
+            "throat irritation",
+            "bronchospasm"
+        ],
+        "contraindications": [
+            "underlying respiratory disease (asthma/COPD)"
+        ],
+        "category": "Prescription"
+    },
+    "Amantadine": {
+        "generic_name": "Amantadine HCl",
+        "drug_class": "Antiviral / Antiparkinson",
+        "dosage": "100 mg twice daily",
+        "side_effects": [
+            "dizziness",
+            "lightheadedness",
+            "insomnia"
+        ],
+        "contraindications": [
+            "end-stage renal disease"
+        ],
         "category": "Prescription"
     },
     "Amlodipine": {
         "generic_name": "Amlodipine Besylate",
         "drug_class": "Calcium Channel Blocker",
         "dosage": "5-10 mg once daily",
-        "side_effects": ["ankle swelling", "flushing", "headache", "dizziness"],
-        "contraindications": ["cardiogenic shock", "severe aortic stenosis"],
+        "side_effects": [
+            "ankle swelling",
+            "flushing",
+            "headache"
+        ],
+        "contraindications": [
+            "severe aortic stenosis"
+        ],
         "category": "Prescription"
     },
-    "Cetirizine": {
-        "generic_name": "Cetirizine HCl",
-        "drug_class": "Antihistamine",
-        "dosage": "10 mg once daily",
-        "side_effects": ["drowsiness", "dry mouth", "fatigue"],
-        "contraindications": ["severe renal impairment"],
+    "Lisinopril": {
+        "generic_name": "Lisinopril",
+        "drug_class": "ACE Inhibitor",
+        "dosage": "10-40 mg once daily",
+        "side_effects": [
+            "dry cough",
+            "dizziness",
+            "hyperkalemia"
+        ],
+        "contraindications": [
+            "pregnancy",
+            "history of angioedema"
+        ],
+        "category": "Prescription"
+    },
+    "Losartan": {
+        "generic_name": "Losartan Potassium",
+        "drug_class": "Angiotensin II Receptor Blocker (ARB)",
+        "dosage": "50-100 mg once daily",
+        "side_effects": [
+            "dizziness",
+            "fatigue",
+            "nasal congestion"
+        ],
+        "contraindications": [
+            "pregnancy"
+        ],
+        "category": "Prescription"
+    },
+    "Metoprolol": {
+        "generic_name": "Metoprolol Succinate",
+        "drug_class": "Beta-Blocker",
+        "dosage": "25-100 mg once daily",
+        "side_effects": [
+            "bradycardia",
+            "fatigue",
+            "cold extremities"
+        ],
+        "contraindications": [
+            "severe bradycardia",
+            "cardiogenic shock"
+        ],
+        "category": "Prescription"
+    },
+    "Hydrochlorothiazide": {
+        "generic_name": "Hydrochlorothiazide",
+        "drug_class": "Thiazide Diuretic",
+        "dosage": "12.5-25 mg once daily",
+        "side_effects": [
+            "frequent urination",
+            "hypokalemia",
+            "dizziness"
+        ],
+        "contraindications": [
+            "anuria",
+            "sulfa allergy"
+        ],
+        "category": "Prescription"
+    },
+    "Atenolol": {
+        "generic_name": "Atenolol",
+        "drug_class": "Beta-Blocker",
+        "dosage": "25-100 mg once daily",
+        "side_effects": [
+            "cold hands/feet",
+            "fatigue",
+            "slow heart rate"
+        ],
+        "contraindications": [
+            "sinus bradycardia",
+            "second-degree heart block"
+        ],
+        "category": "Prescription"
+    },
+    "Metformin": {
+        "generic_name": "Metformin HCl",
+        "drug_class": "Biguanide (Antidiabetic)",
+        "dosage": "500-850 mg twice daily with meals",
+        "side_effects": [
+            "nausea",
+            "diarrhea",
+            "stomach pain"
+        ],
+        "contraindications": [
+            "renal impairment",
+            "hepatic failure",
+            "alcohol abuse"
+        ],
+        "category": "Prescription"
+    },
+    "Glibenclamide": {
+        "generic_name": "Glyburide / Glibenclamide",
+        "drug_class": "Sulfonylurea",
+        "dosage": "2.5-5 mg once daily with breakfast",
+        "side_effects": [
+            "hypoglycemia",
+            "weight gain",
+            "nausea"
+        ],
+        "contraindications": [
+            "type 1 diabetes",
+            "severe renal impairment"
+        ],
+        "category": "Prescription"
+    },
+    "Sitagliptin": {
+        "generic_name": "Sitagliptin Phosphate",
+        "drug_class": "DPP-4 Inhibitor",
+        "dosage": "100 mg once daily",
+        "side_effects": [
+            "upper respiratory tract infection",
+            "headache"
+        ],
+        "contraindications": [
+            "history of pancreatitis"
+        ],
+        "category": "Prescription"
+    },
+    "Empagliflozin": {
+        "generic_name": "Empagliflozin",
+        "drug_class": "SGLT2 Inhibitor",
+        "dosage": "10-25 mg once daily in morning",
+        "side_effects": [
+            "increased urination",
+            "genital mycotic infections"
+        ],
+        "contraindications": [
+            "severe renal impairment / dialysis"
+        ],
+        "category": "Prescription"
+    },
+    "Insulin Glargine": {
+        "generic_name": "Insulin Glargine",
+        "drug_class": "Long-acting Basal Insulin",
+        "dosage": "Subcutaneous once daily at bedtime",
+        "side_effects": [
+            "hypoglycemia",
+            "injection site reactions"
+        ],
+        "contraindications": [
+            "during hypoglycemic episodes"
+        ],
+        "category": "Prescription"
+    },
+    "Pioglitazone": {
+        "generic_name": "Pioglitazone HCl",
+        "drug_class": "Thiazolidinedione",
+        "dosage": "15-30 mg once daily",
+        "side_effects": [
+            "weight gain",
+            "edema",
+            "fracture risk"
+        ],
+        "contraindications": [
+            "class III/IV heart failure"
+        ],
+        "category": "Prescription"
+    },
+    "Sumatriptan": {
+        "generic_name": "Sumatriptan Succinate",
+        "drug_class": "Triptan (5-HT1 Agonist)",
+        "dosage": "50-100 mg at onset of migraine",
+        "side_effects": [
+            "tingling",
+            "flushing",
+            "chest tightness"
+        ],
+        "contraindications": [
+            "ischemic heart disease",
+            "uncontrolled hypertension"
+        ],
+        "category": "Prescription"
+    },
+    "Rizatriptan": {
+        "generic_name": "Rizatriptan Benzoate",
+        "drug_class": "Triptan",
+        "dosage": "10 mg at onset of migraine",
+        "side_effects": [
+            "drowsiness",
+            "dizziness",
+            "dry mouth"
+        ],
+        "contraindications": [
+            "coronary artery disease",
+            "MAO inhibitor use"
+        ],
+        "category": "Prescription"
+    },
+    "Topiramate": {
+        "generic_name": "Topiramate",
+        "drug_class": "Anticonvulsant / Migraine Prophylactic",
+        "dosage": "25-50 mg twice daily",
+        "side_effects": [
+            "paresthesia",
+            "weight loss",
+            "cognitive slowing"
+        ],
+        "contraindications": [
+            "pregnancy"
+        ],
+        "category": "Prescription"
+    },
+    "Propranolol": {
+        "generic_name": "Propranolol HCl",
+        "drug_class": "Non-selective Beta-Blocker",
+        "dosage": "40-80 mg twice daily",
+        "side_effects": [
+            "fatigue",
+            "cold extremities",
+            "sleep disturbances"
+        ],
+        "contraindications": [
+            "asthma",
+            "bradycardia"
+        ],
+        "category": "Prescription"
+    },
+    "Amitriptyline": {
+        "generic_name": "Amitriptyline HCl",
+        "drug_class": "Tricyclic Antidepressant",
+        "dosage": "10-50 mg at bedtime",
+        "side_effects": [
+            "drowsiness",
+            "dry mouth",
+            "weight gain"
+        ],
+        "contraindications": [
+            "recent myocardial infarction"
+        ],
+        "category": "Prescription"
+    },
+    "Fexofenadine": {
+        "generic_name": "Fexofenadine HCl",
+        "drug_class": "Non-sedating Antihistamine",
+        "dosage": "120-180 mg once daily",
+        "side_effects": [
+            "headache",
+            "drowsiness (rare)"
+        ],
+        "contraindications": [
+            "hypersensitivity"
+        ],
         "category": "OTC"
     },
-    "Omeprazole": {
-        "generic_name": "Omeprazole",
-        "drug_class": "Proton Pump Inhibitor",
-        "dosage": "20-40 mg once daily before meal",
-        "side_effects": ["headache", "diarrhea", "nausea", "abdominal pain"],
-        "contraindications": ["hypersensitivity to PPIs"],
+    "Montelukast": {
+        "generic_name": "Montelukast Sodium",
+        "drug_class": "Leukotriene Receptor Antagonist",
+        "dosage": "10 mg once daily in evening",
+        "side_effects": [
+            "headache",
+            "abdominal pain",
+            "mood changes"
+        ],
+        "contraindications": [
+            "hypersensitivity"
+        ],
+        "category": "Prescription"
+    },
+    "Fluticasone Nasal Spray": {
+        "generic_name": "Fluticasone Propionate",
+        "drug_class": "Nasal Corticosteroid",
+        "dosage": "1-2 sprays per nostril once daily",
+        "side_effects": [
+            "nasal dryness",
+            "epistaxis",
+            "headache"
+        ],
+        "contraindications": [
+            "recent nasal surgery or trauma"
+        ],
+        "category": "OTC/Prescription"
+    },
+    "Budesonide": {
+        "generic_name": "Budesonide Nasal",
+        "drug_class": "Corticosteroid",
+        "dosage": "1-2 sprays once daily",
+        "side_effects": [
+            "nasal irritation",
+            "sneezing"
+        ],
+        "contraindications": [
+            "untreated localized nasal infection"
+        ],
         "category": "OTC/Prescription"
     },
     "Salbutamol (Albuterol)": {
         "generic_name": "Salbutamol Sulfate",
         "drug_class": "Beta-2 Agonist (Bronchodilator)",
         "dosage": "100-200 mcg inhaled every 4-6 hours as needed",
-        "side_effects": ["tremor", "palpitations", "headache", "nervousness"],
-        "contraindications": ["hypersensitivity", "tachyarrhythmia"],
+        "side_effects": [
+            "tremor",
+            "palpitations",
+            "headache"
+        ],
+        "contraindications": [
+            "hypersensitivity",
+            "tachyarrhythmia"
+        ],
         "category": "Prescription"
     },
-    "Sumatriptan": {
-        "generic_name": "Sumatriptan Succinate",
-        "drug_class": "Triptan (5-HT1 Agonist)",
-        "dosage": "50-100 mg at onset of migraine; repeat after 2 hours if needed",
-        "side_effects": ["tingling", "flushing", "chest tightness", "dizziness"],
-        "contraindications": ["ischemic heart disease", "uncontrolled hypertension"],
+    "Formoterol": {
+        "generic_name": "Formoterol Fumarate",
+        "drug_class": "Long-acting Beta-2 Agonist (LABA)",
+        "dosage": 12,
+        "side_effects": [
+            "tremor",
+            "palpitations",
+            "headache"
+        ],
+        "contraindications": [
+            "monotherapy without inhaled corticosteroid"
+        ],
+        "category": "Prescription"
+    },
+    "Fluticasone Inhaler": {
+        "generic_name": "Fluticasone Propionate Inhaler",
+        "drug_class": "Inhaled Corticosteroid",
+        "dosage": "100-250 mcg twice daily",
+        "side_effects": [
+            "oral candidiasis (thrush)",
+            "hoarseness"
+        ],
+        "contraindications": [
+            "status asthmaticus"
+        ],
+        "category": "Prescription"
+    },
+    "Budesonide Inhaler": {
+        "generic_name": "Budesonide Inhaler",
+        "drug_class": "Inhaled Corticosteroid",
+        "dosage": "200-400 mcg twice daily",
+        "side_effects": [
+            "throat irritation",
+            "coughing",
+            "oral thrush"
+        ],
+        "contraindications": [
+            "hypersensitivity to budesonide"
+        ],
+        "category": "Prescription"
+    },
+    "Ipratropium": {
+        "generic_name": "Ipratropium Bromide",
+        "drug_class": "Anticholinergic Bronchodilator",
+        "dosage": "20-40 mcg 3-4 times daily",
+        "side_effects": [
+            "dry mouth",
+            "cough",
+            "dizziness"
+        ],
+        "contraindications": [
+            "hypersensitivity to atropine derivatives"
+        ],
+        "category": "Prescription"
+    },
+    "Omeprazole": {
+        "generic_name": "Omeprazole",
+        "drug_class": "Proton Pump Inhibitor",
+        "dosage": "20-40 mg once daily before meal",
+        "side_effects": [
+            "headache",
+            "diarrhea",
+            "nausea"
+        ],
+        "contraindications": [
+            "hypersensitivity to PPIs"
+        ],
+        "category": "OTC/Prescription"
+    },
+    "Pantoprazole": {
+        "generic_name": "Pantoprazole Sodium",
+        "drug_class": "Proton Pump Inhibitor",
+        "dosage": "40 mg once daily before breakfast",
+        "side_effects": [
+            "headache",
+            "diarrhea",
+            "abdominal pain"
+        ],
+        "contraindications": [
+            "hypersensitivity"
+        ],
+        "category": "Prescription"
+    },
+    "Ranitidine": {
+        "generic_name": "Ranitidine HCl",
+        "drug_class": "H2 Receptor Antagonist",
+        "dosage": "150 mg twice daily",
+        "side_effects": [
+            "headache",
+            "constipation",
+            "dizziness"
+        ],
+        "contraindications": [
+            "porphyria history"
+        ],
+        "category": "OTC/Prescription"
+    },
+    "Antacids": {
+        "generic_name": "Aluminum / Magnesium Hydroxide",
+        "drug_class": "Antacid",
+        "dosage": "10-20 mL after meals and at bedtime",
+        "side_effects": [
+            "diarrhea or constipation",
+            "chalky taste"
+        ],
+        "contraindications": [
+            "severe renal impairment"
+        ],
+        "category": "OTC"
+    },
+    "Metronidazole": {
+        "generic_name": "Metronidazole",
+        "drug_class": "Nitroimidazole Antibacterial",
+        "dosage": "400-500 mg twice daily for 7-14 days",
+        "side_effects": [
+            "metallic taste",
+            "nausea",
+            "headache"
+        ],
+        "contraindications": [
+            "pregnancy (1st trimester)",
+            "alcohol consumption"
+        ],
+        "category": "Prescription"
+    },
+    "Clarithromycin": {
+        "generic_name": "Clarithromycin",
+        "drug_class": "Macrolide Antibiotic",
+        "dosage": "500 mg twice daily for 7-14 days",
+        "side_effects": [
+            "diarrhea",
+            "nausea",
+            "taste perversion"
+        ],
+        "contraindications": [
+            "history of QT prolongation",
+            "statin co-administration"
+        ],
+        "category": "Prescription"
+    },
+    "Ciprofloxacin": {
+        "generic_name": "Ciprofloxacin HCl",
+        "drug_class": "Fluoroquinolone Antibiotic",
+        "dosage": "250-500 mg twice daily for 3-7 days",
+        "side_effects": [
+            "nausea",
+            "tendonitis risk",
+            "dizziness"
+        ],
+        "contraindications": [
+            "myasthenia gravis",
+            "tizanidine co-use"
+        ],
+        "category": "Prescription"
+    },
+    "Nitrofurantoin": {
+        "generic_name": "Nitrofurantoin Monohydrate",
+        "drug_class": "Nitrofuran Antibacterial",
+        "dosage": "100 mg twice daily for 5-7 days",
+        "side_effects": [
+            "nausea",
+            "headache",
+            "brown urine color"
+        ],
+        "contraindications": [
+            "renal impairment (CrCl < 60 mL/min)"
+        ],
+        "category": "Prescription"
+    },
+    "Trimethoprim": {
+        "generic_name": "Trimethoprim",
+        "drug_class": "Folate Antagonist Antibacterial",
+        "dosage": "200 mg twice daily for 3-7 days",
+        "side_effects": [
+            "rash",
+            "nausea",
+            "hyperkalemia"
+        ],
+        "contraindications": [
+            "megaloblastic anemia"
+        ],
+        "category": "Prescription"
+    },
+    "Fosfomycin": {
+        "generic_name": "Fosfomycin Trometamol",
+        "drug_class": "Phosphonic Acid Antibiotic",
+        "dosage": "3g single dose sachet in water",
+        "side_effects": [
+            "diarrhea",
+            "nausea",
+            "headache"
+        ],
+        "contraindications": [
+            "severe renal failure"
+        ],
+        "category": "Prescription"
+    },
+    "Co-Amoxiclav": {
+        "generic_name": "Amoxicillin + Clavulanic Acid",
+        "drug_class": "Penicillin + Beta-lactamase Inhibitor",
+        "dosage": "625 mg 3 times daily for 5-7 days",
+        "side_effects": [
+            "diarrhea",
+            "nausea",
+            "candidiasis"
+        ],
+        "contraindications": [
+            "history of amoxicillin-associated jaundice"
+        ],
+        "category": "Prescription"
+    },
+    "Sertraline": {
+        "generic_name": "Sertraline HCl",
+        "drug_class": "SSRI Antidepressant",
+        "dosage": "50-100 mg once daily",
+        "side_effects": [
+            "nausea",
+            "insomnia",
+            "sexual dysfunction"
+        ],
+        "contraindications": [
+            "MAO inhibitor use",
+            "pimozide use"
+        ],
+        "category": "Prescription"
+    },
+    "Escitalopram": {
+        "generic_name": "Escitalopram Oxalate",
+        "drug_class": "SSRI Antidepressant",
+        "dosage": "10-20 mg once daily",
+        "side_effects": [
+            "nausea",
+            "insomnia",
+            "fatigue"
+        ],
+        "contraindications": [
+            "QT prolongation history",
+            "MAOIs"
+        ],
+        "category": "Prescription"
+    },
+    "Buspirone": {
+        "generic_name": "Buspirone HCl",
+        "drug_class": "Azapirone Anxiolytic",
+        "dosage": "7.5-15 mg twice daily",
+        "side_effects": [
+            "dizziness",
+            "drowsiness",
+            "nausea"
+        ],
+        "contraindications": [
+            "severe hepatic / renal impairment"
+        ],
+        "category": "Prescription"
+    },
+    "Alprazolam": {
+        "generic_name": "Alprazolam",
+        "drug_class": "Benzodiazepine",
+        "dosage": "0.25-0.5 mg 3 times daily as needed",
+        "side_effects": [
+            "drowsiness",
+            "sedation",
+            "dependence risk"
+        ],
+        "contraindications": [
+            "acute narrow-angle glaucoma",
+            "ketoconazole use"
+        ],
+        "category": "Prescription"
+    },
+    "Clonazepam": {
+        "generic_name": "Clonazepam",
+        "drug_class": "Benzodiazepine",
+        "dosage": "0.5-1 mg at bedtime or twice daily",
+        "side_effects": [
+            "somnolence",
+            "ataxia",
+            "fatigue"
+        ],
+        "contraindications": [
+            "significant liver disease",
+            "acute narrow angle glaucoma"
+        ],
+        "category": "Prescription"
+    },
+    "Venlafaxine": {
+        "generic_name": "Venlafaxine HCl",
+        "drug_class": "SNRI Antidepressant",
+        "dosage": "75-150 mg once daily",
+        "side_effects": [
+            "nausea",
+            "dry mouth",
+            "increased blood pressure"
+        ],
+        "contraindications": [
+            "MAO inhibitor use"
+        ],
+        "category": "Prescription"
+    },
+    "Fluoxetine": {
+        "generic_name": "Fluoxetine HCl",
+        "drug_class": "SSRI Antidepressant",
+        "dosage": "20-40 mg once daily in morning",
+        "side_effects": [
+            "insomnia",
+            "nausea",
+            "tremor"
+        ],
+        "contraindications": [
+            "thioridazine or MAOI use"
+        ],
+        "category": "Prescription"
+    },
+    "Bupropion": {
+        "generic_name": "Bupropion HCl",
+        "drug_class": "NDRI Antidepressant",
+        "dosage": "150-300 mg once daily",
+        "side_effects": [
+            "dry mouth",
+            "insomnia",
+            "weight loss"
+        ],
+        "contraindications": [
+            "seizure disorder",
+            "bulimia / anorexia"
+        ],
+        "category": "Prescription"
+    },
+    "Mirtazapine": {
+        "generic_name": "Mirtazapine",
+        "drug_class": "NaSSA Antidepressant",
+        "dosage": "15-45 mg at bedtime",
+        "side_effects": [
+            "somnolence",
+            "increased appetite",
+            "weight gain"
+        ],
+        "contraindications": [
+            "MAOI co-administration"
+        ],
+        "category": "Prescription"
+    },
+    "Naproxen": {
+        "generic_name": "Naproxen Sodium",
+        "drug_class": "NSAID",
+        "dosage": "250-500 mg twice daily with food",
+        "side_effects": [
+            "heartburn",
+            "stomach pain",
+            "dizziness"
+        ],
+        "contraindications": [
+            "peptic ulcer",
+            "severe heart failure",
+            "CABG surgery"
+        ],
+        "category": "OTC/Prescription"
+    },
+    "Diclofenac": {
+        "generic_name": "Diclofenac Sodium",
+        "drug_class": "NSAID",
+        "dosage": "50 mg 2-3 times daily with food",
+        "side_effects": [
+            "gastrointestinal discomfort",
+            "fluid retention"
+        ],
+        "contraindications": [
+            "active GI bleeding",
+            "severe renal impairment"
+        ],
+        "category": "Prescription"
+    },
+    "Methotrexate": {
+        "generic_name": "Methotrexate",
+        "drug_class": "DMARD (Antimetabolite)",
+        "dosage": "7.5-25 mg ONCE WEEKLY",
+        "side_effects": [
+            "nausea",
+            "stomatitis",
+            "bone marrow suppression"
+        ],
+        "contraindications": [
+            "pregnancy",
+            "chronic liver disease",
+            "alcoholism"
+        ],
+        "category": "Prescription"
+    },
+    "Hydroxychloroquine": {
+        "generic_name": "Hydroxychloroquine Sulfate",
+        "drug_class": "Antimalarial / DMARD",
+        "dosage": "200-400 mg once daily",
+        "side_effects": [
+            "nausea",
+            "retinal toxicity (long-term)"
+        ],
+        "contraindications": [
+            "retinopathy history"
+        ],
+        "category": "Prescription"
+    },
+    "Prednisone": {
+        "generic_name": "Prednisone",
+        "drug_class": "Corticosteroid",
+        "dosage": "5-20 mg once daily with food",
+        "side_effects": [
+            "weight gain",
+            "insomnia",
+            "hyperglycemia"
+        ],
+        "contraindications": [
+            "systemic fungal infections"
+        ],
+        "category": "Prescription"
+    },
+    "Azithromycin": {
+        "generic_name": "Azithromycin",
+        "drug_class": "Macrolide Antibiotic",
+        "dosage": "500 mg on day 1, then 250 mg daily for 4 days",
+        "side_effects": [
+            "diarrhea",
+            "nausea",
+            "abdominal pain"
+        ],
+        "contraindications": [
+            "history of cholestatic jaundice"
+        ],
+        "category": "Prescription"
+    },
+    "Doxycycline": {
+        "generic_name": "Doxycycline Hyclate",
+        "drug_class": "Tetracycline Antibiotic",
+        "dosage": "100 mg twice daily for 7-10 days",
+        "side_effects": [
+            "photosensitivity",
+            "nausea",
+            "esophageal irritation"
+        ],
+        "contraindications": [
+            "pregnancy",
+            "children under 8 years"
+        ],
+        "category": "Prescription"
+    },
+    "Levofloxacin": {
+        "generic_name": "Levofloxacin",
+        "drug_class": "Fluoroquinolone Antibiotic",
+        "dosage": "500 mg once daily for 7-14 days",
+        "side_effects": [
+            "nausea",
+            "headache",
+            "tendonitis risk"
+        ],
+        "contraindications": [
+            "myasthenia gravis",
+            "QT prolongation"
+        ],
+        "category": "Prescription"
+    },
+    "Cefuroxime": {
+        "generic_name": "Cefuroxime Axetil",
+        "drug_class": "2nd Gen Cephalosporin Antibiotic",
+        "dosage": "250-500 mg twice daily for 7-10 days",
+        "side_effects": [
+            "diarrhea",
+            "nausea",
+            "headache"
+        ],
+        "contraindications": [
+            "severe cephalosporin allergy"
+        ],
+        "category": "Prescription"
+    },
+    "Zolpidem": {
+        "generic_name": "Zolpidem Tartrate",
+        "drug_class": "Non-benzodiazepine Hypnotic (Z-drug)",
+        "dosage": "5-10 mg immediately before bedtime",
+        "side_effects": [
+            "daytime drowsiness",
+            "dizziness",
+            "complex sleep behaviors"
+        ],
+        "contraindications": [
+            "complex sleep behavior history",
+            "severe hepatic impairment"
+        ],
+        "category": "Prescription"
+    },
+    "Melatonin": {
+        "generic_name": "Melatonin",
+        "drug_class": "Sleep Hormone Supplement",
+        "dosage": "1-5 mg 30-60 mins before bedtime",
+        "side_effects": [
+            "daytime drowsiness",
+            "headache"
+        ],
+        "contraindications": [
+            "autoimmune disease caution"
+        ],
+        "category": "OTC"
+    },
+    "Doxylamine": {
+        "generic_name": "Doxylamine Succinate",
+        "drug_class": "Sedating Antihistamine Sleep Aid",
+        "dosage": "25 mg 30 mins before bedtime",
+        "side_effects": [
+            "drowsiness",
+            "dry mouth",
+            "constipation"
+        ],
+        "contraindications": [
+            "glaucoma",
+            "prostatic hypertrophy"
+        ],
+        "category": "OTC"
+    },
+    "Temazepam": {
+        "generic_name": "Temazepam",
+        "drug_class": "Benzodiazepine Hypnotic",
+        "dosage": "7.5-15 mg at bedtime",
+        "side_effects": [
+            "drowsiness",
+            "dizziness",
+            "confusion"
+        ],
+        "contraindications": [
+            "pregnancy",
+            "severe respiratory insufficiency"
+        ],
+        "category": "Prescription"
+    },
+    "Eszopiclone": {
+        "generic_name": "Eszopiclone",
+        "drug_class": "Non-benzodiazepine Sedative",
+        "dosage": "1-3 mg immediately before bed",
+        "side_effects": [
+            "unpleasant metallic taste",
+            "drowsiness"
+        ],
+        "contraindications": [
+            "history of complex sleep behaviors"
+        ],
+        "category": "Prescription"
+    },
+    "Trazodone": {
+        "generic_name": "Trazodone HCl",
+        "drug_class": "SARI Antidepressant / Sedative",
+        "dosage": "50-100 mg at bedtime",
+        "side_effects": [
+            "drowsiness",
+            "dry mouth",
+            "dizziness"
+        ],
+        "contraindications": [
+            "recovery phase of myocardial infarction"
+        ],
+        "category": "Prescription"
+    },
+    "Liothyronine": {
+        "generic_name": "Liothyronine Sodium (T3)",
+        "drug_class": "Synthetic Thyroid Hormone",
+        "dosage": "25-75 mcg daily",
+        "side_effects": [
+            "palpitations",
+            "tachycardia",
+            "headache"
+        ],
+        "contraindications": [
+            "uncorrected adrenal insufficiency"
+        ],
+        "category": "Prescription"
+    },
+    "Desiccated Thyroid": {
+        "generic_name": "Armour Thyroid (T3 + T4)",
+        "drug_class": "Natural Thyroid Extract",
+        "dosage": "30-120 mg once daily in morning",
+        "side_effects": [
+            "heart palpitations",
+            "heat intolerance"
+        ],
+        "contraindications": [
+            "untreated thyrotoxicosis"
+        ],
+        "category": "Prescription"
+    },
+    "Selenium Supplements": {
+        "generic_name": "Selenium",
+        "drug_class": "Trace Mineral Supplement",
+        "dosage": "100-200 mcg daily",
+        "side_effects": [
+            "nausea",
+            "garlic breath odor"
+        ],
+        "contraindications": [
+            "high selenium toxicity"
+        ],
+        "category": "OTC"
+    },
+    "Amoxicillin": {
+        "generic_name": "Amoxicillin Trihydrate",
+        "drug_class": "Penicillin Antibiotic",
+        "dosage": "250-500 mg three times daily for 5-10 days (or 875 mg twice daily)",
+        "side_effects": [
+            "diarrhea",
+            "nausea",
+            "skin rash",
+            "vomiting",
+            "allergic reaction"
+        ],
+        "contraindications": [
+            "penicillin allergy",
+            "mononucleosis",
+            "severe renal impairment"
+        ],
         "category": "Prescription"
     },
     "Levothyroxine": {
         "generic_name": "Levothyroxine Sodium",
-        "drug_class": "Thyroid Hormone",
-        "dosage": "25-200 mcg once daily (individualized)",
-        "side_effects": ["palpitations", "weight loss", "insomnia", "tremor"],
-        "contraindications": ["untreated adrenal insufficiency", "thyrotoxicosis"],
+        "drug_class": "Synthetic Thyroid Hormone (T4)",
+        "dosage": "25-100 mcg once daily in the morning on an empty stomach (30-60 mins before breakfast)",
+        "side_effects": [
+            "palpitations",
+            "insomnia",
+            "weight loss",
+            "heat intolerance",
+            "tremors",
+            "headache"
+        ],
+        "contraindications": [
+            "untreated thyrotoxicosis",
+            "uncorrected adrenal insufficiency",
+            "acute myocardial infarction"
+        ],
         "category": "Prescription"
     }
+}
+
+
+SYMPTOM_TAGS = {
+    "headache": {"tags": ["neurological", "head", "pain"], "synonyms": ["head pain", "hedache", "head ache", "migraine pain"], "body_part": "head"},
+    "fever": {"tags": ["systemic", "fever", "temperature"], "synonyms": ["high temperature", "fevr", "feaver", "feverish"], "body_part": "whole body"},
+    "high fever": {"tags": ["systemic", "fever", "high_temperature"], "synonyms": ["very high fever", "high fevr", "burning fever"], "body_part": "whole body"},
+    "mild fever": {"tags": ["systemic", "fever", "low_temperature"], "synonyms": ["slight fever", "low fever"], "body_part": "whole body"},
+    "cough": {"tags": ["respiratory", "throat", "chest"], "synonyms": ["kough", "coughing", "dry cough"], "body_part": "chest/throat"},
+    "cough with phlegm": {"tags": ["respiratory", "chest", "mucus"], "synonyms": ["wet cough", "productive cough", "coughing phlegm"], "body_part": "lungs"},
+    "shortness of breath": {"tags": ["respiratory", "lungs", "breath"], "synonyms": ["breathlessness", "hard to breathe", "short breath", "dyspnea"], "body_part": "lungs"},
+    "difficulty breathing": {"tags": ["respiratory", "lungs"], "synonyms": ["trouble breathing", "can't breathe", "breath problem"], "body_part": "lungs"},
+    "runny nose": {"tags": ["respiratory", "nasal"], "synonyms": ["sneezing nose", "watery nose", "nasal discharge"], "body_part": "nose"},
+    "sneezing": {"tags": ["respiratory", "nasal"], "synonyms": ["sneez", "sneezes", "sneeze"], "body_part": "nose"},
+    "sore throat": {"tags": ["respiratory", "throat"], "synonyms": ["throat pain", "throat ache", "pain in throat"], "body_part": "throat"},
+    "body ache": {"tags": ["musculoskeletal", "pain"], "synonyms": ["body pain", "muscle pain", "body aches"], "body_part": "whole body"},
+    "fatigue": {"tags": ["systemic", "energy"], "synonyms": ["tiredness", "weakness", "exhaustion", "fatigued"], "body_part": "whole body"},
+    "chills": {"tags": ["systemic", "temperature"], "synonyms": ["shivering", "feeling cold", "chilly"], "body_part": "whole body"},
+    "vomiting": {"tags": ["gastrointestinal"], "synonyms": ["puking", "throwing up", "emesis"], "body_part": "stomach"},
+    "nausea": {"tags": ["gastrointestinal"], "synonyms": ["sick stomach", "feeling sick", "queasy"], "body_part": "stomach"},
+    "dizziness": {"tags": ["neurological"], "synonyms": ["dizzy", "head spinning", "lightheaded"], "body_part": "head"},
+    "blurred vision": {"tags": ["ophthalmology"], "synonyms": ["blurry eyes", "blurry vision", "can't see clearly"], "body_part": "eyes"},
+    "chest pain": {"tags": ["cardiovascular", "chest"], "synonyms": ["pain in chest", "chest discomfort", "heart pain"], "body_part": "chest"},
+    "frequent urination": {"tags": ["renal", "urology"], "synonyms": ["peeing a lot", "urinating often", "frequent pee"], "body_part": "bladder"},
+    "excessive thirst": {"tags": ["endocrine"], "synonyms": ["very thirsty", "drinking a lot of water", "polydipsia"], "body_part": "throat/systemic"},
+    "slow healing wounds": {"tags": ["dermatological"], "synonyms": ["wounds don't heal", "slow healing"], "body_part": "skin"},
+    "tingling hands feet": {"tags": ["neurological"], "synonyms": ["numbness", "pins and needles", "tingling sensation"], "body_part": "hands/feet"},
+    "weight loss": {"tags": ["metabolic"], "synonyms": ["losing weight", "unexplained weight loss"], "body_part": "whole body"},
+    "light sensitivity": {"tags": ["neurological", "eyes"], "synonyms": ["photophobia", "eyes hurt in light", "sensitive to light"], "body_part": "eyes"},
+    "sound sensitivity": {"tags": ["neurological", "ears"], "synonyms": ["phonophobia", "sensitive to loud noise"], "body_part": "ears"},
+    "visual aura": {"tags": ["neurological", "eyes"], "synonyms": ["flashing lights", "migraine aura"], "body_part": "eyes"},
+    "itchy eyes": {"tags": ["allergic", "eyes"], "synonyms": ["eyes itching", "watery itchy eyes"], "body_part": "eyes"},
+    "nasal congestion": {"tags": ["respiratory", "nasal"], "synonyms": ["stuffy nose", "blocked nose", "nasal blockage"], "body_part": "nose"},
+    "watery eyes": {"tags": ["allergic", "eyes"], "synonyms": ["tearing eyes", "wet eyes"], "body_part": "eyes"},
+    "itchy throat": {"tags": ["allergic", "throat"], "synonyms": ["throat itching", "scratchy throat"], "body_part": "throat"},
+    "wheezing": {"tags": ["respiratory", "lungs"], "synonyms": ["whistling breath", "sound in chest"], "body_part": "chest"},
+    "chest tightness": {"tags": ["respiratory", "chest"], "synonyms": ["tight chest", "heavy chest"], "body_part": "chest"},
+    "breathlessness at night": {"tags": ["respiratory"], "synonyms": ["night shortness of breath"], "body_part": "lungs"},
+    "stomach pain": {"tags": ["gastrointestinal"], "synonyms": ["abdominal pain", "tummy pain", "belly ache"], "body_part": "stomach"},
+    "bloating": {"tags": ["gastrointestinal"], "synonyms": ["swollen stomach", "gas", "bloated"], "body_part": "stomach"},
+    "loss of appetite": {"tags": ["gastrointestinal"], "synonyms": ["not feeling hungry", "don't want to eat"], "body_part": "stomach"},
+    "indigestion": {"tags": ["gastrointestinal"], "synonyms": ["upset stomach", "dyspepsia"], "body_part": "stomach"},
+    "burning sensation stomach": {"tags": ["gastrointestinal"], "synonyms": ["heartburn", "stomach acid", "acidity"], "body_part": "stomach"},
+    "burning urination": {"tags": ["urology"], "synonyms": ["painful peeing", "burning urine", "dysuria"], "body_part": "urinary tract"},
+    "cloudy urine": {"tags": ["urology"], "synonyms": ["smoky urine", "turbid urine"], "body_part": "urinary tract"},
+    "pelvic pain": {"tags": ["urology"], "synonyms": ["lower stomach pain", "pelvic discomfort"], "body_part": "pelvis"},
+    "strong urine smell": {"tags": ["urology"], "synonyms": ["smelly urine", "foul smelling urine"], "body_part": "urinary tract"},
+    "lower back pain": {"tags": ["musculoskeletal"], "synonyms": ["backache", "lumbago", "pain in back"], "body_part": "back"},
+    "excessive worry": {"tags": ["psychiatric"], "synonyms": ["anxiety", "nervousness", "stress"], "body_part": "mind"},
+    "restlessness": {"tags": ["psychiatric"], "synonyms": ["can't sit still", "agitation"], "body_part": "mind/body"},
+    "difficulty concentrating": {"tags": ["psychiatric"], "synonyms": ["brain fog", "can't focus", "poor concentration"], "body_part": "mind"},
+    "irritability": {"tags": ["psychiatric"], "synonyms": ["getting angry easily", "mood swings"], "body_part": "mind"},
+    "sleep problems": {"tags": ["psychiatric", "sleep"], "synonyms": ["insomnia", "bad sleep", "can't sleep"], "body_part": "mind"},
+    "muscle tension": {"tags": ["musculoskeletal"], "synonyms": ["stiff muscles", "tight muscles"], "body_part": "muscles"},
+    "palpitations": {"tags": ["cardiovascular"], "synonyms": ["fast heartbeat", "racing heart", "heart pounding"], "body_part": "heart"},
+    "persistent sadness": {"tags": ["psychiatric"], "synonyms": ["feeling depressed", "low mood", "crying"], "body_part": "mind"},
+    "loss of interest": {"tags": ["psychiatric"], "synonyms": ["anhedonia", "don't enjoy things"], "body_part": "mind"},
+    "appetite changes": {"tags": ["psychiatric", "metabolic"], "synonyms": ["eating too much or little"], "body_part": "stomach"},
+    "hopelessness": {"tags": ["psychiatric"], "synonyms": ["feeling hopeless", "no hope"], "body_part": "mind"},
+    "joint pain": {"tags": ["musculoskeletal", "joints"], "synonyms": ["painful joints", "arthralgia", "joint aching"], "body_part": "joints"},
+    "joint stiffness": {"tags": ["musculoskeletal", "joints"], "synonyms": ["stiff joints", "hard to move joints"], "body_part": "joints"},
+    "swelling joints": {"tags": ["musculoskeletal", "joints"], "synonyms": ["swollen joints", "puffy joints"], "body_part": "joints"},
+    "reduced mobility": {"tags": ["musculoskeletal"], "synonyms": ["can't move easily", "limited movement"], "body_part": "joints/body"},
+    "warmth around joints": {"tags": ["musculoskeletal"], "synonyms": ["hot joints"], "body_part": "joints"},
+    "joint tenderness": {"tags": ["musculoskeletal"], "synonyms": ["painful to touch joints"], "body_part": "joints"},
+    "difficulty falling asleep": {"tags": ["sleep"], "synonyms": ["can't fall asleep", "sleeplessness"], "body_part": "mind"},
+    "waking at night": {"tags": ["sleep"], "synonyms": ["waking up midnight"], "body_part": "mind"},
+    "waking early": {"tags": ["sleep"], "synonyms": ["waking up too early"], "body_part": "mind"},
+    "daytime fatigue": {"tags": ["sleep"], "synonyms": ["sleepy during day", "daytime drowsiness"], "body_part": "mind"},
+    "weight gain": {"tags": ["endocrine"], "synonyms": ["gaining weight", "fat accumulation"], "body_part": "whole body"},
+    "cold sensitivity": {"tags": ["endocrine"], "synonyms": ["feeling cold easily", "intolerance to cold"], "body_part": "whole body"},
+    "constipation": {"tags": ["gastrointestinal"], "synonyms": ["hard stool", "irregular bowel"], "body_part": "bowels"},
+    "dry skin": {"tags": ["dermatological"], "synonyms": ["flaky skin", "rough skin"], "body_part": "skin"},
+    "hair loss": {"tags": ["dermatological"], "synonyms": ["hair thinning", "alopecia", "hair falling"], "body_part": "scalp"},
+    "muscle weakness": {"tags": ["musculoskeletal"], "synonyms": ["weak muscles", "no strength"], "body_part": "muscles"},
+    "depression": {"tags": ["psychiatric"], "synonyms": ["depressed mood", "sadness"], "body_part": "mind"}
 }
 
 
@@ -266,14 +1386,16 @@ if __name__ == "__main__":
     df.to_csv("patient_records.csv", index=False)
     print(f"✓ Generated {len(df)} patient records → patient_records.csv")
 
-    # Save metadata
+    # Save metadata with tagging
     meta = {
         "diseases": list(DISEASES.keys()),
         "all_symptoms": ALL_SYMPTOMS,
         "all_medicines": ALL_MEDICINES,
         "disease_details": DISEASES,
-        "medicine_info": MEDICINE_INFO
+        "medicine_info": MEDICINE_INFO,
+        "symptom_tags": SYMPTOM_TAGS
     }
     with open("metadata.json", "w") as f:
         json.dump(meta, f, indent=2)
-    print("✓ Saved metadata → metadata.json")
+    print("✓ Saved tagged metadata → metadata.json")
+

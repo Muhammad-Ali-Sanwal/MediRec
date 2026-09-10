@@ -1,5 +1,5 @@
 """
-Medicine Recommendation System – Streamlit Web App
+MediRec – ChatGPT-Style Conversational AI Assistant
 Run: streamlit run src/streamlit_app.py
 """
 import os
@@ -9,477 +9,318 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 import streamlit as st
 import pandas as pd
-import numpy as np
 import plotly.graph_objects as go
-import plotly.express as px
 
+import random
+from datetime import datetime
+from src.chatbot import MediRecChatbot
 from src.recommender import MedicineRecommender
 
 # ─── Page Config ──────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="MediRec – Medicine Recommendation System",
-    page_icon="💊",
-    layout="wide",
+    page_title="MediRec AI – ChatGPT Assistant",
+    page_icon="🤖",
+    layout="centered",
     initial_sidebar_state="expanded"
 )
 
-# ─── CSS ──────────────────────────────────────────────────────────────────────
+def get_dynamic_welcome_message() -> str:
+    hour = datetime.now().hour
+    if 5 <= hour < 12:
+        salutation = "Good morning 🌅"
+    elif 12 <= hour < 17:
+        salutation = "Good afternoon 🌤️"
+    elif 17 <= hour < 21:
+        salutation = "Good evening 🌆"
+    else:
+        salutation = "Hello 🌙"
+
+    greetings = [
+        f"👋 {salutation}!\n"
+        f"How are you feeling today?\n\n"
+        f"I am your **Virtual Medical Assistant** 🤖. I can help in diagnosis of your disease and suggest you the medicines.\n\n"
+        f"Please tell me your symptoms (in English or Roman Urdu) along with your age and gender to get started!",
+
+        f"👋 {salutation}!\n"
+        f"Welcome to **MediRec AI Assistant**.\n\n"
+        f"I am your virtual medical assistant. I can assist in diagnosing your disease and recommending safe medications.\n\n"
+        f"Tell me how you are feeling today (e.g. *'I am a 25 year old male experiencing fever and body ache'*).",
+
+        f"👋 {salutation}!\n"
+        f"How can I assist your health today?\n\n"
+        f"I am your virtual medical assistant. I can analyze symptoms and provide personalized medicine suggestions, precautions, and dietary plans.\n\n"
+        f"Please share your symptoms, age, and gender!"
+    ]
+    return random.choice(greetings)
+
+
+# ─── Custom CSS for ChatGPT Aesthetic ──────────────────────────────────────────
+
 st.markdown("""
 <style>
-    .main-header {
-        background: linear-gradient(135deg, #1e3a5f 0%, #2980b9 100%);
-        padding: 2rem; border-radius: 12px; color: white;
-        text-align: center; margin-bottom: 2rem;
+    /* Dark / Light Modern ChatGPT Chat Theme */
+    .stApp {
+        background-color: #0f172a;
+        color: #f8fafc;
     }
-    .rec-card {
-        background: #f8f9fa; border-left: 5px solid #2980b9;
-        padding: 1rem 1.2rem; border-radius: 8px;
-        margin-bottom: 0.8rem; box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    .chat-header {
+        text-align: center;
+        padding: 1.5rem 1rem 0.5rem 1rem;
+        border-bottom: 1px solid #1e293b;
+        margin-bottom: 1.5rem;
     }
-    .severity-mild     { color: #27ae60; font-weight: bold; }
-    .severity-moderate { color: #f39c12; font-weight: bold; }
-    .severity-serious  { color: #e74c3c; font-weight: bold; }
-    .disclaimer-box {
-        background: #fff3cd; border: 1px solid #ffc107;
-        border-radius: 8px; padding: 1rem; margin-top: 1.5rem;
-        font-size: 0.9rem; color: #856404;
+    .chat-header h1 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.3rem;
+    }
+    .chat-header p {
+        color: #94a3b8;
+        font-size: 0.95rem;
+    }
+    .sample-btn {
+        background-color: #1e293b;
+        border: 1px solid #334155;
+        color: #e2e8f0;
+        border-radius: 8px;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+        cursor: pointer;
+        text-align: left;
+        margin-bottom: 0.5rem;
+        width: 100%;
+    }
+    .sample-btn:hover {
+        background-color: #334155;
+        border-color: #38bdf8;
+    }
+    .card-medicine {
+        background: #1e293b;
+        border-left: 4px solid #38bdf8;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 0.8rem;
+    }
+    .disclaimer-banner {
+        background-color: #451a03;
+        border: 1px solid #92400e;
+        color: #fef3c7;
+        padding: 0.8rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        margin-top: 1rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# ─── Load Recommender ─────────────────────────────────────────────────────────
+# ─── Load Chatbot Engine ──────────────────────────────────────────────────────
 BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 @st.cache_resource
-def load_recommender():
-    return MedicineRecommender(
+def load_bot():
+    rec = MedicineRecommender(
         model_dir=os.path.join(BASE, "models"),
         metadata_path=os.path.join(BASE, "data", "metadata.json")
     )
+    return MediRecChatbot(recommender=rec)
 
-rec = load_recommender()
+bot = load_bot()
+
+# ─── Initialize Session State ─────────────────────────────────────────────────
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {
+            "role": "assistant",
+            "content": get_dynamic_welcome_message()
+        }
+    ]
+
+if "dialog_session" not in st.session_state:
+    st.session_state.dialog_session = {
+        "symptoms": [],
+        "age": None,
+        "gender": None,
+        "severity": None,
+        "history": "",
+        "pending_suggestion": None
+    }
 
 # ─── Sidebar ──────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/2382/2382461.png", width=80)
-    st.title("MediRec")
-    st.caption("AI-Powered Medicine Recommendation System")
-    st.divider()
-    page = st.radio("Navigation", [
-        "🏠 Home & Recommend",
-        "📋 Dataset Preview",
-        "📊 Model Evaluation",
-        "💊 Medicine Database",
-        "ℹ️ About"
-    ])
-    st.divider()
-    st.info("""**Supervisor:** Dr. Mushtaq Hussain
-CS619 – Spring 2026
+    st.image("https://cdn-icons-png.flaticon.com/512/2382/2382461.png", width=65)
+    st.title("MediRec Chatbot")
+    st.caption("HuggingFace Powered AI Assistant")
 
-**Developer:** M. Ali Sanwal (DevOps Engineer)
-**VUID:** BC240440384
-**Portfolio:** [Link](https://sanwal.vercel.app/)""")
+    if st.button("+ New Chat", use_container_width=True, type="primary"):
+        st.session_state.messages = [
+            {
+                "role": "assistant",
+                "content": get_dynamic_welcome_message()
+            }
+        ]
+        st.session_state.dialog_session = {
+            "symptoms": [],
+            "age": None,
+            "gender": None,
+            "severity": None,
+            "history": "",
+            "pending_suggestion": None
+        }
+        st.rerun()
 
-# ══════════════════════════════════════════════════════════════════════════════
-# PAGE 1 – Home & Recommend
-# ══════════════════════════════════════════════════════════════════════════════
-if page == "🏠 Home & Recommend":
-    st.markdown("""
-    <div class="main-header">
-        <h1>💊 Medicine Recommendation System</h1>
-        <p>AI-powered personalized medicine suggestions based on patient symptoms, history & conditions</p>
+
+    st.divider()
+    st.markdown("**⚡ Quick Example Queries:**")
+
+    sample1 = "I am a 28yo female with severe headache, nausea, and vomiting"
+    sample2 = "45 year old male, frequent urination, excessive thirst, diabetic history"
+    sample3 = "I have a high fever, cough, and body ache"
+
+    if st.button("💡 " + sample1[:35] + "...", use_container_width=True):
+        st.session_state.user_prompt_override = sample1
+
+    if st.button("💡 " + sample2[:35] + "...", use_container_width=True):
+        st.session_state.user_prompt_override = sample2
+
+    if st.button("💡 " + sample3[:35] + "...", use_container_width=True):
+        st.session_state.user_prompt_override = sample3
+
+    st.divider()
+    st.info("""**Developer:** M. Ali Sanwal (BC240440384)
+**Course:** CS619 FYP Spring 2026
+**Supervisor:** Dr. Mushtaq Hussain
+**Reference Repo:** [dr-mushtaq/Medicine-Recommendation-System](https://github.com/dr-mushtaq/Medicine-Recommendation-System/)
+**NLP Models:** BioBERT / ClinicalBERT / HuggingFace Transformers""")
+
+# ─── Main Chat Interface Header ───────────────────────────────────────────────
+st.markdown("""
+<div class="chat-header">
+    <h1>🤖 MediRec ChatGPT Assistant</h1>
+    <p>Conversational AI for Disease Diagnosis & Safe Medicine Recommendations<br>
+    <small style="color: #38bdf8;">Powered by HuggingFace NLP · BioBERT / ClinicalBERT Architecture</small></p>
+</div>
+""", unsafe_allow_html=True)
+
+
+def render_recommendations(rec_data: dict):
+    if not rec_data:
+        return
+
+    st.divider()
+    diseases = rec_data.get("predicted_diseases", [])
+    medicines = rec_data.get("recommended_medicines", [])
+    primary_dis = diseases[0]["disease"] if diseases else ""
+    dis_info = bot.recommender.disease_details.get(primary_dis, {})
+
+    if diseases:
+        st.markdown("### 🎯 Predicted Condition(s)")
+        for d in diseases[:3]:
+            pct = d["confidence"]
+            st.markdown(f"• **{d['disease']}** — `{pct:.1f}%` AI Confidence")
+            st.progress(min(pct / 100, 1.0))
+
+    if dis_info:
+        st.markdown(f"**Description:** {dis_info.get('description', '')}")
+
+        tab1, tab2, tab3, tab4 = st.tabs(["💊 Recommended Medicines", "🛡️ Precautions", "🥗 Dietary Plan", "🏃 Exercise & Workout"])
+
+        with tab1:
+            st.caption(f"📋 Showing medicines clinically indicated specifically for **{primary_dis}**:")
+            if medicines:
+                for i, med in enumerate(medicines, 1):
+                    info = med.get("info", {})
+                    warn = med.get("warning")
+
+                    title = f"#{i} {med['medicine']} ({med.get('source','ML Model')})"
+                    if warn:
+                        title = f"⚠️ #{i} {med['medicine']} (Safety Alert)"
+
+                    with st.expander(title, expanded=(i == 1)):
+                        if warn:
+                            st.error(f"**⚠️ Clinical Safety Warning:** Patient's medical history matches contraindication: **'{warn}'**.")
+
+                        if info:
+                            st.markdown(f"**Generic Name:** {info.get('generic_name','–')}")
+                            st.markdown(f"**Drug Class:** {info.get('drug_class','–')}")
+                            st.markdown(f"**Indication:** Clinical treatment for **{primary_dis}**")
+                            st.markdown(f"**Dosage:** {info.get('dosage','–')}")
+                            if info.get("side_effects"):
+                                st.markdown("**Side Effects:** " + ", ".join(info["side_effects"]))
+                            if info.get("contraindications"):
+                                st.markdown("**Contraindications:** " + ", ".join(info["contraindications"]))
+                            st.markdown(f"**Category:** `{info.get('category','–')}`")
+
+        with tab2:
+            precautions = dis_info.get("precautions", [])
+            if precautions:
+                for p in precautions:
+                    st.markdown(f"• {p}")
+            else:
+                st.info("No specific precautions listed.")
+
+        with tab3:
+            diet = dis_info.get("diet", [])
+            if diet:
+                for item in diet:
+                    st.markdown(f"• {item}")
+            else:
+                st.info("No specific dietary instructions.")
+
+        with tab4:
+            workout = dis_info.get("workout", [])
+            if workout:
+                for w in workout:
+                    st.markdown(f"• {w}")
+            else:
+                st.info("No specific workout guidance.")
+
+    # Disclaimer
+    st.markdown(f"""
+    <div class="disclaimer-banner">
+        ⚠️ {rec_data.get('disclaimer', '')}
     </div>
     """, unsafe_allow_html=True)
 
-    col_form, col_result = st.columns([1, 1.2], gap="large")
 
-    with col_form:
-        st.subheader("Patient Details, Conditions & Preferences")
+# ─── Display Chat History ──────────────────────────────────────────────────────
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+        if msg.get("recommendation"):
+            render_recommendations(msg["recommendation"])
 
-        with st.form("recommend_form"):
-            c1, c2 = st.columns(2)
-            with c1:
-                age = st.number_input("Age", 1, 100, 30)
-            with c2:
-                gender = st.selectbox("Gender", ["Male", "Female", "Other"])
+# ─── Chat Input Handler ───────────────────────────────────────────────────────
+prompt = st.chat_input("Ask MediRec AI... (e.g. 'I am 30 years old, male, experiencing high fever and body ache')")
 
-            severity = st.select_slider(
-                "Symptom Severity",
-                options=["Mild (1)", "Moderate (2)", "Serious (3)"],
-                value="Moderate (2)"
-            )
-            severity_val = {"Mild (1)": 1, "Moderate (2)": 2, "Serious (3)": 3}[severity]
+# Check if sidebar quick sample was clicked
+if "user_prompt_override" in st.session_state and st.session_state.user_prompt_override:
+    prompt = st.session_state.user_prompt_override
+    st.session_state.user_prompt_override = None
 
-            symptoms_selected = st.multiselect(
-                "Select Symptoms",
-                options=rec.get_all_symptoms(),
-                help="Select all symptoms the patient is experiencing"
-            )
+if prompt:
+    st.session_state.messages.append({"role": "user", "content": prompt})
 
-            history = st.text_area("Medical History & Existing Conditions (optional)",
-                                   placeholder="e.g., Diabetic, Hypertensive, Liver disease, Renal failure, Pregnancy...",
-                                   height=80,
-                                   help="System will evaluate medical history to check for drug contraindications.")
+    with st.chat_message("user"):
+        st.markdown(prompt)
 
-            preference = st.selectbox(
-                "Medicine Category Preference (optional)",
-                options=["No Preference", "OTC (Over-The-Counter) Only", "Prescription Only"],
-                help="Filter or highlight medicine recommendations by category preference."
-            )
+    with st.chat_message("assistant"):
+        with st.spinner("MediRec AI is analyzing your query..."):
+            response = bot.process_message(prompt, st.session_state.dialog_session)
 
-            submitted = st.form_submit_button("🔍 Get Recommendations",
-                                              use_container_width=True,
-                                              type="primary")
+            bot_text = response.get("bot_message", "")
+            rec_result = response.get("recommendation")
 
-    with col_result:
-        if submitted:
-            if not symptoms_selected:
-                st.warning("Please select at least one symptom.")
-            else:
-                with st.spinner("Analyzing symptoms & safety contraindications…"):
-                    result = rec.recommend(
-                        symptoms_selected, age, gender, severity_val, history
-                    )
+            st.markdown(bot_text)
 
-                st.subheader("🎯 Diagnosis & Recommendations")
+            if rec_result:
+                render_recommendations(rec_result)
 
-                # Predicted Diseases
-                diseases = result.get("predicted_diseases", [])
-                if diseases:
-                    st.markdown("**Predicted Conditions (AI Model Confidence)**")
-                    for d in diseases[:3]:
-                        pct = d["confidence"]
-                        st.markdown(f"- **{d['disease']}** — {pct:.1f}% confidence")
-                        st.progress(min(pct / 100, 1.0))
+            st.session_state.messages.append({
+                "role": "assistant",
+                "content": bot_text,
+                "recommendation": rec_result
+            })
 
-                st.divider()
-
-                # Medicine Cards
-                medicines = result.get("recommended_medicines", [])
-                if preference == "OTC (Over-The-Counter) Only":
-                    medicines_filtered = [m for m in medicines if "OTC" in m.get("info", {}).get("category", "")]
-                    medicines_to_show = medicines_filtered if medicines_filtered else medicines
-                elif preference == "Prescription Only":
-                    medicines_filtered = [m for m in medicines if "Prescription" in m.get("info", {}).get("category", "")]
-                    medicines_to_show = medicines_filtered if medicines_filtered else medicines
-                else:
-                    medicines_to_show = medicines
-
-                if medicines_to_show:
-                    st.markdown("**Ranked Medicine Suggestions**")
-                    for i, med in enumerate(medicines_to_show, 1):
-                        info = med.get("info", {})
-                        warning_text = med.get("warning")
-                        
-                        # Add a visual warning prefix/suffix to the card header
-                        if warning_text:
-                            header_title = f"⚠️ #{i} {med['medicine']} · {med.get('source','')} (Contraindicated)"
-                        else:
-                            header_title = f"#{i} {med['medicine']} · {med.get('source','')}"
-                            
-                        with st.expander(header_title):
-                            if warning_text:
-                                st.error(f"**⚠️ Clinical Safety Warning:** This medicine may be contraindicated. "
-                                         f"Patient's medical history matches the known contraindication: **'{warning_text}'**.")
-                            if info:
-                                st.markdown(f"**Class:** {info.get('drug_class','–')}")
-                                st.markdown(f"**Dosage:** {info.get('dosage','–')}")
-                                if info.get("side_effects"):
-                                    st.markdown("**Side Effects:** " +
-                                                ", ".join(info["side_effects"]))
-                                if info.get("contraindications"):
-                                    st.markdown("**⚠️ Contraindications:** " +
-                                                ", ".join(info["contraindications"]))
-                                st.markdown(f"**Category:** {info.get('category','–')}")
-                            else:
-                                st.info("Detailed info not available.")
-
-                # Severity Badge
-                sev = result.get("disease_severity", "")
-                color = {"mild": "green", "moderate": "orange",
-                         "serious": "red"}.get(sev, "gray")
-                st.markdown(f"**Condition Severity:** :{color}[{sev.upper()}]")
-
-                # Confidence Chart
-                if medicines_to_show:
-                    conf_data = [m for m in medicines_to_show if m["confidence"] > 0]
-                    if conf_data:
-                        fig = go.Figure(go.Bar(
-                            x=[m["medicine"] for m in conf_data],
-                            y=[m["confidence"] for m in conf_data],
-                            marker_color="#2980b9"
-                        ))
-                        fig.update_layout(
-                            title="Medicine Prediction Confidence Scores (%)",
-                            xaxis_tickangle=-30, height=300,
-                            margin=dict(l=20, r=20, t=40, b=60)
-                        )
-                        st.plotly_chart(fig, use_container_width=True)
-
-                st.markdown(f"""
-                <div class="disclaimer-box">
-                ⚠️ {result.get('disclaimer','')}
-                </div>
-                """, unsafe_allow_html=True)
-        else:
-            st.info("Fill in the patient details on the left and click **Get Recommendations**.")
-
-# ══════════════════════════════════════════════════════════════════════════════
-# PAGE 2 – Dataset Preview (Requirement 1 & 2 Compliance)
-# ══════════════════════════════════════════════════════════════════════════════
-elif page == "📋 Dataset Preview":
-    st.title("📋 Data Collection & Preprocessing Preview")
-    st.markdown("Demonstration of the clean, model-ready dataset generated and used for training the machine learning models.")
-
-    data_path = os.path.join(BASE, "data", "patient_records.csv")
-    if os.path.exists(data_path):
-        df = pd.read_csv(data_path)
-
-        # Overview Metrics
-        m1, m2, m3, m4 = st.columns(4)
-        m1.metric("Total Patient Records", f"{len(df):,}")
-        m2.metric("Feature Columns", df.shape[1])
-        m3.metric("Missing Values", df.isnull().sum().sum())
-        m4.metric("Train / Test Split", "80% / 20%")
-
-        st.divider()
-
-        # Data Cleaning & Preprocessing Summary Table
-        st.subheader("⚙️ Data Cleaning & Feature Engineering Summary")
-        summary_table = pd.DataFrame({
-            "Preprocessing Step": [
-                "Data Cleaning & Imputation",
-                "Text Symptom Encoding",
-                "Target Variable Encoding",
-                "Continuous Feature Scaling",
-                "Dataset Partitioning"
-            ],
-            "Technique Applied": [
-                "Removed duplicate records, handled missing values, noise removal",
-                "One-Hot Encoding (Binary indicators for 68+ symptoms)",
-                "LabelEncoder for Diseases and Primary Medicines",
-                "StandardScaler (Mean=0, Std=1) for Age and Severity",
-                "Stratified 80% Training / 20% Testing Split"
-            ],
-            "Status": ["✅ Completed", "✅ Completed", "✅ Completed", "✅ Completed", "✅ Completed"]
-        })
-        st.table(summary_table)
-
-        st.divider()
-
-        # Interactive Table Preview
-        st.subheader("🔍 Interactive Dataset Viewer")
-        
-        c_filter1, c_filter2 = st.columns(2)
-        with c_filter1:
-            selected_disease = st.selectbox(
-                "Filter by Disease",
-                options=["All Diseases"] + list(df["disease"].unique())
-            )
-        with c_filter2:
-            num_rows = st.slider("Number of Rows to Display", 5, 100, 20)
-
-        df_filtered = df.copy()
-        if selected_disease != "All Diseases":
-            df_filtered = df_filtered[df_filtered["disease"] == selected_disease]
-
-        st.dataframe(df_filtered.head(num_rows), use_container_width=True)
-
-        st.caption(f"Showing {min(num_rows, len(df_filtered))} of {len(df_filtered)} matching records. Total dataset columns: {df.shape[1]}.")
-
-        st.divider()
-
-        # Visual Summaries
-        st.subheader("📊 Dataset Visual Distributions")
-        vcol1, vcol2 = st.columns(2)
-
-        with vcol1:
-            fig_dis = px.histogram(df, x="disease", title="Patient Records per Disease Category",
-                                   color="disease", color_discrete_sequence=px.colors.qualitative.Plotly)
-            fig_dis.update_layout(xaxis_tickangle=-45, showlegend=False)
-            st.plotly_chart(fig_dis, use_container_width=True)
-
-        with vcol2:
-            fig_sev = px.pie(df, names="severity", title="Symptom Severity Level Distribution",
-                             color_discrete_sequence=px.colors.sequential.Blues_r)
-            st.plotly_chart(fig_sev, use_container_width=True)
-
-    else:
-        st.warning("Dataset file `patient_records.csv` not found. Run `python data/generate_dataset.py` first.")
-
-# ══════════════════════════════════════════════════════════════════════════════
-# PAGE 3 – Model Evaluation
-# ══════════════════════════════════════════════════════════════════════════════
-elif page == "📊 Model Evaluation":
-    st.title("📊 Model Training & Evaluation Results")
-    st.markdown("Comparative performance evaluation across 8 Machine Learning models and 1 Deep Learning Neural Network.")
-
-    results_path = os.path.join(BASE, "models", "training_results.json")
-    if os.path.exists(results_path):
-        with open(results_path) as f:
-            tr = json.load(f)
-
-        c1, c2, c3 = st.columns(3)
-        c1.metric("Best Disease Model", tr['disease_best_model'])
-        c2.metric("Best Medicine Model", tr['medicine_best_model'])
-        if tr.get("deep_learning_accuracy"):
-            c3.metric("Deep Learning (Keras) Accuracy", f"{tr['deep_learning_accuracy']*100:.2f}%")
-        else:
-            c3.metric("Evaluated Models", "8 ML + 1 DL")
-
-        st.divider()
-
-        # Model Comparison – Disease
-        st.subheader("Disease Prediction Models Evaluation")
-        disease_df = pd.DataFrame(tr["disease_results"]).T.reset_index()
-        disease_df.columns = ["Model", "CV Mean", "CV Std", "Test Accuracy", "F1 Score"]
-        
-        st.dataframe(disease_df.style.highlight_max(axis=0, subset=["Test Accuracy", "F1 Score"], color="#d4edda"),
-                     use_container_width=True)
-
-        fig1 = px.bar(disease_df, x="Model", y="Test Accuracy",
-                      color="Test Accuracy", color_continuous_scale="Blues",
-                      text_auto=".3f",
-                      title="Test Accuracy Comparison (Disease Prediction)")
-        st.plotly_chart(fig1, use_container_width=True)
-
-        st.divider()
-
-        # Model Comparison – Medicine
-        st.subheader("Medicine Prediction Models Evaluation")
-        med_df = pd.DataFrame(tr["medicine_results"]).T.reset_index()
-        med_df.columns = ["Model", "CV Mean", "CV Std", "Test Accuracy", "F1 Score"]
-
-        st.dataframe(med_df.style.highlight_max(axis=0, subset=["Test Accuracy", "F1 Score"], color="#d4edda"),
-                     use_container_width=True)
-
-        fig2 = px.bar(med_df, x="Model", y="F1 Score",
-                      color="F1 Score", color_continuous_scale="Greens",
-                      text_auto=".3f",
-                      title="Weighted F1 Score Comparison (Medicine Prediction)")
-        st.plotly_chart(fig2, use_container_width=True)
-
-    else:
-        st.warning("No training results found. Run `python models/train_models.py` first.")
-
-# ══════════════════════════════════════════════════════════════════════════════
-# PAGE 4 – Medicine Database
-# ══════════════════════════════════════════════════════════════════════════════
-elif page == "💊 Medicine Database":
-    st.title("💊 Medicine Database Reference")
-    st.markdown("Explore our comprehensive medicine database containing detailed drug information, dosages, side effects, and guidelines.")
-    search = st.text_input("🔍 Search Medicine", placeholder="e.g. Metformin")
-
-    with open(os.path.join(BASE, "data", "metadata.json"), "r") as f:
-        meta_data = json.load(f)
-    meds = meta_data.get("medicine_info", {})
-
-    if search:
-        meds = {k: v for k, v in meds.items()
-                if search.lower() in k.lower()}
-
-    if not meds:
-        st.warning("No medicines found.")
-    else:
-        meds_list = list(meds.items())
-        items_per_page = 10
-        total_items = len(meds_list)
-        total_pages = (total_items - 1) // items_per_page + 1
-
-        if 'med_page' not in st.session_state:
-            st.session_state['med_page'] = 1
-
-        if 'last_search' not in st.session_state or st.session_state['last_search'] != search:
-            st.session_state['med_page'] = 1
-            st.session_state['last_search'] = search
-
-        start_idx = (st.session_state['med_page'] - 1) * items_per_page
-        end_idx = start_idx + items_per_page
-        current_page_meds = meds_list[start_idx:end_idx]
-
-        for name, info in current_page_meds:
-            with st.expander(f"**{name}** — {info.get('drug_class','')}"):
-                c1, c2 = st.columns(2)
-                with c1:
-                    st.markdown(f"**Generic Name:** {info.get('generic_name','–')}")
-                    st.markdown(f"**Drug Class:** {info.get('drug_class','–')}")
-                    st.markdown(f"**Category:** {info.get('category','–')}")
-                with c2:
-                    st.markdown(f"**Dosage:** {info.get('dosage','–')}")
-                    se = info.get("side_effects", [])
-                    st.markdown("**Side Effects:** " + (", ".join(se) if se else "–"))
-                    ci = info.get("contraindications", [])
-                    st.markdown("**Contraindications:** " + (", ".join(ci) if ci else "–"))
-
-        st.divider()
-
-        # Pagination controls
-        page_col1, page_col2, page_col3, page_col4, page_col5 = st.columns([1,1,2,1,1])
-
-        with page_col1:
-            if st.button("↩ Previous", use_container_width=True, disabled=(st.session_state['med_page'] <= 1)):
-                st.session_state['med_page'] -= 1
-                st.rerun()
-
-        with page_col3:
-            st.markdown(f"<div style='text-align: center; padding-top: 5px; color: #555;'><b>Page {st.session_state['med_page']} of {total_pages}</b><br><small>Showing {min(items_per_page, total_items - (st.session_state['med_page']-1)*items_per_page)} of {total_items} records</small></div>", unsafe_allow_html=True)
-
-        with page_col5:
-            if st.button("Next ↪", use_container_width=True, disabled=(st.session_state['med_page'] >= total_pages)):
-                st.session_state['med_page'] += 1
-                st.rerun()
-
-# ══════════════════════════════════════════════════════════════════════════════
-# PAGE 5 – About
-# ══════════════════════════════════════════════════════════════════════════════
-elif page == "ℹ️ About":
-    st.title("ℹ️ About This Project")
-    st.markdown("""
-    ## Medicine Recommendation System (Prototype Phase)
-    **Course:** CS619 – Final Year Project | Spring 2026 \n
-    **Supervisor:** Dr. Mushtaq Hussain (mushtaq.hussain@vu.edu.pk | Teams: themushtaq48)
-
-    ### Developer Information
-    **Name:** Muhammad Ali Sanwal \n
-    **VUID:** BC240440384 \n
-    **Email:** bc240440384mas@vu.edu.pk \n
-    **Role:** DevOps Engineer | Full-Stack Developer \n
-    **Portfolio:** [https://sanwal.vercel.app/](https://sanwal.vercel.app/)
-
-    ---
-    ### Project Overview
-    An AI-powered virtual assistant that provides personalized medicine recommendations
-    based on patient symptoms, age, gender, severity, medical history, and existing conditions.
-
-    ### Technology Stack
-    | Layer | Tools |
-    |---|---|
-    | Data Processing | Pandas, NumPy, Scikit-learn |
-    | ML Models | Random Forest, XGBoost, LightGBM, SVM, Logistic Regression, KNN, Naive Bayes |
-    | Deep Learning | TensorFlow / Keras Neural Network |
-    | Hyperparameter Tuning | Optuna |
-    | Backend API | Flask + Flask-CORS |
-    | Frontend UI | Streamlit |
-    | Visualization | Plotly, Matplotlib, Seaborn |
-
-    ### Architecture & Pipeline
-    ```
-    Patient Input (Symptoms + History + Conditions + Preferences)
-            ↓
-    Feature Engineering & Scaling
-            ↓
-    ┌──────────────────────────┐
-    │  ML Disease Predictor    │
-    │  ML Medicine Predictor   │
-    │  Rule-Based Engine       │
-    │  Safety Filter (History) │
-    └──────────────────────────┘
-            ↓
-    Ranked Medicine Recommendations + Confidence Scores + Warnings
-            ↓
-    Streamlit UI / Flask REST API
-    ```
-
-    ### Disclaimer
-    This system is developed for **educational and research purposes only** as part of CS619 Final Year Project. Always consult a licensed healthcare professional before taking any medication.
-    """)

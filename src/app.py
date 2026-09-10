@@ -89,7 +89,38 @@ def diseases():
     return jsonify({"diseases": result})
 
 
+@app.route("/api/chat", methods=["POST"])
+def chat():
+    """
+    Conversational API Endpoint.
+    Body (JSON):
+    {
+      "message": "I am 28 female with severe headache and fever",
+      "session": { ... }  // optional session state
+    }
+    """
+    from src.chatbot import MediRecChatbot
+    bot = MediRecChatbot(recommender=recommender)
+    data = request.get_json(silent=True) or {}
+    message = data.get("message", "")
+    session = data.get("session", {
+        "symptoms": [],
+        "age": None,
+        "gender": None,
+        "severity": None,
+        "history": "",
+        "pending_suggestion": None
+    })
+
+    if not message:
+        return jsonify({"error": "Message body is empty."}), 400
+
+    response = bot.process_message(message, session)
+    return jsonify(response)
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     print("🚀 Starting Medicine Recommendation API on http://localhost:5000")
     app.run(debug=True, host="0.0.0.0", port=5000)
+
