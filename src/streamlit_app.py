@@ -15,7 +15,12 @@ import random
 from datetime import datetime
 from src.chatbot import MediRecChatbot
 from src.recommender import MedicineRecommender
-from src.pdf_generator import generate_pdf_report
+
+try:
+    from src.pdf_generator import generate_pdf_report, HAS_REPORTLAB
+except ImportError:
+    HAS_REPORTLAB = False
+    generate_pdf_report = None
 
 # ─── Page Config ──────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -113,6 +118,26 @@ st.markdown("""
         border-radius: 8px;
         font-size: 0.85rem;
         margin-top: 1rem;
+    }
+    /* Pulsing 3-Dots Typing Animation */
+    .typing-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 8px;
+    }
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #38bdf8;
+        border-radius: 50%;
+        animation: pulse 1.4s infinite ease-in-out both;
+    }
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes pulse {
+        0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+        40% { transform: scale(1); opacity: 1; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -323,31 +348,31 @@ def render_recommendations(rec_data: dict):
     col_pdf, col_txt = st.columns([2, 1])
     
     with col_pdf:
-        try:
-            if hasattr(bot, "generate_pdf_report"):
-                pdf_bytes = bot.generate_pdf_report(session_data, rec_data)
-            else:
+        if HAS_REPORTLAB and generate_pdf_report is not None:
+            try:
                 pdf_bytes = generate_pdf_report(session_data, rec_data, bot.recommender.disease_details)
-            st.download_button(
-                label="Download Prescription (.pdf)",
-                data=pdf_bytes,
-                file_name=f"MediRec_Prescription_{primary_dis.replace(' ','_')}.pdf",
-                mime="application/pdf",
-                use_container_width=True,
-                type="primary"
-            )
-        except Exception as e:
-            st.error(f"Could not generate PDF: {e}")
+                st.download_button(
+                    label="Download PDF Prescription (.pdf)",
+                    data=pdf_bytes,
+                    file_name=f"MediRec_Prescription_{primary_dis.replace(' ','_')}.pdf",
+                    mime="application/pdf",
+                    use_container_width=True,
+                    type="primary"
+                )
+            except Exception as e:
+                st.error(f"Could not generate PDF: {e}")
+        else:
+            st.warning("⚠️ PDF generator building... Use text download below.")
 
-    # with col_txt:
-    #     report_text = bot.generate_consultation_report(session_data, rec_data)
-    #     st.download_button(
-    #         label="📝 Download Text (.txt)",
-    #         data=report_text,
-    #         file_name=f"MediRec_Consultation_Report_{primary_dis.replace(' ','_')}.txt",
-    #         mime="text/plain",
-    #         use_container_width=True
-    #     )
+    with col_txt:
+        report_text = bot.generate_consultation_report(session_data, rec_data)
+        st.download_button(
+            label="Download Text (.txt)",
+            data=report_text,
+            file_name=f"MediRec_Consultation_Report_{primary_dis.replace(' ','_')}.txt",
+            mime="text/plain",
+            use_container_width=True
+        )
 
     # Disclaimer
     st.markdown(f"""
@@ -379,7 +404,12 @@ if prompt:
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        with st.spinner("MediRec AI is analyzing your query..."):
+        import time
+        # Dynamic random delay between 400 ms and 1100 ms (e.g. 500 ms, 800 ms, 1000 ms randomly)
+        random_thinking_delay = random.uniform(0.4, 1.1)
+
+        with st.spinner("MediRec AI is analyzing your query... ● ● ●"):
+            time.sleep(random_thinking_delay)
             response = bot.process_message(prompt, st.session_state.dialog_session)
 
             bot_text = response.get("bot_message", "")

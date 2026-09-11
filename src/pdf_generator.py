@@ -6,19 +6,25 @@ import io
 import datetime
 from typing import Dict, Any
 
-from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
-from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, KeepTogether
-)
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT, TA_JUSTIFY
+try:
+    from reportlab.lib.pagesizes import letter
+    from reportlab.lib import colors
+    from reportlab.platypus import (
+        SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, KeepTogether
+    )
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT, TA_JUSTIFY
+    HAS_REPORTLAB = True
+except ImportError:
+    HAS_REPORTLAB = False
 
 
 def generate_pdf_report(session: Dict[str, Any], recommendation: Dict[str, Any], recommender_details: Dict[str, Any]) -> bytes:
     """
     Generates a high-quality, professional medical PDF report and returns raw bytes.
     """
+    if not HAS_REPORTLAB:
+        raise ImportError("reportlab package is not installed. Please add reportlab to requirements.txt.")
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
         buffer,
