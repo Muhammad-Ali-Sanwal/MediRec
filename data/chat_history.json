@@ -1,0 +1,183 @@
+[
+  {
+    "id": "3c74007d-5170-40f1-9108-8747fbf63147",
+    "title": "Hi",
+    "created_at": "2026-09-11 10:13:50",
+    "updated_at": "2026-09-11 10:14:24",
+    "messages": [
+      {
+        "role": "assistant",
+        "content": "👋 Good morning 🌅!\nHow are you feeling today?\n\nI am your **Virtual Medical Assistant** 🤖. I can help in diagnosis of your disease and suggest you the medicines.\n\nPlease tell me your symptoms (in English or Roman Urdu) along with your age and gender to get started!"
+      },
+      {
+        "role": "user",
+        "content": "hi "
+      },
+      {
+        "role": "assistant",
+        "content": "👋 Hello! I am **MediRec AI Assistant**.\n\nPlease describe your symptoms (e.g. *'I have a severe headache, high fever, and body ache'*).",
+        "recommendation": null
+      },
+      {
+        "role": "user",
+        "content": "i have body ache"
+      },
+      {
+        "role": "assistant",
+        "content": "I recorded your symptom(s): **body ache**.\n\nCould you please tell me your **Age**?",
+        "recommendation": null
+      },
+      {
+        "role": "user",
+        "content": "22"
+      },
+      {
+        "role": "assistant",
+        "content": "Got it! What is your **Gender** (Male, Female, or Other)?",
+        "recommendation": null
+      },
+      {
+        "role": "user",
+        "content": "i am a male"
+      },
+      {
+        "role": "assistant",
+        "content": "How severe are your symptoms?\n• **1** = Mild\n• **2** = Moderate\n• **3** = Serious",
+        "recommendation": null
+      },
+      {
+        "role": "user",
+        "content": "moderate"
+      },
+      {
+        "role": "assistant",
+        "content": "✅ **Understood.** I have processed your complete profile — **22yo male**, moderate severity, symptoms: **body ache**. The primary clinical finding is **Flu (Influenza)**. Below are the recommended medications, precautions, and lifestyle guidance:",
+        "recommendation": {
+          "status": "success",
+          "predicted_diseases": [
+            {
+              "disease": "Flu (Influenza)",
+              "confidence": 98.78
+            }
+          ],
+          "recommended_medicines": [
+            {
+              "medicine": "Paracetamol",
+              "confidence": 31.29,
+              "source": "ML + Clinical",
+              "info": {
+                "generic_name": "Acetaminophen",
+                "drug_class": "Analgesic / Antipyretic",
+                "dosage": "500-1000 mg every 4-6 hours (max 4g/day)",
+                "side_effects": [
+                  "nausea",
+                  "liver damage (overdose)",
+                  "rash"
+                ],
+                "contraindications": [
+                  "severe liver disease",
+                  "alcohol dependence"
+                ],
+                "category": "OTC"
+              }
+            },
+            {
+              "medicine": "Oseltamivir (Tamiflu)",
+              "confidence": 24.4,
+              "source": "ML + Clinical",
+              "info": {
+                "generic_name": "Oseltamivir Phosphate",
+                "drug_class": "Neuraminidase Inhibitor (Antiviral)",
+                "dosage": "75 mg twice daily for 5 days",
+                "side_effects": [
+                  "nausea",
+                  "vomiting",
+                  "headache"
+                ],
+                "contraindications": [
+                  "hypersensitivity to oseltamivir"
+                ],
+                "category": "Prescription"
+              }
+            },
+            {
+              "medicine": "Ibuprofen",
+              "confidence": 85.0,
+              "source": "Clinical Guidelines",
+              "info": {
+                "generic_name": "Ibuprofen",
+                "drug_class": "NSAID",
+                "dosage": "200-400 mg every 4-6 hours (max 1200 mg/day OTC)",
+                "side_effects": [
+                  "stomach upset",
+                  "nausea",
+                  "heartburn",
+                  "dizziness"
+                ],
+                "contraindications": [
+                  "peptic ulcer",
+                  "renal failure",
+                  "pregnancy (3rd trimester)"
+                ],
+                "category": "OTC/Prescription"
+              }
+            },
+            {
+              "medicine": "Zanamivir",
+              "confidence": 85.0,
+              "source": "Clinical Guidelines",
+              "info": {
+                "generic_name": "Zanamivir",
+                "drug_class": "Inhaled Antiviral",
+                "dosage": "10 mg (2 inhalations) twice daily for 5 days",
+                "side_effects": [
+                  "cough",
+                  "throat irritation",
+                  "bronchospasm"
+                ],
+                "contraindications": [
+                  "underlying respiratory disease (asthma/COPD)"
+                ],
+                "category": "Prescription"
+              }
+            },
+            {
+              "medicine": "Amantadine",
+              "confidence": 85.0,
+              "source": "Clinical Guidelines",
+              "info": {
+                "generic_name": "Amantadine HCl",
+                "drug_class": "Antiviral / Antiparkinson",
+                "dosage": "100 mg twice daily",
+                "side_effects": [
+                  "dizziness",
+                  "lightheadedness",
+                  "insomnia"
+                ],
+                "contraindications": [
+                  "end-stage renal disease"
+                ],
+                "category": "Prescription"
+              }
+            }
+          ],
+          "severity_level": "Moderate",
+          "disease_severity": "moderate",
+          "symptom_count": 1,
+          "model_used": "ML + Rules",
+          "disclaimer": "This is an AI-generated recommendation for educational purposes only. Always consult a licensed healthcare professional before taking any medication."
+        }
+      }
+    ],
+    "dialog_session": {
+      "symptoms": [
+        "body ache"
+      ],
+      "age": 22,
+      "gender": "Male",
+      "severity": 2,
+      "history": "",
+      "pending_suggestion": null
+    }
+  }
+]

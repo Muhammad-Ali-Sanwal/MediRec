@@ -5,6 +5,7 @@ Powered by HuggingFace Transformers, RapidFuzz Spell Checking, and Slot-Filling 
 import os
 import re
 import json
+import random
 from typing import Dict, Any, List, Optional, Tuple
 
 try:
@@ -222,10 +223,85 @@ class MediRecChatbot:
 
         return list(matched_symptoms), suggestion
 
+    def _handle_general_medical_query(self, user_clean: str) -> Optional[Dict[str, Any]]:
+        """
+        Intelligently answers general medical, drug, disease, diet, or safety questions.
+        """
+        user_lower = user_clean.lower()
+        med_info_map = self.recommender.medicine_info
+        dis_info_map = self.recommender.disease_details
+
+        # 1. Check if asking about a specific medicine
+        matched_med = None
+        for med_name in med_info_map.keys():
+            if med_name.lower() in user_lower:
+                matched_med = med_name
+                break
+
+        if matched_med:
+            info = med_info_map[matched_med]
+            thinking = [
+                f"• **Step 1:** Identified target pharmacological entity: **'{matched_med}'**.",
+                f"• **Step 2:** Queried clinical metadata database (`metadata.json`).",
+                f"• **Step 3:** Extracted Generic Name, Drug Class (`{info.get('drug_class')}`), Dosage, Side Effects, and Contraindications.",
+                f"• **Step 4:** Formulated comprehensive clinical medical overview."
+            ]
+
+            ans = f"### 💊 Clinical Overview: **{matched_med}**\n\n" \
+                  f"• **Generic Name:** {info.get('generic_name', 'N/A')}\n" \
+                  f"• **Drug Class:** {info.get('drug_class', 'N/A')}\n" \
+                  f"• **Category:** `{info.get('category', 'Prescription')}`\n" \
+                  f"• **Typical Dosage:** {info.get('dosage', 'N/A')}\n\n"
+
+            if info.get("side_effects"):
+                ans += f"**Common Side Effects:**\n" + "\n".join([f"• {se}" for se in info["side_effects"]]) + "\n\n"
+            if info.get("contraindications"):
+                ans += f"**Contraindications & Warnings:**\n" + "\n".join([f"• ⚠️ {ci}" for ci in info["contraindications"]]) + "\n\n"
+
+            ans += "*Always consult a licensed medical doctor before administering any medication.*"
+            return {"bot_message": ans, "thinking": thinking}
+
+        # 2. Check if asking about a specific disease / condition
+        matched_dis = None
+        for dis_name in dis_info_map.keys():
+            if dis_name.lower() in user_lower:
+                matched_dis = dis_name
+                break
+
+        if matched_dis:
+            d_info = dis_info_map[matched_dis]
+            thinking = [
+                f"• **Step 1:** Identified medical condition entity: **'{matched_dis}'**.",
+                f"• **Step 2:** Cross-referenced clinical guidelines & symptom database.",
+                f"• **Step 3:** Extracted Description, Symptoms, Indicated Medications, Precautions, and Diet.",
+                f"• **Step 4:** Formulated clinical disease overview."
+            ]
+
+            ans = f"### 🩺 Clinical Overview: **{matched_dis}**\n\n" \
+                  f"**Description:** {d_info.get('description', '')}\n\n" \
+                  f"**Common Symptoms:** {', '.join(d_info.get('symptoms', []))}\n\n" \
+                  f"**Clinically Indicated Medications:** {', '.join(d_info.get('medicines', []))}\n\n"
+
+            if d_info.get("precautions"):
+                ans += f"**🛡️ Key Precautions:**\n" + "\n".join([f"• {p}" for p in d_info["precautions"]]) + "\n\n"
+            if d_info.get("diet"):
+                ans += f"**🥗 Recommended Diet:**\n" + "\n".join([f"• {dt}" for dt in d_info["diet"]]) + "\n\n"
+
+            return {"bot_message": ans, "thinking": thinking}
+
+        return None
+
     # ── Conversational Process ──
     def process_message(self, user_text: str, session: Dict[str, Any]) -> Dict[str, Any]:
         user_clean = user_text.strip()
         user_lower = user_clean.lower()
+
+        # Check for general medical queries first
+        gen_res = self._handle_general_medical_query(user_clean)
+        if gen_res and not session.get("symptoms"):
+            gen_res["session"] = session
+            gen_res["completed"] = False
+            return gen_res
 
         # Handle pending "Did you mean...?" suggestion response
         if session.get("pending_suggestion"):
@@ -279,7 +355,7 @@ class MediRecChatbot:
                 return {
                     "bot_message": "I didn't quite get that. I am your virtual **Medicine Recommendation Assistant** 🤖.\n\n"
                                    "Please provide your medical symptoms (e.g. *'I have a severe headache, high fever, and body ache'*), "
-                                   "along with your age, gender, and severity level so I can assist you with exact recommendations!",
+                                   "or ask me any health/drug question (e.g. *'What are the side effects of Paracetamol?'*)!",
                     "session": session,
                     "completed": False
                 }
@@ -365,11 +441,43 @@ class MediRecChatbot:
             medical_history=history
         )
 
+        top_dis = result.get("predicted_diseases", [{}])[0].get("disease", "Unknown Condition")
+        top_conf = result.get("predicted_diseases", [{}])[0].get("confidence", 0.0)
+
+        thinking = [
+            f"• **Step 1: Clinical Data Collection:** Symptoms = `{', '.join(symptoms)}`, Age = `{age}`, Gender = `{gender}`, Severity = `{severity}`.",
+            f"• **Step 2: BioBERT / NLP Vector Mapping:** Processed free-form input & mapped terms against symptom database.",
+            f"• **Step 3: Multi-Class Disease Risk Evaluation:** Predicted top candidate **'{top_dis}'** with **{top_conf:.1f}% AI confidence**.",
+            f"• **Step 4: Guideline Indication Filtering:** Verified ML predictions against `allowed_meds` clinical indication list.",
+            f"• **Step 5: Safety & Contraindication Cross-Check:** Matched medical history (`{history or 'None'}`) against drug contraindications.",
+            f"• **Step 6: Plan Synthesis:** Formulated prescription, precautions, dietary, and exercise advice."
+        ]
+
+        # Dynamic context-aware clinical summary generator
+        sev_labels = {1: "Mild", 2: "Moderate", 3: "Serious"}
+        sev_name = sev_labels.get(severity, "Moderate")
+        sym_str = ", ".join([f"**{s}**" for s in symptoms])
+        hist_note = f" (considering your history of **{history}**)" if history else ""
+
+        phrasings = [
+            f"✅ **Got it!** Based on your reported symptoms ({sym_str}) for a **{age}-year-old {gender.lower()}** with **{sev_name.lower()}** severity{hist_note}, I have evaluated your profile against our BioBERT clinical database. Here are the top predicted condition (**{top_dis}** at **{top_conf:.1f}% confidence**) and recommended treatment plan:",
+
+            f"✅ **Thank you for providing all details.** Analyzing your presentation of {sym_str} in a **{age}yo {gender.lower()}** ({sev_name.lower()} severity){hist_note}: Our AI models indicate **{top_dis}** as the primary diagnosis. Below is your personalized medicine, precaution, and dietary plan:",
+
+            f"✅ **Clinical Evaluation Complete!** For a **{age}-year-old {gender.lower()}** presenting with {sym_str} ({sev_name.lower()} severity){hist_note}, our Hugging Face AI pipeline has matched your symptoms to **{top_dis}** ({top_conf:.1f}% confidence). Here are your tailored medical recommendations:",
+
+            f"✅ **Understood.** I have processed your complete profile — **{age}yo {gender.lower()}**, {sev_name.lower()} severity, symptoms: {sym_str}{hist_note}. The primary clinical finding is **{top_dis}**. Below are the recommended medications, precautions, and lifestyle guidance:"
+        ]
+
+        dynamic_summary = random.choice(phrasings)
+        final_msg = (prefix_note + "\n\n" if prefix_note else "") + dynamic_summary
+
         return {
-            "bot_message": prefix_note + "\n\n" if prefix_note else "",
+            "bot_message": final_msg,
             "session": session,
             "completed": True,
-            "recommendation": result
+            "recommendation": result,
+            "thinking": thinking
         }
 
     def generate_consultation_report(self, session: Dict[str, Any], recommendation: Dict[str, Any]) -> str:
