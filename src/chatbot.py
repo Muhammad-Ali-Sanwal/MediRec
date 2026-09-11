@@ -57,6 +57,71 @@ class MediRecChatbot:
             for syn in tag_info.get("synonyms", []):
                 self.synonym_map[syn.lower()] = sym
 
+        # Add English natural language synonyms & colloquial health terms
+        english_symptom_synonyms = {
+            # Eye & Headache terms
+            "pain behind the eyes": ["severe headache", "light sensitivity"],
+            "pain behind eyes": ["severe headache", "light sensitivity"],
+            "pain behind eye": ["severe headache"],
+            "pain in eyes": ["light sensitivity", "headache"],
+            "eye pain": ["light sensitivity", "headache"],
+            "pain in back of eyes": ["severe headache"],
+            "head pain": "headache",
+            "head ache": "headache",
+
+            # Flu & Infection terms
+            "flu": ["fever", "body ache", "cough", "chills"],
+            "flue": ["fever", "body ache", "cough"],
+            "influenza": ["fever", "body ache", "cough", "chills"],
+            "cold": ["cough", "runny nose", "sore throat"],
+            "common cold": ["cough", "runny nose", "sore throat"],
+            "feverish": "fever",
+            "high temperature": "high fever",
+            "body pain": "body ache",
+            "pain in body": "body ache",
+            "body hurts": "body ache",
+            "throat pain": "sore throat",
+            "pain in throat": "sore throat",
+            "scratchy throat": "sore throat",
+            "stomach pain": "stomach pain",
+            "stomach ache": "stomach pain",
+            "pain in stomach": "stomach pain",
+            "belly pain": "stomach pain",
+            "vomit": "vomiting",
+            "vomitting": "vomiting",
+            "throwing up": "vomiting",
+            "nauseous": "nausea",
+            "feeling sick": "nausea",
+            "dizzy": "dizziness",
+            "spinning": "dizziness",
+            "tired": "fatigue",
+            "tiredness": "fatigue",
+            "exhausted": "fatigue",
+            "short of breath": "shortness of breath",
+            "breathless": "shortness of breath",
+            "trouble breathing": "difficulty breathing",
+            "breathing difficulty": "difficulty breathing",
+            "chest pain": "chest pain",
+            "pain in chest": "chest pain",
+            "joint pain": "joint pain",
+            "pain in joints": "joint pain",
+            "burning when peeing": "burning urination",
+            "painful urination": "burning urination",
+            "urination pain": "burning urination",
+            "frequent peeing": "frequent urination",
+            "peeing a lot": "frequent urination",
+            "thirsty": "excessive thirst",
+            "very thirsty": "excessive thirst",
+            "blurred vision": "blurred vision",
+            "blurry vision": "blurred vision",
+            "can't sleep": "difficulty falling asleep",
+            "sleeplessness": "difficulty falling asleep",
+            "insomnia": "difficulty falling asleep"
+        }
+
+        for en_phrase, std_sym in english_symptom_synonyms.items():
+            self.synonym_map[en_phrase] = std_sym
+
         # Add Roman Urdu medical translations
         roman_urdu_symptoms = {
             "bukhaar": "fever",
@@ -117,6 +182,7 @@ class MediRecChatbot:
         }
         for ru_phrase, std_sym in roman_urdu_symptoms.items():
             self.synonym_map[ru_phrase] = std_sym
+
 
     def _init_hf_model(self):
         """Initialize Hugging Face zero-shot / sentence classifier pipeline safely."""
@@ -194,34 +260,49 @@ class MediRecChatbot:
         matched_symptoms = set()
         suggestion = None
 
-        # 1. Direct synonym / exact phrase match
-        for syn_phrase, std_symptom in self.synonym_map.items():
+        # 1. Direct synonym / exact phrase match (sorted by length descending for multi-word phrases)
+        sorted_phrases = sorted(self.synonym_map.keys(), key=lambda x: len(x), reverse=True)
+        for syn_phrase in sorted_phrases:
             if syn_phrase in text_lower:
-                matched_symptoms.add(std_symptom)
+                std_val = self.synonym_map[syn_phrase]
+                if isinstance(std_val, list):
+                    for s in std_val:
+                        matched_symptoms.add(s)
+                else:
+                    matched_symptoms.add(std_val)
 
-        # 2. Fuzzy match for misspelled words using RapidFuzz
+        # 2. Direct disease entity recognition fallback (e.g. 'flu', 'migraine', 'cold')
+        if not matched_symptoms:
+            for dis_name, dis_data in self.recommender.disease_details.items():
+                if dis_name.lower() in text_lower:
+                    for s in dis_data.get("symptoms", []):
+                        matched_symptoms.add(s)
+
+        # 3. Fuzzy match for misspelled words using RapidFuzz
         if HAS_RAPIDFUZZ and not matched_symptoms:
             words = re.findall(r'\b[a-zA-Z]{3,}\b', text_lower)
             ignore_words = {"have", "been", "suffering", "from", "with", "feeling", "feel", "very", "also", "some", "like", "male", "female", "years", "my", "age", "is"}
             candidate_words = [w for w in words if w not in ignore_words]
 
+            string_synonyms = [k for k, v in self.synonym_map.items() if isinstance(v, str)]
             for word in candidate_words:
                 best_match = process.extractOne(
                     word,
-                    list(self.synonym_map.keys()),
+                    string_synonyms,
                     scorer=fuzz.ratio
                 )
                 if best_match:
                     match_str, score, _ = best_match
                     std_symptom = self.synonym_map[match_str]
-
-                    if score >= 85:
-                        matched_symptoms.add(std_symptom)
-                    elif 68 <= score < 85:
-                        suggestion = std_symptom
-                        break
+                    if isinstance(std_symptom, str):
+                        if score >= 85:
+                            matched_symptoms.add(std_symptom)
+                        elif 68 <= score < 85:
+                            suggestion = std_symptom
+                            break
 
         return list(matched_symptoms), suggestion
+
 
     def _handle_general_medical_query(self, user_clean: str) -> Optional[Dict[str, Any]]:
         """
@@ -425,12 +506,11 @@ class MediRecChatbot:
                   "Got it! What is your **Gender** (Male, Female, or Other)?"
             return {"bot_message": msg, "session": session, "completed": False}
 
-        # 4. Missing Severity
+        # 4. Severity (Default to 2 - Moderate if age and gender are present)
         if severity is None:
-            msg = (prefix_note + "\n\n" if prefix_note else "") + \
-                  "How severe are your symptoms?\n" \
-                  "• **1** = Mild\n• **2** = Moderate\n• **3** = Serious"
-            return {"bot_message": msg, "session": session, "completed": False}
+            severity = 2
+            session["severity"] = 2
+
 
         # All slots available! Run Recommendation Engine
         result = self.recommender.recommend(

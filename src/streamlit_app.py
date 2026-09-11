@@ -64,60 +64,64 @@ def get_dynamic_welcome_message() -> str:
     return random.choice(greetings)
 
 
-# ─── Custom CSS for ChatGPT Glassmorphic & Light/Dark Theme Aesthetic ───────
+# ─── Custom CSS for Qubi & ChatGPT 4.0 Hybrid Master Theme ──────────────
 
-st.markdown("""
+st.markdown(r"""
 <style>
-    /* ── Root Theme Variables (Default Dark Mode) ── */
+
+    /* ── Root Theme Variables (Qubi / ChatGPT 4.0 Master Hybrid) ── */
     :root {
-        --bg-app: #0f172a;
-        --bg-sidebar: #1e293b;
-        --bg-card: #1e293b;
+        --bg-app: #0d0d15;
+        --bg-sidebar: #13131e;
+        --bg-card: rgba(26, 26, 40, 0.75);
         --text-main: #f8fafc;
-        --text-sub: #94a3b8;
-        --border-color: #334155;
-        --accent-color: #38bdf8;
-        --accent-hover: #0284c7;
-        --input-glass-bg: rgba(30, 41, 59, 0.75);
-        --input-glass-border: rgba(255, 255, 255, 0.15);
-        --input-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        --text-sub: #a1a1aa;
+        --border-color: rgba(139, 92, 246, 0.2);
+        --accent-violet: #8b5cf6;
+        --accent-purple: #a855f7;
+        --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+        --user-bubble-bg: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+        --assistant-bubble-bg: rgba(28, 28, 44, 0.85);
+        --input-glass-bg: rgba(24, 24, 38, 0.85);
+        --input-glass-border: rgba(139, 92, 246, 0.3);
+        --shadow-glow: 0 8px 32px 0 rgba(124, 58, 237, 0.25);
     }
 
-    /* ── Light Theme Adaptive Overrides ── */
+    /* ── Light Mode Adaptive Overrides ── */
     @media (prefers-color-scheme: light) {
         :root {
-            --bg-app: #f8fafc;
-            --bg-sidebar: #f1f5f9;
+            --bg-app: #f8f9ff;
+            --bg-sidebar: #f1f3f9;
             --bg-card: #ffffff;
             --text-main: #0f172a;
-            --text-sub: #475569;
-            --border-color: #cbd5e1;
-            --accent-color: #0284c7;
-            --accent-hover: #0369a1;
-            --input-glass-bg: rgba(255, 255, 255, 0.85);
-            --input-glass-border: rgba(0, 0, 0, 0.12);
-            --input-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-sub: #64748b;
+            --border-color: #e2e8f0;
+            --accent-violet: #7c3aed;
+            --accent-purple: #9333ea;
+            --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            --user-bubble-bg: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+            --assistant-bubble-bg: #ffffff;
+            --input-glass-bg: rgba(255, 255, 255, 0.9);
+            --input-glass-border: rgba(124, 58, 237, 0.2);
+            --shadow-glow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
     }
 
-    /* Streamlit explicit light mode selector */
     [data-theme="light"] {
-        --bg-app: #f8fafc !important;
-        --bg-sidebar: #f1f5f9 !important;
+        --bg-app: #f8f9ff !important;
+        --bg-sidebar: #f1f3f9 !important;
         --bg-card: #ffffff !important;
         --text-main: #0f172a !important;
-        --text-sub: #475569 !important;
-        --border-color: #cbd5e1 !important;
-        --accent-color: #0284c7 !important;
-        --accent-hover: #0369a1 !important;
-        --input-glass-bg: rgba(255, 255, 255, 0.85) !important;
-        --input-glass-border: rgba(0, 0, 0, 0.12) !important;
-        --input-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+        --text-sub: #64748b !important;
+        --border-color: #e2e8f0 !important;
+        --assistant-bubble-bg: #ffffff !important;
+        --input-glass-bg: rgba(255, 255, 255, 0.9) !important;
     }
 
-    /* Global App Container */
+    /* Global App Background */
     .stApp {
         background-color: var(--bg-app) !important;
+        background-image: radial-gradient(circle at 50% -20%, rgba(139, 92, 246, 0.15), transparent 70%) !important;
         color: var(--text-main) !important;
     }
 
@@ -127,59 +131,231 @@ st.markdown("""
         border-right: 1px solid var(--border-color) !important;
     }
 
-    /* Header Section */
-    .chat-header {
+    /* Qubi Hero Banner */
+    .qubi-hero-card {
         text-align: center;
-        padding: 1.5rem 1rem 0.5rem 1rem;
-        border-bottom: 1px solid var(--border-color);
+        padding: 2.2rem 1rem 1.2rem 1rem;
+        background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15), transparent 70%);
+        border-radius: 24px;
         margin-bottom: 1.5rem;
     }
-    .chat-header h1 {
-        font-size: 2.2rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, var(--accent-color) 0%, #818cf8 100%);
+
+    .qubi-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 16px;
+        border-radius: 20px;
+        background: rgba(139, 92, 246, 0.15);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        color: #c084fc;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .qubi-hero-title {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: var(--text-main);
+        letter-spacing: -0.8px;
+        line-height: 1.25;
+        margin-bottom: 0.6rem;
+    }
+
+    .gradient-text {
+        background: var(--accent-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 0.3rem;
     }
-    .chat-header p {
+
+    .qubi-hero-sub {
         color: var(--text-sub);
-        font-size: 0.95rem;
+        font-size: 1rem;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.5;
     }
+
+    /* Action Cards Styling */
+    .action-card {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 16px !important;
+        padding: 1.2rem !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        height: 100%;
+    }
+
+    .action-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent-violet) !important;
+        box-shadow: var(--shadow-glow) !important;
+    }
+
+    .action-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.6rem;
+    }
+
+    .action-card-title {
+        font-size: 1.02rem;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+
+    .action-card-arrow {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(139, 92, 246, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #c084fc;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    /* ─── Sidebar Recent Chats Hover Reveal & Full Width Layout ─── */
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] {
+        position: relative !important;
+        align-items: center !important;
+        border-radius: 10px !important;
+        transition: background-color 0.2s ease !important;
+        margin-bottom: 2px !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"]:hover {
+        background-color: rgba(139, 92, 246, 0.08) !important;
+    }
+
+    /* Title Button - Full Width & Clean Text */
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] > div:nth-child(1) {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] > div:nth-child(1) button {
+        text-align: left !important;
+        justify-content: flex-start !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        width: 100% !important;
+        padding-left: 10px !important;
+        border-radius: 8px !important;
+    }
+
+    /* Action Buttons (Edit & Delete) - Hidden by default */
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] > div:nth-child(2),
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] > div:nth-child(3) {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transition: opacity 0.2s ease, visibility 0.2s ease !important;
+        flex: 0 0 auto !important;
+    }
+
+    /* Reveal Action Buttons ONLY on Hover of the Chat Row (or always when editing) */
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"]:hover > div:nth-child(2),
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"]:hover > div:nth-child(3),
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"]:has(input) > div:nth-child(2),
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"]:has(input) > div:nth-child(3) {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+
+
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] > div:nth-child(2) button,
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] > div:nth-child(3) button {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 32px !important;
+        height: 32px !important;
+        min-height: 32px !important;
+        max-height: 32px !important;
+        padding: 0 !important;
+        margin: 0 auto !important;
+        font-size: 0.95rem !important;
+        line-height: 1 !important;
+        border-radius: 6px !important;
+        text-align: center !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] > div:nth-child(2) button *,
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] > div:nth-child(3) button * {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+        text-align: center !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
 
     /* Card & Medicine Styling */
     .card-medicine {
+
         background: var(--bg-card) !important;
-        border-left: 4px solid var(--accent-color) !important;
+        border-left: 4px solid var(--accent-violet) !important;
         border-right: 1px solid var(--border-color) !important;
         border-top: 1px solid var(--border-color) !important;
         border-bottom: 1px solid var(--border-color) !important;
         padding: 1.2rem;
-        border-radius: 12px;
+        border-radius: 14px;
         margin-bottom: 1rem;
-        box-shadow: var(--input-shadow);
+        box-shadow: var(--shadow-glow);
         color: var(--text-main) !important;
     }
 
-    /* Chat Messages styling */
+    /* Chat Messages - ChatGPT 4.0 Style */
     [data-testid="stChatMessage"] {
-        background-color: transparent !important;
-        border-radius: 12px !important;
-        padding: 0.8rem 1rem !important;
-        margin-bottom: 0.5rem !important;
+        padding: 1rem 1.2rem !important;
+        margin-bottom: 0.8rem !important;
+        border-radius: 18px !important;
     }
-    
-    [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] {
-        color: var(--text-main) !important;
+
+    /* User Chat Bubble - Purple Gradient */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
+        background: var(--user-bubble-bg) !important;
+        color: #ffffff !important;
+        border-radius: 20px 20px 4px 20px !important;
+        margin-left: 2rem !important;
+        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3) !important;
+    }
+
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) [data-testid="stMarkdownContainer"] p {
+        color: #ffffff !important;
+        font-size: 1.02rem !important;
+    }
+
+    /* Assistant Chat Bubble - Dark Glass */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
+        background: var(--assistant-bubble-bg) !important;
+        border: 1px solid var(--border-color) !important;
+        border-left: 4px solid var(--accent-violet) !important;
+        border-radius: 20px 20px 20px 4px !important;
+        margin-right: 2rem !important;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2) !important;
     }
 
     /* Disclaimer Banner */
     .disclaimer-banner {
         background-color: rgba(245, 158, 11, 0.15) !important;
         border: 1px solid rgba(245, 158, 11, 0.4) !important;
-        color: #d97706 !important;
+        color: #f59e0b !important;
         padding: 0.9rem;
-        border-radius: 10px;
+        border-radius: 12px;
         font-size: 0.88rem;
         margin-top: 1.2rem;
     }
@@ -194,7 +370,7 @@ st.markdown("""
     .typing-dot {
         width: 8px;
         height: 8px;
-        background-color: var(--accent-color);
+        background-color: var(--accent-violet);
         border-radius: 50%;
         animation: pulse 1.4s infinite ease-in-out both;
     }
@@ -205,104 +381,77 @@ st.markdown("""
         40% { transform: scale(1); opacity: 1; }
     }
 
-    /* ─── Sleek & Modern ChatGPT Input Bar ─── */
+    /* Floating Translucent Pill Chat Input Bar */
     .stChatInputContainer {
         padding-bottom: 1.5rem !important;
-        background-color: transparent !important;
+        background: transparent !important;
     }
 
-    /* Outer Capsule Wrapper */
     [data-testid="stChatInput"] {
         border-radius: 28px !important;
-        background-color: #212124 !important;
-        border: 1px solid #38383e !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
-        padding: 4px 12px !important;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+        background: var(--input-glass-bg) !important;
+        backdrop-filter: blur(24px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+        border: 1px solid var(--input-glass-border) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37) !important;
+        padding: 4px 14px !important;
+        transition: all 0.25s ease !important;
     }
 
-    /* Focus & Hover States */
-    [data-testid="stChatInput"]:focus-within,
-    [data-testid="stChatInput"]:hover {
-        border-color: #52525b !important;
-        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
+    [data-testid="stChatInput"]:focus-within {
+        border-color: var(--accent-violet) !important;
+        box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.3), 0 8px 32px rgba(0, 0, 0, 0.4) !important;
     }
 
-    /* Remove inner red/white outlines from BaseWeb textarea containers */
+    /* Remove inner rectangular borders & box shadows from BaseWeb elements */
+    [data-testid="stChatInput"] div,
     [data-testid="stChatInput"] div[data-baseweb="base-input"],
-    [data-testid="stChatInput"] div[data-baseweb="textarea"] {
-        background-color: transparent !important;
+    [data-testid="stChatInput"] div[data-baseweb="textarea"],
+    [data-testid="stChatInput"] div[data-baseweb="input"] {
+        background: transparent !important;
         border: none !important;
-        box-shadow: none !important;
         outline: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
     }
 
-    /* Text Area */
     [data-testid="stChatInputTextArea"] {
-        background-color: transparent !important;
-        color: #f4f4f5 !important;
+        background: transparent !important;
+        color: var(--text-main) !important;
+        font-size: 1rem !important;
         border: none !important;
-        box-shadow: none !important;
         outline: none !important;
-        font-size: 0.98rem !important;
+        box-shadow: none !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
     }
 
     [data-testid="stChatInputTextArea"]:focus {
         border: none !important;
-        box-shadow: none !important;
         outline: none !important;
+        box-shadow: none !important;
     }
 
-    /* Placeholder text */
-    [data-testid="stChatInputTextArea"]::placeholder {
-        color: #a1a1aa !important;
-    }
-
-    /* Send Button */
     [data-testid="stChatInputSubmitButton"] {
         border-radius: 50% !important;
-        background-color: #3f3f46 !important;
+        background: var(--accent-gradient) !important;
         color: #ffffff !important;
         border: none !important;
-        width: 32px !important;
-        height: 32px !important;
-        transition: background-color 0.2s ease, transform 0.2s ease !important;
+        width: 36px !important;
+        height: 36px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
     }
 
     [data-testid="stChatInputSubmitButton"]:hover {
-        background-color: #ffffff !important;
-        color: #09090b !important;
-        transform: scale(1.05) !important;
-    }
-
-    /* ── Light Theme Adaptations ── */
-    @media (prefers-color-scheme: light) {
-        [data-testid="stChatInput"] {
-            background-color: #f4f4f6 !important;
-            border: 1px solid #e4e4e7 !important;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
-        }
-
-        [data-testid="stChatInputTextArea"] {
-            color: #18181b !important;
-        }
-
-        [data-testid="stChatInputTextArea"]::placeholder {
-            color: #71717a !important;
-        }
-
-        [data-testid="stChatInputSubmitButton"] {
-            background-color: #18181b !important;
-            color: #ffffff !important;
-        }
-
-        [data-testid="stChatInputSubmitButton"]:hover {
-            background-color: #000000 !important;
-            color: #ffffff !important;
-        }
+        transform: scale(1.08) !important;
+        box-shadow: 0 0 16px rgba(168, 85, 247, 0.6) !important;
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
@@ -462,41 +611,43 @@ with st.sidebar:
             is_active = (s_id == st.session_state.active_session_id)
 
             if st.session_state.editing_session_id == s_id:
-                new_t = st.text_input("Rename title:", value=s_title, key=f"edit_input_{s_id}")
-                col_e1, col_e2 = st.columns(2)
-                with col_e1:
-                    if st.button("Save", key=f"save_title_{s_id}", use_container_width=True, type="primary"):
+                col_inp, col_save, col_canc = st.columns([7.5, 1.25, 1.25])
+                with col_inp:
+                    new_t = st.text_input("Rename", value=s_title, key=f"edit_input_{s_id}", label_visibility="collapsed")
+                with col_save:
+                    if st.button("✓", key=f"save_title_{s_id}", help="Save Title", type="primary"):
                         if new_t.strip():
                             cs.rename_session(s_id, new_t)
                             if is_active:
                                 st.session_state.active_session_title = new_t.strip()
                         st.session_state.editing_session_id = None
                         st.rerun()
-                with col_e2:
-                    if st.button("Cancel", key=f"cancel_title_{s_id}", use_container_width=True):
+                with col_canc:
+                    if st.button("✖", key=f"cancel_title_{s_id}", help="Cancel"):
                         st.session_state.editing_session_id = None
                         st.rerun()
+
             else:
-                col_title, col_edit, col_del = st.columns([5.5, 1.2, 1.2])
+                col_title, col_edit, col_del = st.columns([8.2, 0.9, 0.9])
 
                 with col_title:
                     clean_t = s_title.replace("💬", "").replace("👉", "").strip()
-                    btn_label = f"{clean_t[:22]}..." if len(clean_t) > 22 else clean_t
 
-                    if st.button(btn_label, key=f"select_chat_{s_id}", use_container_width=True, type="primary" if is_active else "secondary"):
+                    if st.button(clean_t, key=f"select_chat_{s_id}", use_container_width=True, type="primary" if is_active else "secondary"):
                         if not is_active:
                             switch_active_session(s)
                             st.rerun()
 
                 with col_edit:
-                    if st.button("✏️", key=f"btn_edit_{s_id}", help="Rename chat title"):
+                    if st.button("✎", key=f"btn_edit_{s_id}", help="Rename chat title"):
                         st.session_state.editing_session_id = s_id
                         st.rerun()
 
                 with col_del:
-                    if st.button("🗑️", key=f"btn_del_{s_id}", help="Delete chat"):
+                    if st.button("✖", key=f"btn_del_{s_id}", help="Delete chat"):
                         st.session_state.pending_delete_id = s_id
                         st.rerun()
+
 
 
 
@@ -535,11 +686,11 @@ def render_recommendations(rec_data: dict, key_prefix: str = ""):
 
                     title = f"#{i} {med['medicine']} ({med.get('source','ML Model')})"
                     if warn:
-                        title = f"\u26a0\ufe0f #{i} {med['medicine']} (Safety Alert)"
+                        title = f"⚠️ #{i} {med['medicine']} (Safety Alert)"
 
                     with st.expander(title, expanded=(i == 1)):
                         if warn:
-                            st.error(f"**\u26a0\ufe0f Clinical Safety Warning:** Patient's medical history matches contraindication: **'{warn}'**.")
+                            st.error(f"**⚠️ Clinical Safety Warning:** Patient's medical history matches contraindication: **'{warn}'**.")
 
                         if info:
                             st.markdown(f"**Generic Name:** {info.get('generic_name','–')}")
@@ -597,7 +748,7 @@ def render_recommendations(rec_data: dict, key_prefix: str = ""):
             except Exception as e:
                 st.error(f"Could not generate PDF: {e}")
         else:
-            st.warning("\u26a0\ufe0f PDF generator building... Use text download below.")
+            st.warning("⚠️ PDF generator building... Use text download below.")
 
     with col_txt:
         report_text = bot.generate_consultation_report(session_data, rec_data)
@@ -613,10 +764,42 @@ def render_recommendations(rec_data: dict, key_prefix: str = ""):
     # Disclaimer
     st.markdown(f"""
     <div class="disclaimer-banner">
-        \u26a0\ufe0f {rec_data.get('disclaimer', '')}
+        ⚠️ {rec_data.get('disclaimer', '')}
     </div>
     """, unsafe_allow_html=True)
 
+
+# ─── Display Qubi Hero & Action Cards (New Chat State) ───────────────────────
+has_user_messages = any(m.get("role") == "user" for m in st.session_state.messages)
+
+if not has_user_messages:
+    st.markdown("""
+    <div class="qubi-hero-card">
+        <div class="qubi-tag">🤖 BioBERT & Clinical AI Engine</div>
+        <h1 class="qubi-hero-title">How can we <span class="gradient-text">assist</span> your health today?</h1>
+        <p class="qubi-hero-sub">Get personalized clinical guidance powered by medical NLP models. Select an example topic below or describe your symptoms in the chatbox.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col_c1, col_c2 = st.columns(2)
+    with col_c1:
+        if st.button("🩺 **Symptom Diagnostics**\n\n*I am a 28yo female with severe headache, nausea, and vomiting*", key="card1", use_container_width=True):
+            st.session_state.user_prompt_override = "I am a 28yo female with severe headache, nausea, and vomiting"
+            st.rerun()
+
+        if st.button("🤒 **Fever & Acute Symptoms**\n\n*I have a high fever, cough, and body ache*", key="card3", use_container_width=True):
+            st.session_state.user_prompt_override = "I have a high fever, cough, and body ache"
+            st.rerun()
+
+    with col_c2:
+        if st.button("💊 **Diabetic & Chronic Care**\n\n*45 year old male, frequent urination, diabetic history*", key="card2", use_container_width=True):
+            st.session_state.user_prompt_override = "45 year old male, frequent urination, excessive thirst, diabetic history"
+            st.rerun()
+
+        if st.button("🛡️ **Medication & Safety**\n\n*What are the side effects and dosage of Paracetamol?*", key="card4", use_container_width=True):
+            st.session_state.user_prompt_override = "What are the side effects and dosage of Paracetamol?"
+            st.rerun()
+    st.divider()
 
 # ─── Display Chat History ──────────────────────────────────────────────────────
 for idx, msg in enumerate(st.session_state.messages):
@@ -626,7 +809,11 @@ for idx, msg in enumerate(st.session_state.messages):
             render_recommendations(msg["recommendation"], key_prefix=f"hist_{idx}")
 
 # ─── Chat Input Handler ───────────────────────────────────────────────────────
-prompt = st.chat_input("Ask MediRec AI... (e.g. 'I am 30 years old, male, experiencing high fever and body ache')")
+prompt = st.chat_input("Type your symptoms or health question here...")
+
+if "user_prompt_override" in st.session_state and st.session_state.user_prompt_override:
+    prompt = st.session_state.user_prompt_override
+    st.session_state.user_prompt_override = None
 
 
 if prompt:
@@ -637,7 +824,6 @@ if prompt:
 
     with st.chat_message("assistant"):
         import time
-        # Dynamic random delay between 400 ms and 1100 ms (e.g. 500 ms, 800 ms, 1000 ms randomly)
         random_thinking_delay = random.uniform(0.4, 1.1)
 
         with st.spinner("MediRec AI is analyzing your query... ● ● ●"):
@@ -675,6 +861,32 @@ if prompt:
             )
 
             st.rerun()
+
+# ─── Browser localStorage Sync Bridge ──────────────────────────────────────────
+try:
+    s_id = st.session_state.active_session_id
+    s_title = st.session_state.active_session_title
+    s_msgs = [
+        {"role": m["role"], "content": m["content"]}
+        for m in st.session_state.messages
+    ]
+    payload = json.dumps({"id": s_id, "title": s_title, "messages": s_msgs})
+    st.markdown(f"""
+    <script>
+    try {{
+        const activeData = {payload};
+        localStorage.setItem('medirec_active_chat', JSON.stringify(activeData));
+        let allChats = JSON.parse(localStorage.getItem('medirec_all_chats') || '{{}}');
+        allChats[activeData.id] = activeData;
+        localStorage.setItem('medirec_all_chats', JSON.stringify(allChats));
+    }} catch (e) {{
+        console.error('localStorage sync error:', e);
+    }}
+    </script>
+    """, unsafe_allow_html=True)
+except Exception:
+    pass
+
 
 
 

@@ -1,9 +1,9 @@
 [
   {
-    "id": "3c74007d-5170-40f1-9108-8747fbf63147",
-    "title": "Hi",
-    "created_at": "2026-09-11 10:13:50",
-    "updated_at": "2026-09-11 10:14:24",
+    "id": "c63f0b2a-4726-43d4-b5a7-94c7390321ac",
+    "title": "Flu (Influenza) Assistance ok gg",
+    "created_at": "2026-09-11 10:34:25",
+    "updated_at": "2026-09-11 11:03:59",
     "messages": [
       {
         "role": "assistant",
@@ -11,25 +11,43 @@
       },
       {
         "role": "user",
-        "content": "hi "
+        "content": "sjkdhksl"
       },
       {
         "role": "assistant",
-        "content": "👋 Hello! I am **MediRec AI Assistant**.\n\nPlease describe your symptoms (e.g. *'I have a severe headache, high fever, and body ache'*).",
+        "content": "I didn't quite get that. I am your virtual **Medicine Recommendation Assistant** 🤖.\n\nPlease provide your medical symptoms (e.g. *'I have a severe headache, high fever, and body ache'*), or ask me any health/drug question (e.g. *'What are the side effects of Paracetamol?'*)!",
         "recommendation": null
       },
       {
         "role": "user",
-        "content": "i have body ache"
+        "content": "hi i am ali"
       },
       {
         "role": "assistant",
-        "content": "I recorded your symptom(s): **body ache**.\n\nCould you please tell me your **Age**?",
+        "content": "Did you mean **'nausea'**? Please reply **Yes** or **No**.",
         "recommendation": null
       },
       {
         "role": "user",
-        "content": "22"
+        "content": "no"
+      },
+      {
+        "role": "assistant",
+        "content": "Understood. Let's skip 'nausea'. What symptoms are you feeling?\n\n👋 Hello! I am **MediRec AI Assistant**.\n\nPlease describe your symptoms (e.g. *'I have a severe headache, high fever, and body ache'*).",
+        "recommendation": null
+      },
+      {
+        "role": "user",
+        "content": "i have headache and body pain"
+      },
+      {
+        "role": "assistant",
+        "content": "I recorded your symptom(s): **headache**, **body ache**.\n\nCould you please tell me your **Age**?",
+        "recommendation": null
+      },
+      {
+        "role": "user",
+        "content": "i am of 30"
       },
       {
         "role": "assistant",
@@ -38,7 +56,7 @@
       },
       {
         "role": "user",
-        "content": "i am a male"
+        "content": "i am male"
       },
       {
         "role": "assistant",
@@ -51,19 +69,38 @@
       },
       {
         "role": "assistant",
-        "content": "✅ **Understood.** I have processed your complete profile — **22yo male**, moderate severity, symptoms: **body ache**. The primary clinical finding is **Flu (Influenza)**. Below are the recommended medications, precautions, and lifestyle guidance:",
+        "content": "✅ **Understood.** I have processed your complete profile — **30yo male**, moderate severity, symptoms: **headache**, **body ache**. The primary clinical finding is **Flu (Influenza)**. Below are the recommended medications, precautions, and lifestyle guidance:",
         "recommendation": {
           "status": "success",
           "predicted_diseases": [
             {
               "disease": "Flu (Influenza)",
-              "confidence": 98.78
+              "confidence": 99.47
             }
           ],
           "recommended_medicines": [
             {
+              "medicine": "Oseltamivir (Tamiflu)",
+              "confidence": 41.49,
+              "source": "ML + Clinical",
+              "info": {
+                "generic_name": "Oseltamivir Phosphate",
+                "drug_class": "Neuraminidase Inhibitor (Antiviral)",
+                "dosage": "75 mg twice daily for 5 days",
+                "side_effects": [
+                  "nausea",
+                  "vomiting",
+                  "headache"
+                ],
+                "contraindications": [
+                  "hypersensitivity to oseltamivir"
+                ],
+                "category": "Prescription"
+              }
+            },
+            {
               "medicine": "Paracetamol",
-              "confidence": 31.29,
+              "confidence": 40.4,
               "source": "ML + Clinical",
               "info": {
                 "generic_name": "Acetaminophen",
@@ -79,25 +116,6 @@
                   "alcohol dependence"
                 ],
                 "category": "OTC"
-              }
-            },
-            {
-              "medicine": "Oseltamivir (Tamiflu)",
-              "confidence": 24.4,
-              "source": "ML + Clinical",
-              "info": {
-                "generic_name": "Oseltamivir Phosphate",
-                "drug_class": "Neuraminidase Inhibitor (Antiviral)",
-                "dosage": "75 mg twice daily for 5 days",
-                "side_effects": [
-                  "nausea",
-                  "vomiting",
-                  "headache"
-                ],
-                "contraindications": [
-                  "hypersensitivity to oseltamivir"
-                ],
-                "category": "Prescription"
               }
             },
             {
@@ -163,7 +181,7 @@
           ],
           "severity_level": "Moderate",
           "disease_severity": "moderate",
-          "symptom_count": 1,
+          "symptom_count": 2,
           "model_used": "ML + Rules",
           "disclaimer": "This is an AI-generated recommendation for educational purposes only. Always consult a licensed healthcare professional before taking any medication."
         }
@@ -171,11 +189,68 @@
     ],
     "dialog_session": {
       "symptoms": [
+        "headache",
         "body ache"
       ],
-      "age": 22,
+      "age": 30,
       "gender": "Male",
       "severity": 2,
+      "history": "",
+      "pending_suggestion": null
+    }
+  },
+  {
+    "id": "04125b36-f0dc-4f17-8444-60f451316c59",
+    "title": "Hello There Assistance",
+    "created_at": "2026-09-11 10:36:15",
+    "updated_at": "2026-09-11 10:43:53",
+    "messages": [
+      {
+        "role": "assistant",
+        "content": "👋 Good morning 🌅!\nHow can I assist your health today?\n\nI am your virtual medical assistant. I can analyze symptoms and provide personalized medicine suggestions, precautions, and dietary plans.\n\nPlease share your symptoms, age, and gender!"
+      },
+      {
+        "role": "user",
+        "content": "hello there"
+      },
+      {
+        "role": "assistant",
+        "content": "👋 Hello! I am **MediRec AI Assistant**.\n\nPlease describe your symptoms (e.g. *'I have a severe headache, high fever, and body ache'*).",
+        "recommendation": null
+      },
+      {
+        "role": "user",
+        "content": "i am sick"
+      },
+      {
+        "role": "assistant",
+        "content": "I didn't quite get that. I am your virtual **Medicine Recommendation Assistant** 🤖.\n\nPlease provide your medical symptoms (e.g. *'I have a severe headache, high fever, and body ache'*), or ask me any health/drug question (e.g. *'What are the side effects of Paracetamol?'*)!",
+        "recommendation": null
+      },
+      {
+        "role": "user",
+        "content": "What are the side effects of Paracetamol"
+      },
+      {
+        "role": "assistant",
+        "content": "### 💊 Clinical Overview: **Paracetamol**\n\n• **Generic Name:** Acetaminophen\n• **Drug Class:** Analgesic / Antipyretic\n• **Category:** `OTC`\n• **Typical Dosage:** 500-1000 mg every 4-6 hours (max 4g/day)\n\n**Common Side Effects:**\n• nausea\n• liver damage (overdose)\n• rash\n\n**Contraindications & Warnings:**\n• ⚠️ severe liver disease\n• ⚠️ alcohol dependence\n\n*Always consult a licensed medical doctor before administering any medication.*",
+        "recommendation": null
+      },
+      {
+        "role": "user",
+        "content": "i have flu and pain behind the eyes"
+      },
+      {
+        "role": "assistant",
+        "content": "I didn't quite get that. I am your virtual **Medicine Recommendation Assistant** 🤖.\n\nPlease provide your medical symptoms (e.g. *'I have a severe headache, high fever, and body ache'*), or ask me any health/drug question (e.g. *'What are the side effects of Paracetamol?'*)!",
+        "recommendation": null
+      }
+    ],
+    "dialog_session": {
+      "symptoms": [],
+      "age": null,
+      "gender": null,
+      "severity": null,
       "history": "",
       "pending_suggestion": null
     }
